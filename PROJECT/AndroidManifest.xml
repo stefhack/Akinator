@@ -16,6 +16,10 @@
         <activity
             android:name="ia.epsi.akinator.MainActivity"
             android:label="@string/title_activity_main" >
+            <intent-filter>
+            <action android:name="ia.epsi.akinator.MainActivity" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
     </application>
 
