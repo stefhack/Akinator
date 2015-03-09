@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".GameActivity" >
+
+    <TextView
+        android:id="@+id/textViewQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="26dp"
+        android:text="Question:" />
+
+    <Button
+        android:id="@+id/buttonYes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="Oui" />
+
+    <Button
+        android:id="@+id/buttonNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonYes"
+        android:layout_toRightOf="@+id/buttonYes"
+        android:text="Non" />
+
+    <Button
+        android:id="@+id/buttonDontNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonNo"
+        android:layout_toRightOf="@+id/buttonNo"
+        android:text="Ne sais pas" />
+
+    <Button
+        android:id="@+id/buttonRather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonDontNo"
+        android:layout_alignBottom="@+id/buttonDontNo"
+        android:layout_toRightOf="@+id/buttonDontNo"
+        android:text="Plutôt" />
+
+    <Button
+        android:id="@+id/buttonRatherNot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonRather"
+        android:layout_toRightOf="@+id/buttonRather"
+        android:text="Plutôt pas" />
+
+    <ImageView
+        android:id="@+id/imageViewGenie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewQuestion"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/buttonRatherNot"
+        android:src="@drawable/genie" />
+
+</RelativeLayout>
