@@ -1,6 +1,7 @@
 package Management;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 /**
  * JsonOdm, used to manage the different .json for the application
@@ -9,19 +10,27 @@ import org.json.JSONObject;
  */
 public class JsonOdm {
 	/**
-	 * findCharactersByQuestion return a collection of character according to the question passed by parameter
+	 * findCharactersByQuestionKey return a collection of character according to the question key passed by parameter
 	 * @param question a question
 	 * @return
+	 * @throws JSONException 
 	 */
-	public JSONObject findCharactersByQuestion(String question){
+	public JSONArray findCharactersByQuestionKey(String questionKey) throws JSONException{
+		JSONArray charactersArray = new JSONArray();
 		//Get jsonSingleton
 		JsonSingleton jsonSingleton = JsonSingleton.getInstance();
 		//Load question json Array
-		JSONArray questions = jsonSingleton.getJsonQuestions();
 		JSONArray characters = jsonSingleton.getJsonPersonnages();
 		
-		
-		return null;
+		//Get key for the question
+		for(int i = 0;i<characters.length();i++){
+			JSONObject character = characters.getJSONObject(i);
+			String response = character.getString(questionKey);
+			if(response.equals("oui")){
+				charactersArray.put(character);
+			}
+		}
+		return charactersArray;
 	}
 	/**
 	 * insertCharacter, insert a character and its questions
