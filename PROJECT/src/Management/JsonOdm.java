@@ -9,6 +9,8 @@ import org.json.JSONObject;
  *
  */
 public class JsonOdm {
+	//Get jsonSingleton
+	private static JsonSingleton jsonSingleton = JsonSingleton.getInstance();
 	/**
 	 * findCharactersByQuestionKey return a collection of character according to the question key passed by parameter
 	 * @param question a question
@@ -17,8 +19,6 @@ public class JsonOdm {
 	 */
 	public JSONArray findCharactersByQuestionKey(String questionKey) throws JSONException{
 		JSONArray charactersArray = new JSONArray();
-		//Get jsonSingleton
-		JsonSingleton jsonSingleton = JsonSingleton.getInstance();
 		//Load question json Array
 		JSONArray characters = jsonSingleton.getJsonPersonnages();
 		
