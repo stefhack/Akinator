@@ -11,13 +11,17 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 public class MainActivity extends Activity {
+	//Declaration
 	ImageView buttonPlay;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		//Assignment 
 		buttonPlay = (ImageView)findViewById(R.id.buttonPlay);
         
+		//Button click
 		buttonPlay.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
