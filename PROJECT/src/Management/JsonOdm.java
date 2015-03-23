@@ -36,8 +36,11 @@ public class JsonOdm {
 	 * insertCharacter, insert a character and its questions
 	 * @param characters a jsonObject character
 	 */
-	public void insertCharacter(JSONObject caracters){
-		
+	public void insertCharacter(JSONObject caracter){
+		//Add character to Character JSON
+		//Load question json Array
+		JSONArray characters = jsonSingleton.getJsonPersonnages();
+		characters.put(caracter);
 	}
 	/**
 	 * getQuestion get a question by key from questions.json
