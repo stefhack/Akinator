@@ -23,6 +23,7 @@
         </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="landscape"
             android:name="ia.epsi.akinator.GameActivity"
             android:label="@string/title_activity_game" >
         </activity>

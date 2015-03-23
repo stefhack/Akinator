@@ -9,13 +9,22 @@
     android:background="@drawable/disney"
     tools:context=".MainActivity" >
 
+    <TextView
+        android:id="@+id/textViewPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonPlay"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40dp"
+        android:text="JOUER" />
+
     <ImageView
         android:id="@+id/buttonPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="105dp"
+        android:layout_marginRight="130dp"
         android:src="@drawable/play" />
 
 </RelativeLayout>

@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		buttonPlay = (ImageView)findViewById(R.id.buttonPlay);
-		
+        
 		buttonPlay.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
