@@ -16,8 +16,9 @@ public class JsonSingleton {
     private JSONArray jsonQuestions;
     
     /**
-     * 
-     * @return
+     * Méthode statique permettant d'obtenir une instance unique
+     * de la Classe
+     * @return ourInstance L'unique instance de la classe
      */
     public static JsonSingleton getInstance() {
         if(ourInstance == null) ourInstance=new JsonSingleton();
@@ -25,7 +26,8 @@ public class JsonSingleton {
     }
     
     /**
-     * 
+     * Constructeur de la classe : il charge les 2 JSON en mémoire
+     * (celui des Personnages et celui des Questions)
      */
     private JsonSingleton() {
         try {
@@ -35,18 +37,18 @@ public class JsonSingleton {
             e.printStackTrace();
         }
     }
-    
+
     /**
-     * 
-     * @return
+     * Permet d'obtenir les personnages du JSON
+     * @return JSONArray un tableau JSON des personnages
      */
     public JSONArray getJsonPersonnages() {
         return jsonPersonnages;
     }
     
     /**
-     * 
-     * @return
+     * Permet d'obtenir les questions du JSON
+     * @return JSONArray un tableau JSON des questions
      */
     public JSONArray getJsonQuestions() {
         return jsonQuestions;
