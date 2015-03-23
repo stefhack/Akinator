@@ -3,34 +3,52 @@ package Management;
 /**
  * Created by Stef on 09/03/2015.
  */
+import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
+/**
+ * JsonSingleton used to get Json for questions and personnages .json
+ * @author JOHN
+ */
 public class JsonSingleton {
 
     private static JsonSingleton ourInstance = null;
-    private JSONObject jsonPersonnages;
-    private JSONObject jsonQuestions;
-
+    private JSONArray jsonPersonnages;
+    private JSONArray jsonQuestions;
+    
+    /**
+     * 
+     * @return
+     */
     public static JsonSingleton getInstance() {
         if(ourInstance == null) ourInstance=new JsonSingleton();
         return ourInstance;
     }
-
+    
+    /**
+     * 
+     */
     private JsonSingleton() {
         try {
-            jsonPersonnages=new JSONObject("personnages.json");
-            jsonQuestions=new JSONObject("");
+            jsonPersonnages=new JSONArray("Personnages.json");
+            jsonQuestions=new JSONArray("questions.json");
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
-    public JSONObject getJsonPersonnages() {
+    
+    /**
+     * 
+     * @return
+     */
+    public JSONArray getJsonPersonnages() {
         return jsonPersonnages;
     }
-
-    public JSONObject getJsonQuestions() {
+    
+    /**
+     * 
+     * @return
+     */
+    public JSONArray getJsonQuestions() {
         return jsonQuestions;
     }
 }

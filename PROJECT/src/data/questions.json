@@ -1,0 +1,27 @@
+[
+  {
+    "Genre":"Quel est le genre du personnage?",
+    "Humain":"Le personnage est-il humain?",
+    "Super-Heros":"Le personnage est-il un super-héro?",
+    "Taille":"Quelle est la taille du personnage?",
+    "Pouvoir":"Le personnage possède t-il des pouvoirs?",
+    "Vole":"Le personnage vole-t-il?",
+    "Force":"Le personnage est-il fort?",
+    "Cape":"Le personnage possède t-il une cape?",
+    "Adulte":"Le personnage est-il un adulte?",
+    "Animal":"Le personnage est-il un animal?",
+    "Intelligence":"Le personnage est-il très intelligent?",
+    "Fait_des_betises":"Le personnage fait-il des bêtises?",
+    "Gentil":"Le personnage est-il gentil?",
+    "Se_battre":"Le personnage est-il baguarreur?",
+    "Poilu":"Le personnage est-il poilu?",
+    "Parole":"Le personnage parle t-il?",
+    "Aquatique":"Est-ce un personnage aquatique?",
+    "Transformation":"Le personnage se transforme t-il?",
+    "Jaune":"Le personnage est-il jaune?",
+    "Vert":"Le personnage est-il vert?",
+    "Bleu":"Le personnage est-il bleu?",
+    "Rouge":"Le personnage est-il rouge?",
+    "Marron":"Le personnage est-il marron?"
+  }
+]
