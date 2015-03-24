@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+
 public class GameActivity extends Activity{
 	//Declaration
 	Button ButtonTest;
