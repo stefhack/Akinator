@@ -1,6 +1,7 @@
 package Management;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -55,13 +56,16 @@ public  class  Algorithm {
     * la prochaine à poser
     * @return question String La question sous forme de chaine
     * */
-    public static HashMap<String,String> getTheMostPertinenteQuestion(){
+    public static String getTheMostPertinenteQuestion() throws JSONException{
 
-        HashMap<String,String> question=null;
+        String question="";
         JSONArray characters = jsonSingleton.getJsonPersonnages();
         JSONArray questions = jsonSingleton.getJsonQuestions();
 
-        
+        for(int i= 0 ;i<questions.length();++i){
+
+          //JSONArray persos =  jsonOdm.findCharactersByQuestionKey();
+        }
 
         return question;
     }
