@@ -3,6 +3,7 @@ package Management;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -69,7 +70,7 @@ public  class  Algorithm {
     * Permet de rajouter un personnage dans le JSON des personnages
     * @return void
     * */
-     public static void addNewPerso(HashMap<String,String> caracteristiques){
+     public static void addNewPerso(HashMap<String,String> caracteristiques) throws IOException{
 
         JSONObject newCharacter = new JSONObject(caracteristiques);
          jsonOdm.insertCharacter(newCharacter);
