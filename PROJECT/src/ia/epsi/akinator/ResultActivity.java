@@ -10,8 +10,7 @@ import android.widget.Button;
 
 public class ResultActivity extends Activity{
 	//Declaration
-	Button ButtonYes;
-	Button ButtonNo;
+	Button buttonYes, buttonNo;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,19 +18,19 @@ public class ResultActivity extends Activity{
 		setContentView(R.layout.activity_result);
 		
 		//Assignement
-		ButtonYes = (Button)findViewById(R.id.buttonYes);
-		ButtonNo = (Button)findViewById(R.id.buttonNo);
+		buttonYes = (Button)findViewById(R.id.buttonYes);
+		buttonNo = (Button)findViewById(R.id.buttonNo);
         
 		
 		//Button click
-		ButtonYes.setOnClickListener(new OnClickListener() {
+		buttonYes.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		Intent intent=new Intent(ResultActivity.this,EndGameActivity.class);
     			startActivity(intent);
         	}
         });
-		ButtonNo.setOnClickListener(new OnClickListener() {
+		buttonNo.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		Intent intent=new Intent(ResultActivity.this,LearnCharacterActivity.class);

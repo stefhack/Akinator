@@ -10,25 +10,25 @@ import android.widget.Button;
 
 public class EndGameActivity extends Activity{
 	//Declaration
-	Button ButtonYes, ButtonNo;
+	Button buttonYes, buttonNo;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_end_game);
 		
 		//Assignement
-		ButtonYes = (Button)findViewById(R.id.buttonYes);
-		ButtonNo = (Button)findViewById(R.id.buttonNo);
+		buttonYes = (Button)findViewById(R.id.buttonYes);
+		buttonNo = (Button)findViewById(R.id.buttonNo);
 		
 		//Button click
-		ButtonYes.setOnClickListener(new OnClickListener() {
+		buttonYes.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		Intent intent=new Intent(EndGameActivity.this,GameActivity.class);
     			startActivity(intent);
         	}
         });
-		ButtonNo.setOnClickListener(new OnClickListener() {
+		buttonNo.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		Intent intent=new Intent(EndGameActivity.this,MainActivity.class);
