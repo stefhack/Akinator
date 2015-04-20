@@ -1,6 +1,7 @@
 package ia.epsi.akinator;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 
 public class GameActivity extends Activity{
+	static Context gameContext;
 	//Declaration
 	Button ButtonTest, ButtonYes,ButtonNo, ButtonDontNo, ButtonRather, ButtonRatherNot;
 	TextView TextViewQuestion;
@@ -18,6 +20,7 @@ public class GameActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		gameContext = getApplicationContext();
 		setContentView(R.layout.activity_game);
 		
 		//Assignement
@@ -88,4 +91,7 @@ public class GameActivity extends Activity{
 		return true;
 	}
 
+	public static Context getGameContext(){
+		return gameContext;
+	}
 }
