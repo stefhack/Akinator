@@ -74,8 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textViewQuestion"
         android:layout_alignBottom="@+id/textViewQuestion"
-        android:layout_toRightOf="@+id/buttonNo"
-        android:text="Quel est la couleur du cheval blanc d'Henry IV ?" />
+        android:layout_toRightOf="@+id/buttonNo" />
 
     <Button
         android:id="@+id/buttonTest"
