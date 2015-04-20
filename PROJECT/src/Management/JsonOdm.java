@@ -52,6 +52,16 @@ public class JsonOdm {
 		// Load question json Array
 		jsonSingleton.getJsonPersonnages().put(caracter);
 	}
+	
+	/**
+	 * Used to insert a new question into JSONArray of questions
+	 * @param key
+	 * @param value
+	 * @throws JSONException
+	 */
+	public void insertQuestion(String key, String value) throws JSONException{
+		jsonSingleton.getJsonQuestions().getJSONObject(0).put(key,value);
+	}
 
 	/**
 	 * getQuestion get a question by key from questions.json
@@ -61,5 +71,24 @@ public class JsonOdm {
 	 */
 	public String getQuestion(String key) throws JSONException {
 		return jsonSingleton.getJsonQuestions().getJSONObject(0).getString(key);
+	}
+	
+	/**
+	 * Return a JSON Object character according to the name passed as parameter
+	 * @param name
+	 * @return
+	 * @throws JSONException
+	 */
+	public JSONObject getCharacterByName(String name) throws JSONException{
+		JSONObject characterToReturn = null;
+		for (int i = 0; i < jsonSingleton.getJsonPersonnages().length(); i++){
+			JSONObject character = jsonSingleton.getJsonPersonnages().getJSONObject(i);
+			String characterName = character.getString("Personnage");
+			if(characterName.equals(name)){
+				characterToReturn = character;
+				break;
+			}
+		}
+		return characterToReturn;
 	}
 }
