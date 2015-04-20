@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ResultActivity" >
+    
+    <ImageView
+        android:id="@+id/imageViewGenie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewResponse"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/genie2" />
+
+    <TextView
+        android:id="@+id/textViewResponse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageViewGenie"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:text="Je suis sur que vous pensiez à :" />
+
+    <Button
+        android:id="@+id/buttonNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageViewGenie"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="22dp"
+        android:text="Non" />
+
+    <Button
+        android:id="@+id/buttonYes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonNo"
+        android:layout_alignBottom="@+id/buttonNo"
+        android:layout_toLeftOf="@+id/buttonNo"
+        android:text="Oui" />
+
+    <TextView
+        android:id="@+id/textViewResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageViewGenie"
+        android:layout_marginTop="46dp"
+        android:layout_toLeftOf="@+id/buttonYes"
+        android:text="MICHELINE" />
+
+</RelativeLayout>

@@ -27,6 +27,21 @@
             android:name="ia.epsi.akinator.GameActivity"
             android:label="@string/title_activity_game" >
         </activity>
+        <activity
+            android:screenOrientation="landscape"
+            android:name="ia.epsi.akinator.ResultActivity"
+            android:label="@string/title_activity_result" >
+        </activity>
+        <activity
+            android:screenOrientation="landscape"
+            android:name="ia.epsi.akinator.EndGameActivity"
+            android:label="@string/title_activity_end_game" >
+        </activity>
+        <activity
+            android:screenOrientation="landscape"
+            android:name="ia.epsi.akinator.LearnCharacterActivity"
+            android:label="@string/title_activity_learn_character" >
+        </activity>
     </application>
 
 </manifest>

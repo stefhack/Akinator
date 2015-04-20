@@ -1,7 +1,6 @@
 package ia.epsi.akinator;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,30 +8,34 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-
-public class GameActivity extends Activity{
-	static Context gameContext;
+public class EndGameActivity extends Activity{
 	//Declaration
-	Button ButtonTest;
-	
+	Button ButtonYes, ButtonNo;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		gameContext = getApplicationContext();
-		setContentView(R.layout.activity_game);
+		setContentView(R.layout.activity_end_game);
 		
 		//Assignement
-		ButtonTest = (Button)findViewById(R.id.buttonTest);
-        
+		ButtonYes = (Button)findViewById(R.id.buttonYes);
+		ButtonNo = (Button)findViewById(R.id.buttonNo);
 		
 		//Button click
-		ButtonTest.setOnClickListener(new OnClickListener() {
+		ButtonYes.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
-        		Intent intent=new Intent(GameActivity.this,ResultActivity.class);
+        		Intent intent=new Intent(EndGameActivity.this,GameActivity.class);
     			startActivity(intent);
         	}
         });
+		ButtonNo.setOnClickListener(new OnClickListener() {
+        	@Override
+        	public void onClick(View v) {
+        		Intent intent=new Intent(EndGameActivity.this,MainActivity.class);
+    			startActivity(intent);
+        	}
+        });
+		
 	}
 
 	@Override
@@ -42,7 +45,4 @@ public class GameActivity extends Activity{
 		return true;
 	}
 
-	public static Context getGameContext(){
-		return gameContext;
-	}
 }

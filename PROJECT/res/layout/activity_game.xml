@@ -68,4 +68,21 @@
         android:layout_toRightOf="@+id/buttonRatherNot"
         android:src="@drawable/genie" />
 
+    <TextView
+        android:id="@+id/textViewQuestionRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textViewQuestion"
+        android:layout_alignBottom="@+id/textViewQuestion"
+        android:layout_toRightOf="@+id/buttonNo"
+        android:text="Quel est la couleur du cheval blanc d'Henry IV ?" />
+
+    <Button
+        android:id="@+id/buttonTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/textViewQuestionRequest"
+        android:text="Boutton test a supprimer" />
+
 </RelativeLayout>
