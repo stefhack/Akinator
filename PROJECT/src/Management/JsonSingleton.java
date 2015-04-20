@@ -29,7 +29,7 @@ public class JsonSingleton {
      */
     private JsonSingleton() {
         try {
-            jsonPersonnages=new JSONArray("Personnages.json");
+            jsonPersonnages=new JSONArray("personnages.json");
             jsonQuestions=new JSONArray("questions.json");
         } catch (JSONException e) {
             e.printStackTrace();

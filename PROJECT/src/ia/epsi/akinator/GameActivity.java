@@ -1,14 +1,17 @@
 package ia.epsi.akinator;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 
 
 public class GameActivity extends Activity{
+	static Context gameContext;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		gameContext = getApplicationContext();
 		setContentView(R.layout.activity_game);
 	}
 
@@ -19,4 +22,7 @@ public class GameActivity extends Activity{
 		return true;
 	}
 
+	public static Context getGameContext(){
+		return gameContext;
+	}
 }
