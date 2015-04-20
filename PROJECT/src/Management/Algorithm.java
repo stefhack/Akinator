@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -60,12 +61,25 @@ public  class  Algorithm {
 
         String question="";
         JSONArray characters = jsonSingleton.getJsonPersonnages();
-        JSONArray questions = jsonSingleton.getJsonQuestions();
+        JSONArray jsonQuestions = jsonSingleton.getJsonQuestions();
+        JSONObject questions = jsonQuestions.getJSONObject(0);
+        ArrayList<HashMap<String,Integer>> listResponsesByQuestion =new ArrayList<HashMap<String, Integer>>();
 
-        for(int i= 0 ;i<questions.length();++i){
+        Iterator keys= questions.keys();
 
-          //JSONArray persos =  jsonOdm.findCharactersByQuestionKey();
+        while (keys.hasNext()){
+            String questionKey=(String)keys.next();
+            JSONArray persos =  jsonOdm.findCharactersByQuestionKey(questionKey);
+
+            HashMap<String,Integer> nbPersoByQuestion = new HashMap<String, Integer>();
+            nbPersoByQuestion.put(questionKey,persos.length());
+            listResponsesByQuestion.add(nbPersoByQuestion);
         }
+
+        for(HashMap<String,Integer> nbPersoByQuestion:listResponsesByQuestion){
+
+        }
+
 
         return question;
     }
