@@ -1,6 +1,5 @@
 package Management;
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 import org.json.JSONArray;
@@ -48,7 +47,7 @@ public class JsonOdm {
 	 * @param characters a jsonObject character
 	 * @throws IOException
 	 */
-	public void insertCharacter(JSONObject caracter) throws IOException {
+	public void insertCharacter(JSONObject caracter){
 		// Add character to Character JSON
 		// Load question json Array
 		jsonSingleton.getJsonPersonnages().put(caracter);
@@ -58,20 +57,9 @@ public class JsonOdm {
 	 * getQuestion get a question by key from questions.json
 	 * @param key a JSON key
 	 * @return a toString question
+	 * @throws JSONException 
 	 */
-	public String getQuestion(String key) {
-		return null;
+	public String getQuestion(String key) throws JSONException {
+		return jsonSingleton.getJsonQuestions().getJSONObject(0).getString(key);
 	}
-
-	/**
-	 * getCharacterByIndex get a character from personnages.json by index
-	 * 
-	 * @param index
-	 *            a JSON index
-	 * @return a character jsonObject
-	 */
-	public JSONObject getCharacterByIndex(int index) {
-		return null;
-	}
-
 }
