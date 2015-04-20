@@ -51,7 +51,9 @@ public class JsonOdm {
 	public void insertCharacter(JSONObject caracter){
 		// Add character to Character JSON
 		// Load question json Array
-		jsonSingleton.getJsonPersonnages().put(caracter);
+		JSONArray newArray = jsonSingleton.getJsonPersonnages();
+		newArray.put(caracter);
+		jsonSingleton.setJsonPeronnages(newArray);
 	}
 	
 	/**
@@ -61,7 +63,9 @@ public class JsonOdm {
 	 * @throws JSONException
 	 */
 	public void insertQuestion(String key, String value) throws JSONException{
-		jsonSingleton.getJsonQuestions().getJSONObject(0).put(key,value);
+		JSONArray newJsonArray = jsonSingleton.getJsonQuestions();
+		newJsonArray.getJSONObject(0).put(key,value);
+		jsonSingleton.setJsonQuestion(newJsonArray);
 	}
 
 	/**
@@ -107,11 +111,36 @@ public class JsonOdm {
 				arrayTemp.put(character);
 			}
 		}
-		JSONArray personnages = jsonSingleton.getJsonPersonnages();
-		personnages = arrayTemp;
+		jsonSingleton.setJsonPeronnages(arrayTemp);
 	}
 	
-	public void deleteCharacters(ArrayList<String> characters){
-		
+	/**
+	 * Used to delete a list of characters
+	 * @param charactersName
+	 * @throws JSONException
+	 */
+	public void deleteCharacters(ArrayList<String> charactersName) throws JSONException{
+		JSONArray arrayTemp = new JSONArray();
+		for(String name:charactersName){
+			for (int i = 0; i < jsonSingleton.getJsonPersonnages().length(); i++){
+				JSONObject character = jsonSingleton.getJsonPersonnages().getJSONObject(i);
+				String characterName = character.getString("Personnage");
+				if(!characterName.equals(name)){
+					arrayTemp.put(character);
+				}
+			}
+		}
+		jsonSingleton.setJsonPeronnages(arrayTemp);
+	}
+	
+	/**
+	 * Used to delete a question from JSON by its name
+	 * @param key
+	 * @throws JSONException 
+	 */
+	public void deleteQuestionByKey(String key) throws JSONException{
+		JSONArray arrayTemp = jsonSingleton.getJsonQuestions();
+		arrayTemp.getJSONObject(0).remove(key);
+		jsonSingleton.setJsonQuestion(arrayTemp);
 	}
 }
