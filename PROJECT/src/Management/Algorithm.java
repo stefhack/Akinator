@@ -1,5 +1,6 @@
 package Management;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -53,8 +54,13 @@ public  class  Algorithm {
     * la prochaine à poser
     * @return question String La question sous forme de chaine
     * */
-    public static String getTheMostPertinenteQuestion(){
-        String question="";
+    public static HashMap<String,String> getTheMostPertinenteQuestion(){
+
+        HashMap<String,String> question=null;
+        JSONArray characters = jsonSingleton.getJsonPersonnages();
+        JSONArray questions = jsonSingleton.getJsonQuestions();
+
+        
 
         return question;
     }
