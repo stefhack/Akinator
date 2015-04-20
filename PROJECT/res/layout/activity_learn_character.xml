@@ -9,13 +9,10 @@
     tools:context=".LearnEndActivity" >
 
     <TextView
-        android:id="@+id/textViewCharacter"
+        android:id="@+id/textViewFelicitation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewFelicitation"
-        android:layout_below="@+id/textViewFelicitation"
-        android:layout_marginTop="16dp"
-        android:text="A quel personnage pensiez-vous ?" />
+        android:text="Bravo, je n&apos;ai pas trouvé la solution!" />
 
     <EditText
         android:id="@+id/editTextNameCharacter"
@@ -23,6 +20,24 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textViewCharacter"
         android:layout_below="@+id/textViewCharacter"
+        android:layout_toLeftOf="@+id/imageViewDonald"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/buttonSaveCharacter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/imageViewDonald"
+        android:layout_below="@+id/textViewQuestionCharacter"
+        android:text="Valider" />
+
+    <EditText
+        android:id="@+id/EditTextQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewQuestionCharacter"
+        android:layout_alignTop="@+id/buttonSaveCharacter"
+        android:layout_toLeftOf="@+id/buttonSaveCharacter"
         android:ems="10" />
 
     <ImageView
@@ -33,57 +48,6 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/donald" />
 
-    <LinearLayout
-        android:id="@+id/linearLayoutQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewQuestionCharacter"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/textViewQuestionCharacter"
-        android:orientation="vertical" >
-
-        <ScrollView
-            android:layout_width="386dp"
-            android:layout_height="match_parent" >
-
-            <LinearLayout
-                android:id="@+id/linearLayoutQuestionScroll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <EditText
-                    android:id="@+id/editTextQuestion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/buttonAddQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/linearLayoutQuestion"
-        android:layout_toLeftOf="@+id/buttonSaveCharacter"
-        android:text="+" />
-
-    <Button
-        android:id="@+id/buttonSaveCharacter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/imageViewDonald"
-        android:layout_alignTop="@+id/linearLayoutQuestion"
-        android:text="Valider" />
-
-    <TextView
-        android:id="@+id/textViewFelicitation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Bravo, je n&apos;ai pas trouvé la solution!" />
-
     <TextView
         android:id="@+id/textViewQuestionCharacter"
         android:layout_width="wrap_content"
@@ -91,5 +55,46 @@
         android:layout_alignLeft="@+id/editTextNameCharacter"
         android:layout_centerVertical="true"
         android:text="Quel question aurait permis de le trouver ?" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/TextView01"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/TextView01"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/radioYes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Oui" />
+
+        <RadioButton
+            android:id="@+id/radioNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Non" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textViewCharacter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewFelicitation"
+        android:layout_below="@+id/textViewFelicitation"
+        android:layout_marginTop="19dp"
+        android:text="A quel personnage pensiez-vous ?" />
+
+    <TextView
+        android:id="@+id/TextViewResponse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/EditTextQuestion"
+        android:layout_below="@+id/EditTextQuestion"
+        android:text="Quel réponse aurait permis de le trouver ?" />
 
 </RelativeLayout>

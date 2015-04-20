@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class LearnCharacterActivity extends Activity{
 	//Declaration
-	Button ButtonSave, ButtonAddQuestion;
+	Button buttonSave;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,33 +21,17 @@ public class LearnCharacterActivity extends Activity{
 		setContentView(R.layout.activity_learn_character);
 		
 		//Assignement
-		ButtonSave = (Button)findViewById(R.id.buttonSaveCharacter);
-		ButtonAddQuestion = (Button)findViewById(R.id.buttonAddQuestion);
+		buttonSave = (Button)findViewById(R.id.buttonSaveCharacter);
 		
 		
 		//Button click
-		ButtonSave.setOnClickListener(new OnClickListener() {
+		buttonSave.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		Intent intent=new Intent(LearnCharacterActivity.this,EndGameActivity.class);
     			startActivity(intent);
         	}
         });
-		ButtonAddQuestion.setOnClickListener(new OnClickListener() {
-        	@Override
-        	public void onClick(View v) {
-        		addNewQuestion();
-        	}
-        });
-	}
-	public void addNewQuestion(){
-		EditText editTextNewQuestion = new EditText(this);
-		LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-		LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayoutQuestionScroll);
-        layout.addView(editTextNewQuestion, p);
 	}
 
 	@Override
