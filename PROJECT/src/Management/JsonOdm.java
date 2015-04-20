@@ -51,14 +51,7 @@ public class JsonOdm {
 	public void insertCharacter(JSONObject caracter) throws IOException {
 		// Add character to Character JSON
 		// Load question json Array
-		JSONArray characters = jsonSingleton.getJsonPersonnages();
-		// Add character to json array
-		characters.put(caracter);
-		// Re-write json file
-		FileWriter file = new FileWriter("/data/personnages.json");
-		file.write(characters.toString());
-		file.flush();
-		file.close();
+		jsonSingleton.getJsonPersonnages().put(caracter);
 	}
 
 	/**
@@ -67,7 +60,6 @@ public class JsonOdm {
 	 * @return a toString question
 	 */
 	public String getQuestion(String key) {
-		
 		return null;
 	}
 
