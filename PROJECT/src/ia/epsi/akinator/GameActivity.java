@@ -8,12 +8,14 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class GameActivity extends Activity{
 	static Context gameContext;
 	//Declaration
-	Button ButtonTest;
+	Button ButtonTest, ButtonYes,ButtonNo, ButtonDontNo, ButtonRather, ButtonRatherNot;
+	TextView TextViewQuestion;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,18 @@ public class GameActivity extends Activity{
 		
 		//Assignement
 		ButtonTest = (Button)findViewById(R.id.buttonTest);
+		ButtonYes = (Button)findViewById(R.id.buttonYes);
+		ButtonNo = (Button)findViewById(R.id.buttonNo);
+		ButtonDontNo = (Button)findViewById(R.id.buttonDontNo);
+		ButtonRather = (Button)findViewById(R.id.buttonRather);
+		ButtonRatherNot = (Button)findViewById(R.id.buttonRatherNot);
+		TextViewQuestion = (TextView)findViewById(R.id.textViewQuestionRequest);
+		
+		
+		//Call first question
+		
+		TextViewQuestion.setText("Coucou chez moi");
+		
         
 		
 		//Button click
@@ -31,6 +45,41 @@ public class GameActivity extends Activity{
         	public void onClick(View v) {
         		Intent intent=new Intent(GameActivity.this,ResultActivity.class);
     			startActivity(intent);
+        	}
+        });
+		
+		ButtonYes.setOnClickListener(new OnClickListener() {
+        	@Override
+        	public void onClick(View v) {
+        		
+        	}
+        });
+		
+		ButtonNo.setOnClickListener(new OnClickListener() {
+        	@Override
+        	public void onClick(View v) {
+        		
+        	}
+        });
+		
+		ButtonDontNo.setOnClickListener(new OnClickListener() {
+        	@Override
+        	public void onClick(View v) {
+        		
+        	}
+        });
+		
+		ButtonRather.setOnClickListener(new OnClickListener() {
+        	@Override
+        	public void onClick(View v) {
+        		
+        	}
+        });
+		
+		ButtonRatherNot.setOnClickListener(new OnClickListener() {
+        	@Override
+        	public void onClick(View v) {
+        		
         	}
         });
 	}
