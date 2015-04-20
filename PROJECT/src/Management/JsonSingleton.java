@@ -53,4 +53,12 @@ public class JsonSingleton {
     public JSONArray getJsonQuestions() {
         return jsonQuestions;
     }
+    
+    public void setJsonPeronnages(JSONArray newJson){
+    	this.jsonPersonnages = newJson;
+    }
+    
+    public void setJsonQuestion(JSONArray newJson){
+    	this.jsonQuestions = newJson;
+    }
 }

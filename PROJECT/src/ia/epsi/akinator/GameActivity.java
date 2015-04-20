@@ -1,5 +1,10 @@
 package ia.epsi.akinator;
 
+import java.util.HashMap;
+
+import org.json.JSONException;
+
+import Management.Algorithm;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +19,11 @@ import android.widget.TextView;
 public class GameActivity extends Activity{
 	static Context gameContext;
 	//Declaration
-	Button ButtonTest, ButtonYes,ButtonNo, ButtonDontNo, ButtonRather, ButtonRatherNot;
-	TextView TextViewQuestion;
+	Button buttonTest, buttonYes,buttonNo, buttonDontNo, buttonRather, buttonRatherNot;
+	TextView textViewQuestion;
+	String actualQuestion;
+	String actualKey;
+	HashMap<String,String> hashMapQuestionResponse = new HashMap<String, String>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,23 +32,19 @@ public class GameActivity extends Activity{
 		setContentView(R.layout.activity_game);
 		
 		//Assignement
-		ButtonTest = (Button)findViewById(R.id.buttonTest);
-		ButtonYes = (Button)findViewById(R.id.buttonYes);
-		ButtonNo = (Button)findViewById(R.id.buttonNo);
-		ButtonDontNo = (Button)findViewById(R.id.buttonDontNo);
-		ButtonRather = (Button)findViewById(R.id.buttonRather);
-		ButtonRatherNot = (Button)findViewById(R.id.buttonRatherNot);
-		TextViewQuestion = (TextView)findViewById(R.id.textViewQuestionRequest);
+		buttonTest = (Button)findViewById(R.id.buttonTest);
+		buttonYes = (Button)findViewById(R.id.buttonYes);
+		buttonNo = (Button)findViewById(R.id.buttonNo);
+		buttonDontNo = (Button)findViewById(R.id.buttonDontNo);
+		buttonRather = (Button)findViewById(R.id.buttonRather);
+		buttonRatherNot = (Button)findViewById(R.id.buttonRatherNot);
+		textViewQuestion = (TextView)findViewById(R.id.textViewQuestionRequest);
 		
+		displayQuestion();
 		
-		//Call first question
-		
-		TextViewQuestion.setText("Coucou chez moi");
-		
-        
 		
 		//Button click
-		ButtonTest.setOnClickListener(new OnClickListener() {
+		buttonTest.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		Intent intent=new Intent(GameActivity.this,ResultActivity.class);
@@ -48,38 +52,43 @@ public class GameActivity extends Activity{
         	}
         });
 		
-		ButtonYes.setOnClickListener(new OnClickListener() {
+		buttonDontNo.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
-        		
+        		fillHashMapQuestionResponse("0");
+        		displayQuestion();
         	}
         });
 		
-		ButtonNo.setOnClickListener(new OnClickListener() {
+		buttonYes.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
-        		
+        		fillHashMapQuestionResponse("1");
+        		displayQuestion();
         	}
         });
 		
-		ButtonDontNo.setOnClickListener(new OnClickListener() {
+		buttonNo.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
-        		
+        		fillHashMapQuestionResponse("2");
+        		displayQuestion();
         	}
         });
 		
-		ButtonRather.setOnClickListener(new OnClickListener() {
+		buttonRather.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
-        		
+        		fillHashMapQuestionResponse("3");
+        		displayQuestion();
         	}
         });
 		
-		ButtonRatherNot.setOnClickListener(new OnClickListener() {
+		buttonRatherNot.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
-        		
+        		fillHashMapQuestionResponse("4");
+        		displayQuestion();
         	}
         });
 	}
@@ -93,5 +102,17 @@ public class GameActivity extends Activity{
 
 	public static Context getGameContext(){
 		return gameContext;
+	}
+	
+	private void fillHashMapQuestionResponse(String response){
+		hashMapQuestionResponse.put(actualKey, response);
+	}
+	
+	private void displayQuestion(){
+		String requestAlgorithm = "coucou;question à poser";//Algorithm.getTheMostPertinenteQuestion();
+		String[] partsRequestAlgorithm = requestAlgorithm.split(";");
+		actualKey = partsRequestAlgorithm[0];
+		actualQuestion = partsRequestAlgorithm[1];
+		textViewQuestion.setText(actualQuestion);
 	}
 }
