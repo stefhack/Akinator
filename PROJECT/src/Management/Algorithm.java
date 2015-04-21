@@ -69,10 +69,14 @@ public  class  Algorithm {
 
         while (keys.hasNext()){
             String questionKey=(String)keys.next();
-            JSONArray persos =  jsonOdm.findCharactersByQuestionKey(questionKey);
+            JSONArray persosWhereOui =  jsonOdm.findCharactersByQuestionKey(questionKey,"oui");
+            JSONArray persosWhereNon =  jsonOdm.findCharactersByQuestionKey(questionKey,"non");
+            JSONArray persosWhereInconnu =  jsonOdm.findCharactersByQuestionKey(questionKey,"inconnu");
 
             HashMap<String,Integer> nbPersoByQuestion = new HashMap<String, Integer>();
-            nbPersoByQuestion.put(questionKey,persos.length());
+            nbPersoByQuestion.put("oui",persosWhereOui.length());
+            nbPersoByQuestion.put("non",persosWhereNon.length());
+            nbPersoByQuestion.put("inconnu",persosWhereInconnu.length());
             listResponsesByQuestion.add(nbPersoByQuestion);
         }
 
