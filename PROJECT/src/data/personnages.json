@@ -1,7 +1,7 @@
 [
   {
-    "Male":"oui",
-    "Femelle":"non",
+    "Male":"inconnu",
+    "Femelle":"inconnu",
     "Humain":"non",
     "Super-Heros":"non",
     "Petit":"oui",
@@ -11,7 +11,7 @@
     "Vole":"non",
     "Force":"non",
     "Cape":"non",
-    "Adulte":"non",
+    "Adulte":"inconnu",
     "Animal":"oui",
     "Intelligence":"oui",
     "Fait des betises":"oui",
@@ -52,7 +52,7 @@
     "Transformation":"non",
     "Jaune":"non",
     "Vert":"non",
-    "Bleu":"non",
+    "Bleu":"oui",
     "Rouge":"non",
     "Marron":"non",
     "Personnage":"alladin"
@@ -62,8 +62,8 @@
     "Femelle":"oui",
     "Humain":"oui",
     "Super-Heros":"non",
-    "Petit":"oui",
-    "Moyen":"non",
+    "Petit":"non",
+    "Moyen":"oui",
     "Grand":"non",
     "Pouvoir":"non",
     "Vole":"non",
@@ -84,7 +84,7 @@
     "Bleu":"oui",
     "Rouge":"non",
     "Marron":"non",
-    "Personnage":"allice"
+    "Personnage":"alice"
   },
   {
     "Male":"non",
@@ -212,7 +212,7 @@
     "Grand":"non",
     "Pouvoir":"non",
     "Vole":"non",
-    "Force":"non",
+    "Force":"oui",
     "Cape":"non",
     "Adulte":"oui",
     "Animal":"oui",
@@ -374,7 +374,7 @@
     "Bleu":"non",
     "Rouge":"non",
     "Marron":"oui",
-    "Personnage":"la b�te"
+    "Personnage":"la bete"
   },
   {
     "Male":"non",
@@ -928,8 +928,8 @@
     "Personnage":"hercule"
   },
   {
-    "Male":"oui",
-    "Femelle":"non",
+    "Male":"inconnu",
+    "Femelle":"inconnu",
     "Humain":"non",
     "Super-Heros":"non",
     "Petit":"non",
@@ -1885,8 +1885,8 @@
     "Personnage":"simplet"
   },
   {
-    "Male":"non",
-    "Femelle":"oui",
+    "Male":"inconnu",
+    "Femelle":"inconnu",
     "Humain":"non",
     "Super-Heros":"non",
     "Petit":"non",

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -110,15 +111,15 @@ public class GameActivity extends Activity{
 	}
 	
 	private void displayQuestion(){
-        String requestAlgorithm = null;
         try {
-            requestAlgorithm = Algorithm.getTheMostPertinenteQuestion();
+            String requestAlgorithm = Algorithm.getTheMostPertinenteQuestion();
+            Log.e("requestAlgorithm++++++++++++++",requestAlgorithm);
+            String[] partsRequestAlgorithm = requestAlgorithm.split(";");
+    		actualKey = partsRequestAlgorithm[0];
+    		actualQuestion = partsRequestAlgorithm[1];
+    		textViewQuestion.setText(actualQuestion);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String[] partsRequestAlgorithm = requestAlgorithm.split(";");
-		actualKey = partsRequestAlgorithm[0];
-		actualQuestion = partsRequestAlgorithm[1];
-		textViewQuestion.setText(actualQuestion);
 	}
 }
