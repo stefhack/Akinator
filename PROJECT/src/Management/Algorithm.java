@@ -1,5 +1,7 @@
 package Management;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -62,11 +63,13 @@ public  class  Algorithm {
         String question="";
         JSONArray characters = jsonSingleton.getJsonPersonnages();
         JSONArray jsonQuestions = jsonSingleton.getJsonQuestions();
-        JSONObject questions = jsonQuestions.getJSONObject(0);
+
+        Log.i("JSON questions ",jsonQuestions.toString());
+        //JSONObject questions = jsonQuestions.getJSONObject(0);
         ArrayList<HashMap<String,Integer>> listResponsesByQuestion =new ArrayList<HashMap<String, Integer>>();
         HashMap<String,Integer> nbPersoByQuestion = new HashMap<String, Integer>();
 
-        Iterator keys= questions.keys();
+      /*  Iterator keys= questions.keys();
           int curentScore= 0;
         while (keys.hasNext()){
 
@@ -82,16 +85,9 @@ public  class  Algorithm {
             System.out.println("Current score : "+curentScore);
 
         }
+*/
 
-
-
-
-
-
-
-
-
-        return question;
+        return "Mon CUL";
     }
 
     /*
