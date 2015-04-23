@@ -64,25 +64,31 @@ public  class  Algorithm {
         JSONArray jsonQuestions = jsonSingleton.getJsonQuestions();
         JSONObject questions = jsonQuestions.getJSONObject(0);
         ArrayList<HashMap<String,Integer>> listResponsesByQuestion =new ArrayList<HashMap<String, Integer>>();
+        HashMap<String,Integer> nbPersoByQuestion = new HashMap<String, Integer>();
 
         Iterator keys= questions.keys();
-
+          int curentScore= 0;
         while (keys.hasNext()){
+
             String questionKey=(String)keys.next();
             JSONArray persosWhereOui =  jsonOdm.findCharactersByQuestionKey(questionKey,"oui");
             JSONArray persosWhereNon =  jsonOdm.findCharactersByQuestionKey(questionKey,"non");
             JSONArray persosWhereInconnu =  jsonOdm.findCharactersByQuestionKey(questionKey,"inconnu");
 
-            HashMap<String,Integer> nbPersoByQuestion = new HashMap<String, Integer>();
-            nbPersoByQuestion.put("oui",persosWhereOui.length());
-            nbPersoByQuestion.put("non",persosWhereNon.length());
-            nbPersoByQuestion.put("inconnu",persosWhereInconnu.length());
-            listResponsesByQuestion.add(nbPersoByQuestion);
-        }
-
-        for(HashMap<String,Integer> nbPersoByQuestion:listResponsesByQuestion){
+            int nbOui= persosWhereOui.length();
+            int nbNon= persosWhereNon.length();
+            int nbInconnu = persosWhereInconnu.length();
+            curentScore = nbOui*nbNon*nbInconnu;
+            System.out.println("Current score : "+curentScore);
 
         }
+
+
+
+
+
+
+
 
 
         return question;

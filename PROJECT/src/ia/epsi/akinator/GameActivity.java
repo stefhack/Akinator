@@ -1,10 +1,5 @@
 package ia.epsi.akinator;
 
-import java.util.HashMap;
-
-import org.json.JSONException;
-
-import Management.Algorithm;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +9,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
+import org.json.JSONException;
+
+import java.util.HashMap;
+
+import Management.Algorithm;
 
 
 public class GameActivity extends Activity{
@@ -109,8 +110,13 @@ public class GameActivity extends Activity{
 	}
 	
 	private void displayQuestion(){
-		String requestAlgorithm = "coucou;question à poser";//Algorithm.getTheMostPertinenteQuestion();
-		String[] partsRequestAlgorithm = requestAlgorithm.split(";");
+        String requestAlgorithm = null;
+        try {
+            requestAlgorithm = Algorithm.getTheMostPertinenteQuestion();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String[] partsRequestAlgorithm = requestAlgorithm.split(";");
 		actualKey = partsRequestAlgorithm[0];
 		actualQuestion = partsRequestAlgorithm[1];
 		textViewQuestion.setText(actualQuestion);
