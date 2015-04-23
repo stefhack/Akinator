@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+
 /**
  * JsonOdm, used to manage the different .json for the application
  * 
@@ -15,8 +17,17 @@ import org.json.JSONObject;
  */
 public class JsonOdm {
 	// Get jsonSingleton
-	private static JsonSingleton jsonSingleton = JsonSingleton.getInstance();
-
+	private static JsonSingleton jsonSingleton;
+	private static Context context;
+	
+	public JsonOdm(Context context){
+		this.jsonSingleton = JsonSingleton.getInstance(context);
+		this.context = context;
+	}
+	
+	public JsonSingleton getSingleton(){
+		return this.jsonSingleton;
+	}
 	/**
 	 * findCharactersByQuestionKey return a collection of character according to
 	 * the question key passed by parameter

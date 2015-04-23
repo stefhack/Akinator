@@ -4,48 +4,53 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.HashMap;
 
 import Management.Algorithm;
+import Management.JsonOdm;
+import Management.JsonSingleton;
 
 
 public class GameActivity extends Activity{
-	static Context gameContext;
+	private static Context gameContext;
 	//Declaration
-	Button buttonTest, buttonYes,buttonNo, buttonDontNo, buttonRather, buttonRatherNot;
-	TextView textViewQuestion;
-	String actualQuestion;
-	String actualKey;
-	HashMap<String,String> hashMapQuestionResponse = new HashMap<String, String>();
+	private Button buttonTest, buttonYes,buttonNo, buttonDontNo, buttonRather, buttonRatherNot;
+	private TextView textViewQuestion;
+	private String actualQuestion;
+	private String actualKey;
+	private HashMap<String,String> hashMapQuestionResponse = new HashMap<String, String>();
+	private Algorithm algo = new Algorithm(getApplicationContext());
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		gameContext = getApplicationContext();
+		this.gameContext = getApplicationContext();
 		setContentView(R.layout.activity_game);
 		
 		//Assignement
-		buttonTest = (Button)findViewById(R.id.buttonTest);
-		buttonYes = (Button)findViewById(R.id.buttonYes);
-		buttonNo = (Button)findViewById(R.id.buttonNo);
-		buttonDontNo = (Button)findViewById(R.id.buttonDontNo);
-		buttonRather = (Button)findViewById(R.id.buttonRather);
-		buttonRatherNot = (Button)findViewById(R.id.buttonRatherNot);
-		textViewQuestion = (TextView)findViewById(R.id.textViewQuestionRequest);
+		this.buttonTest = (Button)findViewById(R.id.buttonTest);
+		this.buttonYes = (Button)findViewById(R.id.buttonYes);
+		this.buttonNo = (Button)findViewById(R.id.buttonNo);
+		this.buttonDontNo = (Button)findViewById(R.id.buttonDontNo);
+		this.buttonRather = (Button)findViewById(R.id.buttonRather);
+		this.buttonRatherNot = (Button)findViewById(R.id.buttonRatherNot);
+		this.textViewQuestion = (TextView)findViewById(R.id.textViewQuestionRequest);
 		
 		displayQuestion();
 		
 		
 		//Button click
-		buttonTest.setOnClickListener(new OnClickListener() {
+		this.buttonTest.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		Intent intent=new Intent(GameActivity.this,ResultActivity.class);
@@ -53,15 +58,16 @@ public class GameActivity extends Activity{
         	}
         });
 		
-		buttonDontNo.setOnClickListener(new OnClickListener() {
+		this.buttonDontNo.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		fillHashMapQuestionResponse("0");
+        		
         		displayQuestion();
         	}
         });
 		
-		buttonYes.setOnClickListener(new OnClickListener() {
+		this.buttonYes.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		fillHashMapQuestionResponse("1");
@@ -69,7 +75,7 @@ public class GameActivity extends Activity{
         	}
         });
 		
-		buttonNo.setOnClickListener(new OnClickListener() {
+		this.buttonNo.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		fillHashMapQuestionResponse("2");
@@ -77,7 +83,7 @@ public class GameActivity extends Activity{
         	}
         });
 		
-		buttonRather.setOnClickListener(new OnClickListener() {
+		this.buttonRather.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		fillHashMapQuestionResponse("3");
@@ -85,7 +91,7 @@ public class GameActivity extends Activity{
         	}
         });
 		
-		buttonRatherNot.setOnClickListener(new OnClickListener() {
+		this.buttonRatherNot.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
         		fillHashMapQuestionResponse("4");
@@ -106,19 +112,22 @@ public class GameActivity extends Activity{
 	}
 	
 	private void fillHashMapQuestionResponse(String response){
-		hashMapQuestionResponse.put(actualKey, response);
+		this.hashMapQuestionResponse.put(this.actualKey, response);
 	}
 	
 	private void displayQuestion(){
-        String requestAlgorithm = null;
+        String requestAlgorithm = "";
         try {
-            requestAlgorithm = Algorithm.getTheMostPertinenteQuestion();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        	requestAlgorithm=algo.getTheMostPertinenteQuestion();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        
         String[] partsRequestAlgorithm = requestAlgorithm.split(";");
-		actualKey = partsRequestAlgorithm[0];
-		actualQuestion = partsRequestAlgorithm[1];
-		textViewQuestion.setText(actualQuestion);
+        this.actualKey = partsRequestAlgorithm[0];
+        this.actualQuestion = partsRequestAlgorithm[1];
+        this.textViewQuestion.setText(actualQuestion);
 	}
 }
