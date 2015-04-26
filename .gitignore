@@ -24,3 +24,6 @@ PROJECT/proguard/
 
 # Log Files
 PROJECT/*.log
+
+.idea
+out
