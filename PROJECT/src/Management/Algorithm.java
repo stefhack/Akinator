@@ -1,5 +1,6 @@
 package Management;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -10,178 +11,283 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-
 /**
  * Created by Stef on 23/03/2015.
  */
 
-/*
-* Classe principale gérant l'algorithme du Jeu Akinator
-* */
-public  class  Algorithm {
+
+
+public class Algorithm {
+
+	private Context context;
+
+	public Algorithm(Context context) {
+		this.context = context;
+		this.jsonOdm = new JsonOdm(this.context);
+	}
+
+	/*
+	 * Liste des personnages écartés , qui ne correspondent pas à la réponse
+	 * à une question posée
+	 */
+	private static ArrayList<String> listPersosSuppressed = new ArrayList<String>();
 
     /*
-    * Liste des personnages écartés , qui ne correspondent pas à la
-    * réponse à une question posée
+    Correspondance entre les codes et les valeurs des réponses
     * */
-    private static ArrayList<Integer> listPersosSuppressed;
-    /*
-    * Liste des questions déjà posées dans une partie
-    * */
-    private static ArrayList<String> listQuestionsSuppressed;
+    private static  HashMap<String,String> responseByResponseCode =  new HashMap<String, String>();
+    static{
+      responseByResponseCode.put("1","oui");
+      responseByResponseCode.put("2","non");
+      responseByResponseCode.put("0","inconnu");
 
-    /*
-    *Liste des scores pour les personnages
-    * Integer L'index du personnage dans le JSON
-    * Integer le score de ce personnage
-    * */
-    private static ArrayList<HashMap<Integer,Integer>> listScoresByPerso;
-    /*
-   Instance de la classe gérant les JSON
-   * */
-     private static JsonOdm jsonOdm = new JsonOdm();
+  }
 
-    /*
-    * Instance du singleton Json
-    * */
-    private static JsonSingleton jsonSingleton=JsonSingleton.getInstance();
+	/*
+	 * Liste des scores pour les personnages
+	 * String La clé du personnage dans
+	 * le JSON 
+	 * Integer le score de ce personnage
+	 */
+	private static HashMap<String, Integer> scoresByPerso=  new HashMap<String, Integer>();;
+	/*
+	 * Instance de la classe gérant les JSON
+	 */
+	private static JsonOdm jsonOdm;
 
-    /*
-    * Seuil minimum  à atteindre pour proposer une réponse au joueur
-    * */
-    private static final int MINIMUM_THRESOLD = 80;
+    //Minimum de questions à poser avant de proposer un résultat
+    public final int QUESTIONS_THRESOLD =  10;
+
+	/*
+	 * Seuil minimum à atteindre pour proposer une réponse au joueur
+	 */
+	private final int PROPOSAL_THRESOLD = 80;
+
+	/*
+	 * Permet d'obtenir la question la plus pertinente, la prochaine à poser
+	 * 
+	 * @return question String La question sous forme de chaine
+	 */
+	public String getTheMostPertinenteQuestion() throws JSONException {
+
+		String question = "";
+		JSONArray jsonQuestions = jsonOdm.getSingleton().getJsonQuestions();
+		JSONObject questions = jsonQuestions.getJSONObject(0);
+		Log.i("QUESTIONS ", questions.toString());
+
+		Iterator keys = questions.keys();
+		int curentScore = 0;
+		String keyForQuestionToRetreive = "";
+
+		while (keys.hasNext()) {
+			String questionKey = (String) keys.next();
+			JSONArray persosWhereOui = jsonOdm.findCharactersByQuestionKey(
+					questionKey, "oui");
+			JSONArray persosWhereNon = jsonOdm.findCharactersByQuestionKey(
+					questionKey, "non");
+			JSONArray persosWhereInconnu = jsonOdm.findCharactersByQuestionKey(
+					questionKey, "inconnu");
+
+			int nbOui = persosWhereOui.length();
+			int nbNon = persosWhereNon.length();
+			int nbInconnu = persosWhereInconnu.length();
+			
+			int scoreCalculated	= (nbOui + 1) * (nbNon + 1) * (nbInconnu + 1);
+			if(curentScore < scoreCalculated){
+				curentScore = scoreCalculated;
+				keyForQuestionToRetreive = questionKey;
+			}
+					
+		}
+		//Get question string by question key
+		question= jsonOdm.getQuestion(keyForQuestionToRetreive);
+		return keyForQuestionToRetreive+";"+question;
+	}
+
+	/**
+	 * 
+	 * @param questionKey
+	 * @param response
+	 * @throws JSONException 
+	 */
+	public void calculateScoreForCharacters(String questionKey,String responseGiven) throws JSONException
+	{
+		JSONArray characters = jsonOdm.getSingleton().getJsonPersonnages();
+		JSONArray jsonQuestions = jsonOdm.getSingleton().getJsonQuestions();
+        responseGiven=responseByResponseCode.get(responseGiven);
+
+        //Log.i("réponse donnée par user :",responseGiven);
+        //Log.i("concerne la question  :",questionKey);
+
+		for(int i=0;i<characters.length();++i){
+
+			int scorePerso=0;
+			JSONObject perso= characters.getJSONObject(i);
+		    String response = perso.getString(questionKey);
+            String nomPerso = perso.getString("Personnage");
+
+            int score = getScore(responseGiven,response);
+
+                //On vérifie si le perso a déjà un score
+                if(scoresByPerso.containsKey(nomPerso)){
+                    score += scoresByPerso.get(nomPerso);
+                }
+                scoresByPerso.put(nomPerso,score);
 
 
-    /*
-    * Permet d'obtenir la  question la plus pertinente,
-    * la prochaine à poser
-    * @return question String La question sous forme de chaine
-    * */
-    public static String getTheMostPertinenteQuestion() throws JSONException{
+		}
 
-        String question="";
-        JSONArray characters = jsonSingleton.getJsonPersonnages();
-        JSONArray jsonQuestions = jsonSingleton.getJsonQuestions();
-
-        Log.i("JSON questions ",jsonQuestions.toString());
-        //JSONObject questions = jsonQuestions.getJSONObject(0);
-        ArrayList<HashMap<String,Integer>> listResponsesByQuestion =new ArrayList<HashMap<String, Integer>>();
-        HashMap<String,Integer> nbPersoByQuestion = new HashMap<String, Integer>();
-
-      /*  Iterator keys= questions.keys();
-          int curentScore= 0;
-        while (keys.hasNext()){
-
-            String questionKey=(String)keys.next();
-            JSONArray persosWhereOui =  jsonOdm.findCharactersByQuestionKey(questionKey,"oui");
-            JSONArray persosWhereNon =  jsonOdm.findCharactersByQuestionKey(questionKey,"non");
-            JSONArray persosWhereInconnu =  jsonOdm.findCharactersByQuestionKey(questionKey,"inconnu");
-
-            int nbOui= persosWhereOui.length();
-            int nbNon= persosWhereNon.length();
-            int nbInconnu = persosWhereInconnu.length();
-            curentScore = nbOui*nbNon*nbInconnu;
-            System.out.println("Current score : "+curentScore);
-
+        //LOGS Scores des persos
+        Log.i("Nb persos score ",Integer.toString(scoresByPerso.size()));
+        /*for(Map.Entry<String,Integer> entry: scoresByPerso.entrySet()){
+            Log.i("Perso ",entry.getKey());
+            Log.i("Score  ",entry.getValue().toString());
         }
 */
+	}
 
-        return "Mon CUL";
+    private int getScore(String responseGiven,String responsePerso){
+           int score=0;
+
+        if(responseGiven.equals(responsePerso)) {
+            score=3;
+        }
+        else {
+
+            if(responseGiven == "oui"){
+
+                score = (responsePerso.equals("non")) ? -3 : 0;
+            }
+            else if(responseGiven == "non"){
+
+                score = (responsePerso.equals("oui")) ? -3 : 0;
+            }
+
+        }
+        return score;
+    }
+
+    public void deleteQuestion(String questionKey) throws JSONException {
+            jsonOdm.deleteQuestionByKey(questionKey);
     }
 
     /*
-    * Permet de rajouter un personnage dans le JSON des personnages
-    * @return void
-    * */
-     public static void addNewPerso(HashMap<String,String> caracteristiques) throws IOException{
+    * Supprime un personnage de la liste des scores */
+    public void deletePersoFromScore(String characterKey) {
 
-        JSONObject newCharacter = new JSONObject(caracteristiques);
-         jsonOdm.insertCharacter(newCharacter);
-     }
-
-    /*
-    * Permet de rajouter un personnage dans la liste des persos supprimés
-    * @parama index int L'index du personnage dans le JSON
-    * */
-    public static void addPersosSuppressed(int index){
-        listPersosSuppressed.add(index);
+        scoresByPerso.remove(characterKey);
     }
 
-    /*
-    Permet de rajouter une question dans la liste des questions supprimées
-    @param key String La clé correspondant à la question dans le JSON
-    * */
-    public static void addQuestionSuppressed(String key){
-        listQuestionsSuppressed.add(key);
-    }
+	/*
+	 * Permet de rajouter un personnage dans le JSON des personnages
+	 * 
+	 * @return void
+	 */
+	public  void addNewPerso(HashMap<String, String> caracteristiques)
+			throws IOException {
+
+		JSONObject newCharacter = new JSONObject(caracteristiques);
+		jsonOdm.insertCharacter(newCharacter);
+	}
+
+	/*
+	 * Permet de rajouter un personnage dans la liste des persos supprimés
+	 * 
+	 * @parama index int L'index du personnage dans le JSON
+	 */
+	public  void addPersosSuppressed(String nomperso) {
+        //S'il ne le contient pas déjà on le rajoute
+        if(!listPersosSuppressed.contains(nomperso))
+		listPersosSuppressed.add(nomperso);
+	}
+
+
+
+	/*
+	 * Permet de récupérer la liste des personnages supprimés
+	 * 
+	 * @return ArrayList<String>
+	 */
+	public  ArrayList<String> getPersosSuppressed() {
+		return listPersosSuppressed;
+	}
+
+
+	/*
+	 * Permet d'obtnenir le nombre de personnages écartés
+	 * 
+	 * @return int Le nombre de personnages supprimés
+	 */
+	public  int countPersosSuppressed() {
+		return listPersosSuppressed.size();
+	}
+
+	/*
+	 * Permet de réinitialiser la liste des personnages écartés
+	 */
+	public  void clearPersosSuppressed() {
+		listPersosSuppressed.clear();
+	}
+
+
+
+	/*
+	 * Permet de connaitre le nombre de personnages restant,
+	 * 
+	 * qui ne sont pas encore écartés
+	 */
+	public  int getNbCharactersLeft() {
+		return jsonOdm.getSingleton().getJsonPersonnages().length()
+				- listPersosSuppressed.size();
+
+	}
+
+	/*
+	 * Permet d'obtenir le personnage ayant obtenu le score le plus élevé
+	 * 
+	 * @return String Le nom du personnage
+	 */
+	public  String getPersoByMaxScore() {
+
+		String nomPerso = "";
+        int scorePerso=0;
+
+			for (Map.Entry<String, Integer> entry : scoresByPerso.entrySet()) {
+                    if(scorePerso < entry.getValue()) {
+                        scorePerso = entry.getValue();
+                        nomPerso = entry.getKey();
+                    }
+			}
+
+		return nomPerso;
+
+	}
 
     /*
-    * Permet de récupérer la liste des personnages supprimés
-    * @return ArrayList<Integer>
+    * Permet de savoir si il y a AU MOINS un personnage
+      * ayant un score > minimum donné par la constante PROPOSAL_THRESOLD
     * */
-    public static ArrayList<Integer> getPersosSuppressed(){
-        return listPersosSuppressed;
-    }
+    public boolean hasMorePersoToPropose(){
 
-    /*
-    * Permet de récupérer la liste des questions déjà posées
-    * @return ArrayList<String>
-    * */
-    public static ArrayList<String> getQuestionsSuppressed(){
-        return  listQuestionsSuppressed;
-    }
+        boolean hasPerso = false;
 
-    /*
-    Permet d'obtnenir le nombre de personnages écartés
-    @return int Le nombre de personnages supprimés
-    * */
-    public static int countPersosSuppressed(){
-        return listPersosSuppressed.size();
-    }
+        for (Map.Entry<String, Integer> entry : scoresByPerso.entrySet()) {
 
-    /*
-    * Permet de réinitialiser la liste des personnages écartés
-    * */
-    public static void clearPersosSuppressed(){
-        listPersosSuppressed.clear();
-    }
+            double percent = ((double)entry.getValue()/(double)(QUESTIONS_THRESOLD*3))*(double)100;//Pourcentage = score du perso / score Total théorique
 
-    /*
-    * Permet de réinitialiser la liste des questions déjà posées
-    * */
-    public static void clearListQuestions(){
-        listQuestionsSuppressed.clear();
-    }
+           if(percent >= (double)PROPOSAL_THRESOLD){// 3 => score max pour une question, QUESTIONS_THRESOLD le nb de questions posées
+               hasPerso = true ;
+               break;
 
-    /*
-    * Permet de connaitre le nombre de personnages  restant,
-    *
-    *  qui ne sont pas encore écartés
-    * */
-    public static int getNbCharactersLeft(){
-     return jsonSingleton.getJsonPersonnages().length() - listPersosSuppressed.size()   ;
-
-    }
-
-    /*
-    * Permet d'obtenir le score maximum obtenu par une question
-    * @return int Le score maximum
-    * */
-    public static int getMaxScore(){
-
-        ArrayList<Integer> scores = new ArrayList<Integer>();
-
-        for(HashMap<Integer,Integer> hashMap: listScoresByPerso){
-
-           for(Map.Entry<Integer,Integer> entry : hashMap.entrySet()){
-               scores.add(entry.getValue());
            }
+            String message= hasPerso ? "OUI" : "NON";
+            Log.i(entry.getKey(),message);
 
         }
 
-       return Collections.max(scores);
-
+        return  hasPerso;
     }
-}
 
+}

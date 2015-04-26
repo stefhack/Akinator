@@ -50,6 +50,6 @@
         android:layout_alignTop="@+id/imageViewGenie"
         android:layout_marginTop="46dp"
         android:layout_toLeftOf="@+id/buttonYes"
-        android:text="MICHELINE" />
+        android:text="" />
 
 </RelativeLayout>
