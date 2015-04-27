@@ -1,8 +1,10 @@
 package ia.epsi.akinator;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,9 +13,11 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import Management.Algorithm;
+import Management.JsonReader;
 import Management.JsonSingleton;
 
 public class GameActivity extends Activity{
@@ -28,15 +32,16 @@ public class GameActivity extends Activity{
     private JsonSingleton jsonSingleton;
     private int nb_questions_asked =0;
 
-
+private JsonReader jsonReader;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.gameContext = getApplicationContext();
         jsonSingleton=JsonSingleton.getInstance(gameContext);
+        jsonReader=new JsonReader(gameContext);
 		setContentView(R.layout.activity_game);
-		
+
 		//Assignement
 		this.buttonTest = (Button)findViewById(R.id.buttonTest);
 		this.buttonYes = (Button)findViewById(R.id.buttonYes);
@@ -47,9 +52,14 @@ public class GameActivity extends Activity{
 		this.textViewQuestion = (TextView)findViewById(R.id.textViewQuestionRequest);
 		
 		displayQuestion();
-		
-		
-		//Button click
+        //TESTS
+        try {
+            Log.i("READ JSON FROM INTERNAL STORAGE :",jsonReader.readJSONfromInternalStorage("personnages.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Button click
 		this.buttonTest.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
@@ -120,8 +130,11 @@ public class GameActivity extends Activity{
             e.printStackTrace();
         }
 
+
         //On a pas atteint le minimum de questions à poser
-        if(nb_questions_asked < algo.QUESTIONS_THRESOLD){
+        //OU il n'y a pas encore de persos à proposer
+        //OU bien s'il n'y a plus de questions
+        if(nb_questions_asked < algo.QUESTIONS_THRESOLD || !algo.hasMorePersoToPropose() || jsonSingleton.getJsonQuestions().length()==0){
             //On pose à nouveau une question
             displayQuestion();
         }

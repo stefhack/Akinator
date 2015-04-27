@@ -124,6 +124,14 @@ public class JsonOdm {
 		}
 		jsonSingleton.setJsonPeronnages(arrayTemp);
 	}
+
+    public JSONArray getJsonQuestions(){
+        return jsonSingleton.getJsonQuestions();
+    }
+
+    public JSONArray getJsonCharacter(){
+        return jsonSingleton.getJsonPersonnages();
+    }
 	
 	/**
 	 * Used to delete a list of characters

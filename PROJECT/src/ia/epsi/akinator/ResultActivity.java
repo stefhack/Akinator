@@ -15,7 +15,7 @@ import Management.Algorithm;
 public class ResultActivity extends Activity{
 	//Declaration
 	Button buttonYes, buttonNo;
-	TextView resultPerso;
+	TextView resultPerso,scorePerso;
     Algorithm algo;
     private static Context gameContext;
 
@@ -32,7 +32,7 @@ public class ResultActivity extends Activity{
 		buttonYes = (Button)findViewById(R.id.buttonYes);
 		buttonNo = (Button)findViewById(R.id.buttonNo);
         resultPerso = (TextView)findViewById(R.id.textViewResult);
-
+        scorePerso = (TextView)findViewById(R.id.score);
         //On affiche la première proposition
         showNextProposition();
 
@@ -72,6 +72,7 @@ public class ResultActivity extends Activity{
 
     /*Affichage de la proposition */
     private void showNextProposition(){
+        scorePerso.setText("(Je suis sûr à "+algo.getMaxScore()+" %)");
         resultPerso.setText(algo.getPersoByMaxScore());
     }
 

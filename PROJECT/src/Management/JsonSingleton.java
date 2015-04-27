@@ -3,15 +3,12 @@ package Management;
 /**
  * Created by Stef on 09/03/2015.
  */
-import java.io.IOException;
-import java.io.InputStream;
+import android.content.Context;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.util.Log;
+import java.io.IOException;
 
 /**
  * JsonSingleton used to get Json for questions and personnages .json
@@ -24,7 +21,7 @@ public class JsonSingleton {
 	private JSONArray jsonPersonnages;
 	private JSONArray jsonQuestions;
 	private Context context;
-
+    private JsonReader jsonReader;
 	/**
 	 * Méthode statique permettant d'obtenir une instance unique de la Classe
 	 * 
@@ -41,9 +38,11 @@ public class JsonSingleton {
 	 * Personnages et celui des Questions)
 	 */
 	private JsonSingleton(Context context) {
+
         this.context = context;
-        String jsonStringPersos = getJsonFromFile("personnages.json");
-        String jsonStringQuestions = getJsonFromFile("questions.json");
+        this.jsonReader = new JsonReader(context);
+        String jsonStringPersos = getJsonFromStorage("personnages.json");
+        String jsonStringQuestions = getJsonFromStorage("questions.json");
         try {
 			this.jsonPersonnages = new JSONArray(jsonStringPersos);
 			this.jsonQuestions = new JSONArray(jsonStringQuestions);
@@ -53,24 +52,18 @@ public class JsonSingleton {
 		}
 	}
 
-    private String getJsonFromFile(String fileName)
-    {
-    	String json = null;
-		try {
-
-		    InputStream is = this.context.getAssets().open(fileName);
-		    int size = is.available();
-		    byte[] buffer = new byte[size];
-		    is.read(buffer);
-		    is.close();
-		    json = new String(buffer, "ISO-8859-1");
-		    return json;
-		    
-		} catch (IOException ex) {
-		    ex.printStackTrace();
-		    return null;
-		}
-    
+    /*
+    * Récupère le contenu du fichier dans le Storage
+    * @param String filename Le nom du fichier JSON
+    * */
+    private String getJsonFromStorage(String fileName)  {
+            String jsonString="";
+        try {
+            jsonString= jsonReader.readJSONfromInternalStorage(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
     }
 
 	/**

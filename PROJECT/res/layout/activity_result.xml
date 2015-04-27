@@ -52,4 +52,13 @@
         android:layout_toLeftOf="@+id/buttonYes"
         android:text="" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/score"
+        android:layout_alignBottom="@+id/buttonYes"
+        android:layout_toRightOf="@+id/textViewResponse" />
+
 </RelativeLayout>

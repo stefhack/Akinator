@@ -58,7 +58,7 @@ public class Algorithm {
 	private static JsonOdm jsonOdm;
 
     //Minimum de questions à poser avant de proposer un résultat
-    public final int QUESTIONS_THRESOLD =  10;
+    public final int QUESTIONS_THRESOLD =  15;
 
 	/*
 	 * Seuil minimum à atteindre pour proposer une réponse au joueur
@@ -136,16 +136,8 @@ public class Algorithm {
                 }
                 scoresByPerso.put(nomPerso,score);
 
-
 		}
 
-        //LOGS Scores des persos
-        Log.i("Nb persos score ",Integer.toString(scoresByPerso.size()));
-        /*for(Map.Entry<String,Integer> entry: scoresByPerso.entrySet()){
-            Log.i("Perso ",entry.getKey());
-            Log.i("Score  ",entry.getValue().toString());
-        }
-*/
 	}
 
     private int getScore(String responseGiven,String responsePerso){
@@ -244,6 +236,18 @@ public class Algorithm {
 
 	}
 
+    public String getMaxScore(){
+        double scorePerso=0;
+
+        for (Map.Entry<String, Integer> entry : scoresByPerso.entrySet()) {
+            if(scorePerso < entry.getValue()) {
+                scorePerso = entry.getValue();
+            }
+        }
+        scorePerso = (scorePerso/(double)(QUESTIONS_THRESOLD*3))*(double)100;
+       return (Double.toString( scorePerso));
+    }
+
 	/*
 	 * Permet d'obtenir le personnage ayant obtenu le score le plus élevé
 	 * 
@@ -282,8 +286,6 @@ public class Algorithm {
                break;
 
            }
-            String message= hasPerso ? "OUI" : "NON";
-            Log.i(entry.getKey(),message);
 
         }
 
