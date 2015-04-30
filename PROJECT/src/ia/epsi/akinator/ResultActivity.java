@@ -10,6 +10,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import Management.Algorithm;
 
 public class ResultActivity extends Activity{
@@ -18,14 +20,15 @@ public class ResultActivity extends Activity{
 	TextView resultPerso,scorePerso;
     Algorithm algo;
     private static Context gameContext;
-
+    private HashMap<String,String> hashMapQuestionResponse = new HashMap<String, String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_result);
+        Intent intent = getIntent();
+        hashMapQuestionResponse=(HashMap<String,String>)intent.getSerializableExtra("responses");
 
-        //this.gameContext = getApplicationContext();
         algo=new Algorithm(getApplicationContext());
 
 		//Assignement
@@ -62,10 +65,11 @@ public class ResultActivity extends Activity{
     private void goOnProposition(){
 
         if(algo.hasMorePersoToPropose()) showNextProposition();
-        //Il n' y a plus de propositions à faire, on demande à l'utilisateur
-        // à quel personnage il pensait
-        else {
+
+        else { //Il n' y a plus de propositions à faire, on demande à l'utilisateur
+            // à quel personnage il pensait
             Intent intent=new Intent(ResultActivity.this,LearnCharacterActivity.class);
+            intent.putExtra("responses",this.hashMapQuestionResponse);//on fait passer les réponses à la prochaine activité
             startActivity(intent);
         }
     }

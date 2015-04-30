@@ -8,23 +8,31 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import Management.JsonOdm;
 import Management.JsonReader;
+import Management.JsonSingleton;
 import Management.JsonWriter;
 
 public class LearnCharacterActivity extends Activity{
 
 	//Declaration
 	Button buttonSave;
+    EditText characterName;
+    EditText characterQuestion;
     private JsonOdm jsonOdm;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+    private JsonSingleton jsonSingleton;
+ private HashMap<String,String> hashMapQuestionResponse;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,48 +40,80 @@ public class LearnCharacterActivity extends Activity{
 		setContentView(R.layout.activity_learn_character);
 		
 		//Assignement
+        Intent intent = getIntent();
+        hashMapQuestionResponse=(HashMap<String,String>)intent.getSerializableExtra("responses");
 		buttonSave = (Button)findViewById(R.id.buttonSaveCharacter);
 		jsonOdm = new JsonOdm(getApplicationContext());
         jsonWriter = new JsonWriter(getApplicationContext());
         jsonReader=new JsonReader(getApplicationContext());
+        jsonSingleton=JsonSingleton.getInstance(getApplicationContext());
+        characterName=(EditText)findViewById(R.id.editTextNameCharacter);
+        characterQuestion=(EditText)findViewById(R.id.EditTextQuestion);
 
 		//Button click
 		buttonSave.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View v) {
 
+                //TESTS
+                //TODO REPLACE WITH EDIT TEXT VALUES
                 String newQuestionKey = "KEYTEST";
-                String newQuestionValue = "VALUETEST";
+                String newQuestionValue = characterQuestion.getText().toString();
 
+
+                //Reset the JSON's with values from start
+                jsonSingleton.initializeJSONs();
+
+                //Add new character to JSON with his responses
                 JSONObject newCharacter = new JSONObject();
 
-                try {
-                    jsonOdm.insertQuestion(newQuestionKey,newQuestionValue);
-                    newCharacter.put("test","test");
+                for (Map.Entry<String, String> entry : hashMapQuestionResponse.entrySet()) {
+                    String questionKey = entry.getKey();
+                    String response = entry.getValue();
+                    try {
+                        newCharacter.put(questionKey,response);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
 
+                try {
+                    newCharacter.put("Personnage",characterName.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 jsonOdm.insertCharacter(newCharacter);
-        		Intent intent=new Intent(LearnCharacterActivity.this,EndGameActivity.class);
-    			startActivity(intent);
 
-                Log.i("QUESTIONS FROM ODM", jsonOdm.getJsonQuestions().toString());
-               // Log.i("PERSOS FROM ODM", jsonOdm.getJsonCharacter().toString());
+                //TESTS insert question
                 try {
-                    //jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonCharacter().toString(),"personnages.json");
+                    jsonOdm.insertQuestion(newQuestionKey,newQuestionValue);//Insertion OK
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                jsonOdm.insertCharacter(newCharacter);//TODO Check insertion
+
+
+                //Log.i("LEARN ACTIVITY QUESTIONS FROM ODM", jsonOdm.getJsonQuestions().toString());
+               Log.i("LEARN ACTIVITY PERSOS FROM ODM", jsonOdm.getJsonCharacter().toString());
+                try {
+                    jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonCharacter().toString(),"personnages.json");
                     jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonQuestions().toString(),"questions.json");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 try {
-
-                    Log.i("QUESTIONS FROM INTERNAL STORAGE", jsonReader.readJSONfromInternalStorage("questions.json"));
+                    Log.i("LEARN ACTIVITY PERSONNAGES FROM INTERNAL STORAGE", jsonReader.readJSONfromInternalStorage("personnages.json"));
+                    Log.i("LEARN ACTIVITY QUESTIONS FROM INTERNAL STORAGE", jsonReader.readJSONfromInternalStorage("questions.json"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                Intent intent=new Intent(LearnCharacterActivity.this,EndGameActivity.class);
+                startActivity(intent);
 
             }
         });

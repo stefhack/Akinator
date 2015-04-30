@@ -66,6 +66,17 @@ public class JsonSingleton {
         return jsonString;
     }
 
+    public void initializeJSONs(){
+        try {
+            this.setJsonQuestion(new JSONArray(jsonReader.readJSONfromInternalStorage("questions.json")));
+            this.setJsonPeronnages(new JSONArray(jsonReader.readJSONfromInternalStorage("personnages.json")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 	/**
 	 * Permet d'obtenir les personnages du JSON
 	 * 
@@ -91,4 +102,8 @@ public class JsonSingleton {
 	public void setJsonQuestion(JSONArray newJson) {
 		this.jsonQuestions = newJson;
 	}
+
+    public int getQuestionsLeft() throws JSONException {
+        return jsonQuestions.getJSONObject(0).length();
+    }
 }

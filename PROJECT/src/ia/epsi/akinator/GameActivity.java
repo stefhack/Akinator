@@ -50,14 +50,19 @@ private JsonReader jsonReader;
 		this.buttonRather = (Button)findViewById(R.id.buttonRather);
 		this.buttonRatherNot = (Button)findViewById(R.id.buttonRatherNot);
 		this.textViewQuestion = (TextView)findViewById(R.id.textViewQuestionRequest);
-		
-		displayQuestion();
+
         //TESTS
-        try {
-            Log.i("READ JSON FROM INTERNAL STORAGE :",jsonReader.readJSONfromInternalStorage("personnages.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        {
+            try {
+                Log.i("GAME ACTIVITY READ JSON FROM INTERNAL STORAGE :", jsonReader.readJSONfromInternalStorage("questions.json"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+		displayQuestion();
+
+
+
 
         //Button click
 		this.buttonTest.setOnClickListener(new OnClickListener() {
@@ -133,15 +138,20 @@ private JsonReader jsonReader;
 
         //On a pas atteint le minimum de questions à poser
         //OU il n'y a pas encore de persos à proposer
-        //OU bien s'il n'y a plus de questions
-        if(nb_questions_asked < algo.QUESTIONS_THRESOLD || !algo.hasMorePersoToPropose() || jsonSingleton.getJsonQuestions().length()==0){
-            //On pose à nouveau une question
-            displayQuestion();
-        }
-        //On commence à proposer un personnage
-        else{
-            Intent intent=new Intent(GameActivity.this,ResultActivity.class);
-            startActivity(intent);
+        //OU bien s'il y a encore des questions
+        try {
+            if(nb_questions_asked < algo.QUESTIONS_THRESOLD || !algo.hasMorePersoToPropose() || jsonSingleton.getQuestionsLeft() > 0){
+                //On pose à nouveau une question
+                displayQuestion();
+            }
+            //On commence à proposer un personnage
+            else{
+                Intent intent=new Intent(GameActivity.this,ResultActivity.class);
+                intent.putExtra("responses",this.hashMapQuestionResponse);//on fait passer les réponses à la prochaine activité
+                startActivity(intent);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
     }
@@ -165,6 +175,7 @@ private JsonReader jsonReader;
         algo = new Algorithm(gameContext);
         String requestAlgorithm = "";
         try {
+
         	requestAlgorithm=algo.getTheMostPertinenteQuestion();
 		} catch (JSONException e) {
 

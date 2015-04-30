@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -58,7 +57,7 @@ public class Algorithm {
 	private static JsonOdm jsonOdm;
 
     //Minimum de questions à poser avant de proposer un résultat
-    public final int QUESTIONS_THRESOLD =  15;
+    public final int QUESTIONS_THRESOLD =  10;
 
 	/*
 	 * Seuil minimum à atteindre pour proposer une réponse au joueur
@@ -75,7 +74,7 @@ public class Algorithm {
 		String question = "";
 		JSONArray jsonQuestions = jsonOdm.getSingleton().getJsonQuestions();
 		JSONObject questions = jsonQuestions.getJSONObject(0);
-		Log.i("QUESTIONS ", questions.toString());
+		//Log.i("QUESTIONS ", questions.toString());
 
 		Iterator keys = questions.keys();
 		int curentScore = 0;
@@ -109,7 +108,7 @@ public class Algorithm {
 	/**
 	 * 
 	 * @param questionKey
-	 * @param response
+	 * @param responseGiven
 	 * @throws JSONException 
 	 */
 	public void calculateScoreForCharacters(String questionKey,String responseGiven) throws JSONException
@@ -117,9 +116,6 @@ public class Algorithm {
 		JSONArray characters = jsonOdm.getSingleton().getJsonPersonnages();
 		JSONArray jsonQuestions = jsonOdm.getSingleton().getJsonQuestions();
         responseGiven=responseByResponseCode.get(responseGiven);
-
-        //Log.i("réponse donnée par user :",responseGiven);
-        //Log.i("concerne la question  :",questionKey);
 
 		for(int i=0;i<characters.length();++i){
 
@@ -135,8 +131,8 @@ public class Algorithm {
                     score += scoresByPerso.get(nomPerso);
                 }
                 scoresByPerso.put(nomPerso,score);
-
-		}
+                Log.i("ALGO SCORE "+nomPerso,Integer.toString(score));
+        }
 
 	}
 
@@ -244,7 +240,7 @@ public class Algorithm {
                 scorePerso = entry.getValue();
             }
         }
-        scorePerso = (scorePerso/(double)(QUESTIONS_THRESOLD*3))*(double)100;
+        scorePerso = ((double)(QUESTIONS_THRESOLD*3)/scorePerso)*(double)100;
        return (Double.toString( scorePerso));
     }
 

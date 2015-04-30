@@ -1,16 +1,17 @@
 package ia.epsi.akinator;
 
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import Management.JsonReader;
 import Management.JsonWriter;
@@ -36,10 +37,26 @@ public class MainActivity extends Activity {
         * On copie les JSON du dossier ASSETS vers le Storage interne du contexte de l'application
         * Pour l'instant pas de vérification si le fichier existe déjà (à laisser pour les tests)
         * */
-        try {
 
-            jsonWriter.writeJsonIntoInternalStorage(jsonReader.readJSONfromAssets(JSON_QUESTIONS_FILE),JSON_QUESTIONS_FILE);
-            jsonWriter.writeJsonIntoInternalStorage(jsonReader.readJSONfromAssets(JSON_CHARACTERS_FILE),JSON_CHARACTERS_FILE);
+        try {
+            InputStream is = getApplicationContext().openFileInput("questions.json");
+             Log.i("MAIN aCTIVITY","JSON ALREADY IN STORAGE");
+
+        } catch (IOException e) {
+            try {
+                Log.i("MAIN ACTIVITY","WRITING JSON IN STORAGE");
+                //Write files into internal storage only for the 1st time
+                jsonWriter.writeJsonIntoInternalStorage(jsonReader.readJSONfromAssets(JSON_QUESTIONS_FILE),JSON_QUESTIONS_FILE);
+                jsonWriter.writeJsonIntoInternalStorage(jsonReader.readJSONfromAssets(JSON_CHARACTERS_FILE),JSON_CHARACTERS_FILE);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+        }
+
+        //LOGS
+        try {
+            Log.i("MAIN ACTIVITY READ JSON FROM INTERNAL STORAGE :", jsonReader.readJSONfromInternalStorage("personnages.json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
