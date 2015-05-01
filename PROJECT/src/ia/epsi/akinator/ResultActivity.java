@@ -21,6 +21,7 @@ public class ResultActivity extends Activity{
     Algorithm algo;
     private static Context gameContext;
     private HashMap<String,String> hashMapQuestionResponse = new HashMap<String, String>();
+    private double nb_questions_asked;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class ResultActivity extends Activity{
 		setContentView(R.layout.activity_result);
         Intent intent = getIntent();
         hashMapQuestionResponse=(HashMap<String,String>)intent.getSerializableExtra("responses");
-
+        nb_questions_asked= (double)intent.getIntArrayExtra("nbQuestionsAsked")[0];
         algo=new Algorithm(getApplicationContext());
 
 		//Assignement
@@ -76,7 +77,7 @@ public class ResultActivity extends Activity{
 
     /*Affichage de la proposition */
     private void showNextProposition(){
-        scorePerso.setText("(Je suis sûr à "+algo.getMaxScore()+" %)");
+        scorePerso.setText("(Je suis sûr à "+algo.getMaxScore(nb_questions_asked)+" %)");
         resultPerso.setText(algo.getPersoByMaxScore());
     }
 

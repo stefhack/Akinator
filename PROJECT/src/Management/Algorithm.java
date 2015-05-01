@@ -1,7 +1,6 @@
 package Management;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +73,6 @@ public class Algorithm {
 		String question = "";
 		JSONArray jsonQuestions = jsonOdm.getSingleton().getJsonQuestions();
 		JSONObject questions = jsonQuestions.getJSONObject(0);
-		//Log.i("QUESTIONS ", questions.toString());
 
 		Iterator keys = questions.keys();
 		int curentScore = 0;
@@ -131,7 +129,6 @@ public class Algorithm {
                     score += scoresByPerso.get(nomPerso);
                 }
                 scoresByPerso.put(nomPerso,score);
-                Log.i("ALGO SCORE "+nomPerso,Integer.toString(score));
         }
 
 	}
@@ -232,15 +229,17 @@ public class Algorithm {
 
 	}
 
-    public String getMaxScore(){
+    public String getMaxScore(double nbQuestionsAsked){
         double scorePerso=0;
 
         for (Map.Entry<String, Integer> entry : scoresByPerso.entrySet()) {
             if(scorePerso < entry.getValue()) {
                 scorePerso = entry.getValue();
+
             }
         }
-        scorePerso = ((double)(QUESTIONS_THRESOLD*3)/scorePerso)*(double)100;
+        scorePerso = (scorePerso/(double)(nbQuestionsAsked*3));
+        scorePerso *=100;
        return (Double.toString( scorePerso));
     }
 
@@ -277,7 +276,7 @@ public class Algorithm {
 
             double percent = ((double)entry.getValue()/(double)(QUESTIONS_THRESOLD*3))*(double)100;//Pourcentage = score du perso / score Total théorique
 
-           if(percent >= (double)PROPOSAL_THRESOLD){// 3 => score max pour une question, QUESTIONS_THRESOLD le nb de questions posées
+           if(percent >= (double)PROPOSAL_THRESOLD){
                hasPerso = true ;
                break;
 

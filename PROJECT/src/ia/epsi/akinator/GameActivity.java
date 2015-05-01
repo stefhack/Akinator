@@ -138,9 +138,9 @@ private JsonReader jsonReader;
 
         //On a pas atteint le minimum de questions à poser
         //OU il n'y a pas encore de persos à proposer
-        //OU bien s'il y a encore des questions
+        //ET  s'il y a encore des questions
         try {
-            if(nb_questions_asked < algo.QUESTIONS_THRESOLD || !algo.hasMorePersoToPropose() || jsonSingleton.getQuestionsLeft() > 0){
+            if(nb_questions_asked < algo.QUESTIONS_THRESOLD || !algo.hasMorePersoToPropose() && jsonSingleton.getQuestionsLeft() > 0){
                 //On pose à nouveau une question
                 displayQuestion();
             }
@@ -148,6 +148,9 @@ private JsonReader jsonReader;
             else{
                 Intent intent=new Intent(GameActivity.this,ResultActivity.class);
                 intent.putExtra("responses",this.hashMapQuestionResponse);//on fait passer les réponses à la prochaine activité
+                int[] nbQuestionArray = new int[1];
+                nbQuestionArray[0] = nb_questions_asked;
+                intent.putExtra("nbQuestionsAsked",nbQuestionArray);//on fait passer le nombre de questions pour calculer le score
                 startActivity(intent);
             }
         } catch (JSONException e) {
