@@ -232,14 +232,15 @@ public class Algorithm {
 
 	}
 
-    public String getMaxScore(){
+    public String getMaxScore(double nbQuestions){
         double scorePerso=0;
         for (Map.Entry<String, Integer> entry : scoresByPerso.entrySet()) {
             if(scorePerso < entry.getValue()) {
                 scorePerso = entry.getValue();
             }
         }
-        scorePerso = ((double)(QUESTIONS_THRESOLD*3)/scorePerso)*(double)100;
+        scorePerso = (scorePerso/(double)(nbQuestions*3));
+        scorePerso *=100;
        return (Double.toString( scorePerso));
     }
 
