@@ -41,7 +41,10 @@ private JsonReader jsonReader;
         jsonSingleton=JsonSingleton.getInstance(gameContext);
         jsonReader=new JsonReader(gameContext);
 		setContentView(R.layout.activity_game);
+		
 
+        algo = new Algorithm(gameContext);
+		
 		//Assignement
 		this.buttonYes = (Button)findViewById(R.id.buttonYes);
 		this.buttonNo = (Button)findViewById(R.id.buttonNo);
@@ -166,7 +169,6 @@ private JsonReader jsonReader;
 	}
 	
 	private void displayQuestion(){
-        algo = new Algorithm(gameContext);
         String requestAlgorithm = "";
         try {
 

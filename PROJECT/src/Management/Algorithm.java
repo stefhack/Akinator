@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -67,6 +68,19 @@ public class Algorithm {
 	 */
 	private final int PROPOSAL_THRESOLD = 80;
 
+	
+	public void resetAllData(){
+		if(!scoresByPerso.isEmpty()){
+			scoresByPerso.clear();
+		}
+		if(!responseByResponseCode.isEmpty()){
+			responseByResponseCode.clear();
+		}
+		if(!listPersosSuppressed.isEmpty()){
+			listPersosSuppressed.clear();
+		}
+	}
+	
 	/*
 	 * Permet d'obtenir la question la plus pertinente, la prochaine à poser
 	 * 
@@ -181,14 +195,6 @@ public class Algorithm {
         			score = 1.5;
         		}
         	}
-            /*if(responseGiven == "oui"){
-
-                score = (responsePerso.equals("non")) ? -3 : 0;
-            }
-            else if(responseGiven == "non"){
-
-                score = (responsePerso.equals("oui")) ? -3 : 0;
-            }*/
         }
         return score;
     }
@@ -277,7 +283,9 @@ public class Algorithm {
         }
         scorePerso = (scorePerso/(double)(nbQuestions*3));
         scorePerso *=100;
-       return (Double.toString( scorePerso));
+        DecimalFormat df = new DecimalFormat("0.00");
+        String finalPercentScore = df.format(scorePerso);
+       return (finalPercentScore);
     }
 
 	/*
