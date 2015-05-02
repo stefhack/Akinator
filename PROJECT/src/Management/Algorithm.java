@@ -98,6 +98,7 @@ public class Algorithm {
 		String keyForQuestionToRetreive = "";
 
 		while (keys.hasNext()) {
+
 			String questionKey = (String) keys.next();
 			JSONArray persosWhereOui = jsonOdm.findCharactersByQuestionKey(
 					questionKey, "oui");
@@ -105,12 +106,18 @@ public class Algorithm {
 					questionKey, "non");
 			JSONArray persosWhereInconnu = jsonOdm.findCharactersByQuestionKey(
 					questionKey, "inconnu");
+            JSONArray persosWherePlutot = jsonOdm.findCharactersByQuestionKey(
+                    questionKey, "plutot");
+            JSONArray persosWherePlutotPas = jsonOdm.findCharactersByQuestionKey(
+                    questionKey, "plutotPas");
 
 			int nbOui = persosWhereOui.length();
 			int nbNon = persosWhereNon.length();
 			int nbInconnu = persosWhereInconnu.length();
-			
-			int scoreCalculated	= (nbOui + 1) * (nbNon + 1) * (nbInconnu + 1);
+            int nbPultot=persosWherePlutot.length();
+			int nbPlutotPas = persosWherePlutotPas.length();
+
+			int scoreCalculated	= (nbOui + 1) * (nbNon + 1) * (nbInconnu + 1)*(nbPultot+1)*(nbPlutotPas+1);
 			if(curentScore < scoreCalculated){
 				curentScore = scoreCalculated;
 				keyForQuestionToRetreive = questionKey;
