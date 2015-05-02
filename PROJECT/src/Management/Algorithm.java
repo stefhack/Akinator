@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 /**
  * Created by Stef on 23/03/2015.
  */
@@ -38,9 +39,11 @@ public class Algorithm {
     * */
     private static  HashMap<String,String> responseByResponseCode =  new HashMap<String, String>();
     static{
+      responseByResponseCode.put("0","inconnu");
       responseByResponseCode.put("1","oui");
       responseByResponseCode.put("2","non");
-      responseByResponseCode.put("0","inconnu");
+      responseByResponseCode.put("3","plutot");
+      responseByResponseCode.put("4","plutotPas");
 
   }
 
@@ -50,7 +53,7 @@ public class Algorithm {
 	 * le JSON 
 	 * Integer le score de ce personnage
 	 */
-	private static HashMap<String, Integer> scoresByPerso=  new HashMap<String, Integer>();
+	private static HashMap<String, Double> scoresByPerso=  new HashMap<String, Double>();
 	/*
 	 * Instance de la classe gérant les JSON
 	 */
@@ -113,7 +116,6 @@ public class Algorithm {
 	 */
 	public void calculateScoreForCharacters(String questionKey,String responseGiven) throws JSONException
 	{
-Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxx",responseGiven);
 		JSONArray characters = jsonOdm.getSingleton().getJsonPersonnages();
 		JSONArray jsonQuestions = jsonOdm.getSingleton().getJsonQuestions();
         responseGiven=responseByResponseCode.get(responseGiven);
@@ -125,35 +127,68 @@ Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxx",responseGiven);
 		    String response = perso.getString(questionKey);
             String nomPerso = perso.getString("Personnage");
 
-            int score = getScore(responseGiven,response);
+            double score = getScore(responseGiven,response);
 
                 //On vérifie si le perso a déjà un score
                 if(scoresByPerso.containsKey(nomPerso)){
                     score += scoresByPerso.get(nomPerso);
                 }
                 scoresByPerso.put(nomPerso,score);
-                Log.i("ALGO SCORE "+nomPerso,Integer.toString(score));
+                Log.i("ALGO SCORE "+nomPerso,Double.toString(score));
         }
 
 	}
 
-    private int getScore(String responseGiven,String responsePerso){
-           int score=0;
-
+    private Double getScore(String responseGiven,String responsePerso){
+        double score=0;
         if(responseGiven.equals(responsePerso)) {
             score=3;
         }
         else {
-
-            if(responseGiven == "oui"){
+        	if(responsePerso.equals("oui")){
+        		if(responseGiven.equals("non")){
+        			score = -3;
+        		}
+        		else if(responseGiven.equals("plutotPas")){
+        			score = -1.5;
+        		}
+        		else if(responseGiven.equals("plutot")){
+        			score = 1.5;
+        		}
+        	}
+        	else if(responsePerso.equals("non")){
+        		if(responsePerso.equals("oui")){
+        			score = -3;
+        		}
+        		else if(responseGiven.equals("plutotPas")){
+        			score = 1.5;
+        		}
+        		else if(responseGiven.equals("plutot")){
+        			score = -1.5;
+        		}
+        	}
+        	else if(responsePerso.equals("inconnu")){
+        		if(responsePerso.equals("oui")){
+        			score = -3;
+        		}
+        		else if(responseGiven.equals("non")){
+        			score = -3;
+        		}
+        		else if(responseGiven.equals("plutotPas")){
+        			score = 1.5;
+        		}
+        		else if(responseGiven.equals("plutot")){
+        			score = 1.5;
+        		}
+        	}
+            /*if(responseGiven == "oui"){
 
                 score = (responsePerso.equals("non")) ? -3 : 0;
             }
             else if(responseGiven == "non"){
 
                 score = (responsePerso.equals("oui")) ? -3 : 0;
-            }
-
+            }*/
         }
         return score;
     }
@@ -235,7 +270,7 @@ Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxx",responseGiven);
 
     public String getMaxScore(double nbQuestions){
         double scorePerso=0;
-        for (Map.Entry<String, Integer> entry : scoresByPerso.entrySet()) {
+        for (Map.Entry<String, Double> entry : scoresByPerso.entrySet()) {
             if(scorePerso < entry.getValue()) {
                 scorePerso = entry.getValue();
             }
@@ -253,9 +288,9 @@ Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxx",responseGiven);
 	public  String getPersoByMaxScore() {
 
 		String nomPerso = "";
-        int scorePerso=0;
+        double scorePerso=0;
 
-			for (Map.Entry<String, Integer> entry : scoresByPerso.entrySet()) {
+			for (Map.Entry<String, Double> entry : scoresByPerso.entrySet()) {
                     if(scorePerso < entry.getValue()) {
                         scorePerso = entry.getValue();
                         nomPerso = entry.getKey();
@@ -274,7 +309,7 @@ Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxx",responseGiven);
 
         boolean hasPerso = false;
 
-        for (Map.Entry<String, Integer> entry : scoresByPerso.entrySet()) {
+        for (Map.Entry<String, Double> entry : scoresByPerso.entrySet()) {
 
             double percent = ((double)entry.getValue()/(double)(QUESTIONS_THRESOLD*3))*(double)100;//Pourcentage = score du perso / score Total théorique
 
