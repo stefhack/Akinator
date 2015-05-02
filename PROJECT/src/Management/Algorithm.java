@@ -64,7 +64,7 @@ public class Algorithm {
 	private static JsonOdm jsonOdm;
 
     //Minimum de questions à poser avant de proposer un résultat
-    public final int QUESTIONS_THRESOLD =  10;
+    public final int QUESTIONS_THRESOLD =  15;
 
 	/*
 	 * Seuil minimum à atteindre pour proposer une réponse au joueur

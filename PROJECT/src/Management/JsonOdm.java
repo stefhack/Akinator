@@ -163,4 +163,32 @@ public class JsonOdm {
 		arrayTemp.getJSONObject(0).remove(key);
 		jsonSingleton.setJsonQuestion(arrayTemp);
 	}
+	
+	public boolean isCharacterAlreadyExists(String name){
+		boolean response = false;
+		JSONArray characters = jsonSingleton.getJsonPersonnages();
+
+		// Get key for the question
+		for (int i = 0; i < characters.length(); i++) {
+			JSONObject character = null;
+			try {
+				character = characters.getJSONObject(i);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String persoName = null;
+			try {
+				persoName = character.getString("personnage");
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(persoName == name){
+				response = true;
+				break;
+			}
+		}
+		return response;
+	}
 }
