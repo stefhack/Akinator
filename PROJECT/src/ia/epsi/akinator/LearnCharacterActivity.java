@@ -42,6 +42,8 @@ public class LearnCharacterActivity extends Activity {
 	private JsonSingleton jsonSingleton;
 	private HashMap<String, String> hashMapQuestionResponse;
 	private Algorithm algorithm = new Algorithm(this.getBaseContext());
+	
+	private JsonSingleton jsonSingletonInstance = JsonSingleton.getInstance(this.getBaseContext());
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -153,8 +155,21 @@ public class LearnCharacterActivity extends Activity {
 					newCharacter.put(newQuestionKey, responseToNewQuestion);
 					
 					//Fill the new question key for all characters already in json personnages
+					JSONArray arrayPersoTampon = new JSONArray();
+					JSONArray arrayPersonnagesInMemory = new JSONArray(jsonReader.readJSONfromInternalStorage("personnages.json"));
+					for(int i=0;i<arrayPersonnagesInMemory.length();i++)
+					{
+						JSONObject perso = arrayPersonnagesInMemory.getJSONObject(i);
+						perso.put(newQuestionKey, "inconnu");
+						
+						arrayPersoTampon.put(perso);
+					}
+					jsonSingletonInstance.setJsonPeronnages(arrayPersoTampon);
 					
 				} catch (JSONException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				// Insert new character
