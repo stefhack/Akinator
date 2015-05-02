@@ -30,9 +30,8 @@ import Management.JsonWriter;
 public class LearnCharacterActivity extends Activity {
 
 	// Declaration
-	RadioButton buttonYes;
-	RadioButton buttonNo;
-	Button buttonSave;
+	RadioButton buttonYes,buttonNo;
+	Button buttonSave,buttonCancel;
 	EditText characterName;
 	EditText characterQuestion;
 	EditText questionKey;
@@ -52,6 +51,7 @@ public class LearnCharacterActivity extends Activity {
 		Intent intent = getIntent();
 		hashMapQuestionResponse = (HashMap<String, String>) intent.getSerializableExtra("responses");
 		buttonSave = (Button) findViewById(R.id.buttonSaveCharacter);
+		buttonCancel = (Button) findViewById(R.id.buttonCancel);
 		jsonOdm = new JsonOdm(getApplicationContext());
 		jsonWriter = new JsonWriter(getApplicationContext());
 		jsonReader = new JsonReader(getApplicationContext());
@@ -63,7 +63,15 @@ public class LearnCharacterActivity extends Activity {
 		buttonNo = (RadioButton) findViewById(R.id.radioNo);
 		
 		questionKey = (EditText) findViewById(R.id.EditTextTitreQuestion);
+		
 		// Button click
+		this.buttonCancel.setOnClickListener(new OnClickListener() {
+        	@Override
+        	public void onClick(View v) {
+        		Intent intent=new Intent(LearnCharacterActivity.this,EndGameActivity.class);
+    			startActivity(intent);
+        	}
+        });
 		buttonSave.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
