@@ -57,6 +57,7 @@ public class LearnCharacterActivity extends Activity{
 
                 //TESTS
                 //TODO REPLACE WITH EDIT TEXT VALUES
+                //TODO FIND THE KEY FOR NEW QUESTION
                 String newQuestionKey = "KEYTEST";
                 String newQuestionValue = characterQuestion.getText().toString();
 
@@ -83,9 +84,11 @@ public class LearnCharacterActivity extends Activity{
                     e.printStackTrace();
                 }
 
+                //TODO Insert new question for each character
+
                 jsonOdm.insertCharacter(newCharacter);
 
-                //TESTS insert question
+                //Insert question
                 try {
                     jsonOdm.insertQuestion(newQuestionKey,newQuestionValue);//Insertion OK
 
