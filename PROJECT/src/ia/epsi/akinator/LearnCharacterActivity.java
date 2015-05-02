@@ -66,6 +66,8 @@ public class LearnCharacterActivity extends Activity {
 		
 		questionKey = (EditText) findViewById(R.id.EditTextTitreQuestion);
 		
+		
+		
 		// Button click
 		this.buttonCancel.setOnClickListener(new OnClickListener() {
         	@Override
