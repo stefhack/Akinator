@@ -50,7 +50,7 @@ public class Algorithm {
 	 * le JSON 
 	 * Integer le score de ce personnage
 	 */
-	private static HashMap<String, Integer> scoresByPerso=  new HashMap<String, Integer>();;
+	private static HashMap<String, Integer> scoresByPerso=  new HashMap<String, Integer>();
 	/*
 	 * Instance de la classe gérant les JSON
 	 */
