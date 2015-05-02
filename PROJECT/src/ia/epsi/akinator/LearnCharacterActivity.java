@@ -30,8 +30,8 @@ import Management.JsonWriter;
 public class LearnCharacterActivity extends Activity {
 
 	// Declaration
-	RadioButton buttonYes,buttonNo;
-	Button buttonSave,buttonCancel;
+	RadioButton buttonYes, buttonNo;
+	Button buttonSave, buttonCancel;
 	EditText characterName;
 	EditText characterQuestion;
 	EditText questionKey;
@@ -41,8 +41,10 @@ public class LearnCharacterActivity extends Activity {
 	private JsonSingleton jsonSingleton;
 	private HashMap<String, String> hashMapQuestionResponse;
 	private Algorithm algorithm = new Algorithm(this.getBaseContext());
-	
-	private JsonSingleton jsonSingletonInstance = JsonSingleton.getInstance(this.getBaseContext());
+
+	private JsonSingleton jsonSingletonInstance = JsonSingleton
+			.getInstance(this.getBaseContext());
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,8 @@ public class LearnCharacterActivity extends Activity {
 
 		// Assignement
 		Intent intent = getIntent();
-		hashMapQuestionResponse = (HashMap<String, String>) intent.getSerializableExtra("responses");
+		hashMapQuestionResponse = (HashMap<String, String>) intent
+				.getSerializableExtra("responses");
 		buttonSave = (Button) findViewById(R.id.buttonSaveCharacter);
 		buttonCancel = (Button) findViewById(R.id.buttonCancel);
 		jsonOdm = new JsonOdm(getApplicationContext());
@@ -60,151 +63,50 @@ public class LearnCharacterActivity extends Activity {
 		jsonSingleton = JsonSingleton.getInstance(getApplicationContext());
 		characterName = (EditText) findViewById(R.id.editTextNameCharacter);
 		characterQuestion = (EditText) findViewById(R.id.EditTextQuestion);
-		
+
 		buttonYes = (RadioButton) findViewById(R.id.radioYes);
 		buttonNo = (RadioButton) findViewById(R.id.radioNo);
-		
+
 		questionKey = (EditText) findViewById(R.id.EditTextTitreQuestion);
-		
-		
-		
+
 		// Button click
 		this.buttonCancel.setOnClickListener(new OnClickListener() {
-        	@Override
-        	public void onClick(View v) {
-        		Intent intent=new Intent(LearnCharacterActivity.this,EndGameActivity.class);
-    			startActivity(intent);
-        	}
-        });
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(LearnCharacterActivity.this,
+						EndGameActivity.class);
+				startActivity(intent);
+			}
+		});
 		buttonSave.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//Get response for the new question
+				// Get response for the new question
 				String responseToNewQuestion = "inconnu";
-				if(buttonYes.isChecked()){
+				if (buttonYes.isChecked()) {
 					responseToNewQuestion = "oui";
-				}else{
+				} else {
 					responseToNewQuestion = "non";
 				}
-				
+
 				// TESTS
 				// TODO REPLACE WITH EDIT TEXT VALUES
 				// TODO FIND THE KEY FOR NEW QUESTION
 				String newQuestionKey = questionKey.getText().toString();
-				String newQuestionValue = characterQuestion.getText().toString();
+				String newQuestionValue = characterQuestion.getText()
+						.toString();
 
 				// Reset the JSON's with values from start
 				jsonSingleton.initializeJSONs();
 
-				// Add new character to JSON with his responses
-				JSONObject newCharacter = new JSONObject();
-				//Fill character with question responded before
-				for (Map.Entry<String, String> entry : hashMapQuestionResponse.entrySet()) {
-					String questionKey = entry.getKey();
-					String response = entry.getValue();
-					Log.i("LEARN ACTIVITY KEY QUESTION : ", questionKey);
-					Log.i("LEARN ACTIVITY RESPONSE : ", response);
-					try {
-						// Test here "prob oui" , "prob non"
-						newCharacter.put(questionKey, algorithm.getResponseByCode(response));
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
-				}
-				//Fille character with other question unresponded
-				JSONArray questionsFromMemory = jsonSingleton.getJsonQuestions();
-				ArrayList<String> arrayTampon = new ArrayList<String>();
-				try {
-					JSONObject questions = questionsFromMemory.getJSONObject(0);
-					// Log.i("QUESTIONS ", questions.toString());
-
-					Iterator<?> keys = questions.keys();
-					boolean isAlreadyInCharacter = false;
-					while (keys.hasNext()) {
-						if(isAlreadyInCharacter){
-							isAlreadyInCharacter = false;
-						}
-						String questionKey = (String) keys.next();
-						Iterator<?> keysOnPerso = newCharacter.keys();
-						while(keysOnPerso.hasNext() && !isAlreadyInCharacter){
-							String questionKeyPerso = (String) keysOnPerso.next();
-							if(questionKey.equals(questionKeyPerso)){
-								isAlreadyInCharacter = true;
-							}
-						}
-						//If the question isn't already defined for the new character, add it
-						if(!isAlreadyInCharacter){
-							arrayTampon.add(questionKey);
-						}
-					}
-					//Add all missing keys for the new personnage
-					for(String key:arrayTampon){
-						newCharacter.put(key, "inconnu");
-					}
+				// Here test if personage doesn't already exists
+				if (!jsonOdm.isCharacterAlreadyExists(characterName.getText()
+						.toString().toUpperCase())) {
+					fillNewPerso(newQuestionKey, newQuestionValue, responseToNewQuestion);
 					
-				} catch (JSONException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
+				} else {
+					fillPersoWhichAlreadyExists(newQuestionKey, newQuestionValue, responseToNewQuestion);
 				}
-				// Put personnage name
-				try {
-					newCharacter.put("Personnage", characterName.getText().toString());
-				} catch (JSONException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-				// Insert question
-				try {
-					jsonOdm.insertQuestion(newQuestionKey, newQuestionValue);// Insertion
-																				// OK
-																				// in
-																				// internal
-																				// storage
-					//Fill new question and its response
-					newCharacter.put(newQuestionKey, responseToNewQuestion);
-					
-					//Fill the new question key for all characters already in json personnages
-					JSONArray arrayPersoTampon = new JSONArray();
-					JSONArray arrayPersonnagesInMemory = new JSONArray(jsonReader.readJSONfromInternalStorage("personnages.json"));
-					for(int i=0;i<arrayPersonnagesInMemory.length();i++)
-					{
-						JSONObject perso = arrayPersonnagesInMemory.getJSONObject(i);
-						perso.put(newQuestionKey, "inconnu");
-						
-						arrayPersoTampon.put(perso);
-					}
-					jsonSingletonInstance.setJsonPeronnages(arrayPersoTampon);
-					
-				} catch (JSONException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				// Insert new character
-				jsonOdm.insertCharacter(newCharacter);// TODO Check insertion
-				Log.i("LEARN ACTIVITY NEW CHARACTER : ",newCharacter.toString());
-				try {
-					//Write new json personnages
-					jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonCharacter().toString(),"personnages.json");
-					//Write new json questions
-					jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonQuestions().toString(), "questions.json");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				try {
-					Log.i("LEARN ACTIVITY PERSONNAGES FROM INTERNAL STORAGE",
-							jsonReader
-									.readJSONfromInternalStorage("personnages.json"));
-					Log.i("LEARN ACTIVITY QUESTIONS FROM INTERNAL STORAGE",
-							jsonReader
-									.readJSONfromInternalStorage("questions.json"));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
 				Intent intent = new Intent(LearnCharacterActivity.this,
 						EndGameActivity.class);
 				startActivity(intent);
@@ -218,5 +120,147 @@ public class LearnCharacterActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	
+	private void fillPersoWhichAlreadyExists(String newQuestionKey, String newQuestionValue, String responseToNewQuestion)
+	{
+		//Get this perso
+		
+		//Fill it new properties
+		
+		//Get json from storage
+		
+		//Fill it
+		
+		//Go on
+	}
+	
+	private void fillNewPerso(String newQuestionKey, String newQuestionValue, String responseToNewQuestion){
+		// Add new character to JSON with his responses
+		JSONObject newCharacter = new JSONObject();
+		// Fill character with question responded before
+		for (Map.Entry<String, String> entry : hashMapQuestionResponse
+				.entrySet()) {
+			String questionKey = entry.getKey();
+			String response = entry.getValue();
+			Log.i("LEARN ACTIVITY KEY QUESTION : ", questionKey);
+			Log.i("LEARN ACTIVITY RESPONSE : ", response);
+			try {
+				// Test here "prob oui" , "prob non"
+				newCharacter.put(questionKey,
+						algorithm.getResponseByCode(response));
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		// Fille character with other question unresponded
+		JSONArray questionsFromMemory = jsonSingleton
+				.getJsonQuestions();
+		ArrayList<String> arrayTampon = new ArrayList<String>();
+		try {
+			JSONObject questions = questionsFromMemory.getJSONObject(0);
+			// Log.i("QUESTIONS ", questions.toString());
+
+			Iterator<?> keys = questions.keys();
+			boolean isAlreadyInCharacter = false;
+			while (keys.hasNext()) {
+				if (isAlreadyInCharacter) {
+					isAlreadyInCharacter = false;
+				}
+				String questionKey = (String) keys.next();
+				Iterator<?> keysOnPerso = newCharacter.keys();
+				while (keysOnPerso.hasNext()
+						&& !isAlreadyInCharacter) {
+					String questionKeyPerso = (String) keysOnPerso
+							.next();
+					if (questionKey.equals(questionKeyPerso)) {
+						isAlreadyInCharacter = true;
+					}
+				}
+				// If the question isn't already defined for the new
+				// character, add it
+				if (!isAlreadyInCharacter) {
+					arrayTampon.add(questionKey);
+				}
+			}
+			// Add all missing keys for the new personage
+			for (String key : arrayTampon) {
+				newCharacter.put(key, "inconnu");
+			}
+
+		} catch (JSONException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		// Put personage name
+		try {
+			newCharacter.put("Personnage", characterName.getText()
+					.toString().toUpperCase());
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		// Insert question
+		try {
+			jsonOdm.insertQuestion(newQuestionKey, newQuestionValue);// Insertion
+																		// OK
+																		// in
+																		// internal
+																		// storage
+			// Fill new question and its response
+			newCharacter.put(newQuestionKey, responseToNewQuestion);
+
+			// Fill the new question key for all characters already
+			// in json personnages
+			JSONArray arrayPersoTampon = new JSONArray();
+			JSONArray arrayPersonnagesInMemory = new JSONArray(
+					jsonReader
+							.readJSONfromInternalStorage("personnages.json"));
+			for (int i = 0; i < arrayPersonnagesInMemory.length(); i++) {
+				JSONObject perso = arrayPersonnagesInMemory
+						.getJSONObject(i);
+				perso.put(newQuestionKey, "inconnu");
+
+				arrayPersoTampon.put(perso);
+			}
+			jsonSingletonInstance
+					.setJsonPeronnages(arrayPersoTampon);
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// Insert new character
+		jsonOdm.insertCharacter(newCharacter);// TODO Check
+												// insertion
+		Log.i("LEARN ACTIVITY NEW CHARACTER : ",
+				newCharacter.toString());
+		try {
+			// Write new json personnages
+			jsonWriter.writeJsonIntoInternalStorage(jsonOdm
+					.getJsonCharacter().toString(),
+					"personnages.json");
+			// Write new json questions
+			jsonWriter.writeJsonIntoInternalStorage(jsonOdm
+					.getJsonQuestions().toString(),
+					"questions.json");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			Log.i("LEARN ACTIVITY PERSONNAGES FROM INTERNAL STORAGE",
+					jsonReader
+							.readJSONfromInternalStorage("personnages.json"));
+			Log.i("LEARN ACTIVITY QUESTIONS FROM INTERNAL STORAGE",
+					jsonReader
+							.readJSONfromInternalStorage("questions.json"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
