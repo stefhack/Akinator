@@ -149,6 +149,8 @@ public class LearnCharacterActivity extends Activity {
 					//Fill new question and its response
 					newCharacter.put(newQuestionKey, responseToNewQuestion);
 					
+					//Fill the new question key for all characters already in json personnages
+					
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
