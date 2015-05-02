@@ -113,6 +113,7 @@ public class Algorithm {
 	 */
 	public void calculateScoreForCharacters(String questionKey,String responseGiven) throws JSONException
 	{
+Log.e("xxxxxxxxxxxxxxxxxxxxxxxxxx",responseGiven);
 		JSONArray characters = jsonOdm.getSingleton().getJsonPersonnages();
 		JSONArray jsonQuestions = jsonOdm.getSingleton().getJsonQuestions();
         responseGiven=responseByResponseCode.get(responseGiven);
