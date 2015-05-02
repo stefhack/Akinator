@@ -23,7 +23,7 @@ import Management.JsonSingleton;
 public class GameActivity extends Activity{
 	private static Context gameContext;
 	//Declaration
-	private Button buttonTest, buttonYes,buttonNo, buttonDontNo, buttonRather, buttonRatherNot;
+	private Button buttonYes,buttonNo, buttonDontNo, buttonRather, buttonRatherNot;
 	private TextView textViewQuestion;
 	private String actualQuestion;
 	private String actualKey;
@@ -43,7 +43,6 @@ private JsonReader jsonReader;
 		setContentView(R.layout.activity_game);
 
 		//Assignement
-		this.buttonTest = (Button)findViewById(R.id.buttonTest);
 		this.buttonYes = (Button)findViewById(R.id.buttonYes);
 		this.buttonNo = (Button)findViewById(R.id.buttonNo);
 		this.buttonDontNo = (Button)findViewById(R.id.buttonDontNo);
@@ -64,14 +63,6 @@ private JsonReader jsonReader;
 
 
 
-        //Button click
-		this.buttonTest.setOnClickListener(new OnClickListener() {
-        	@Override
-        	public void onClick(View v) {
-        		Intent intent=new Intent(GameActivity.this,ResultActivity.class);
-    			startActivity(intent);
-        	}
-        });
 		
 		this.buttonDontNo.setOnClickListener(new OnClickListener() {
         	@Override

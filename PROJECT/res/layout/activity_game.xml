@@ -76,12 +76,4 @@
         android:layout_alignBottom="@+id/textViewQuestion"
         android:layout_toRightOf="@+id/buttonNo" />
 
-    <Button
-        android:id="@+id/buttonTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/textViewQuestionRequest"
-        android:text="Boutton test a supprimer" />
-
 </RelativeLayout>
