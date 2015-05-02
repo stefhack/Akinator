@@ -96,14 +96,6 @@
         android:layout_below="@+id/EditTextQuestion"
         android:text="Quel réponse aurait permis de le trouver ?" />
 
-    <Button
-        android:id="@+id/buttonSaveCharacter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/imageViewDonald"
-        android:layout_alignTop="@+id/radioGroup1"
-        android:text="Valider" />
-
     <EditText
         android:id="@+id/EditTextQuestion"
         android:layout_width="wrap_content"
@@ -113,5 +105,21 @@
         android:layout_alignRight="@+id/buttonSaveCharacter"
         android:layout_toRightOf="@+id/EditTextTitreQuestion"
         android:ems="10" />
+
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/imageViewDonald"
+        android:layout_alignTop="@+id/buttonSaveCharacter"
+        android:text="Annuler" />
+
+    <Button
+        android:id="@+id/buttonSaveCharacter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/radioGroup1"
+        android:layout_toLeftOf="@+id/buttonCancel"
+        android:text="Valider" />
 
 </RelativeLayout>
