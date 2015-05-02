@@ -85,13 +85,11 @@ public class LearnCharacterActivity extends Activity {
 					}
 				}
 
-				JSONArray questionsFromMemory = jsonSingleton
-						.getJsonQuestions();
+				JSONArray questionsFromMemory = jsonSingleton.getJsonQuestions();
 
 				JSONObject questions;
 				try {
 					questions = questionsFromMemory.getJSONObject(0);
-
 					// Log.i("QUESTIONS ", questions.toString());
 
 					Iterator keys = questions.keys();
@@ -102,8 +100,7 @@ public class LearnCharacterActivity extends Activity {
 						while(keysOnPerso.hasNext() && !isAlreadyInCharacter){
 							String questionKeyPerso = (String) keysOnPerso.next();
 							
-							if(!questionKeyPerso.equals(questionKey))
-							{
+							if(!questionKeyPerso.equals(questionKey)){
 								break;
 							}
 							else{
@@ -143,8 +140,7 @@ public class LearnCharacterActivity extends Activity {
 				}
 				// Insert new character
 				jsonOdm.insertCharacter(newCharacter);// TODO Check insertion
-				Log.i("LEARN ACTIVITY NEW CHARACTER : ",
-						newCharacter.toString());
+				Log.i("LEARN ACTIVITY NEW CHARACTER : ",newCharacter.toString());
 				// Log.i("LEARN ACTIVITY PERSOS FROM ODM",
 				// jsonOdm.getJsonCharacter().toString());
 
