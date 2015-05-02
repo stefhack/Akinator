@@ -10,11 +10,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import Management.JsonOdm;
@@ -69,25 +71,64 @@ public class LearnCharacterActivity extends Activity {
 				// Add new character to JSON with his responses
 				JSONObject newCharacter = new JSONObject();
 
-				for (Map.Entry<String, String> entry : hashMapQuestionResponse.entrySet()) {
+				for (Map.Entry<String, String> entry : hashMapQuestionResponse
+						.entrySet()) {
 					String questionKey = entry.getKey();
 					String response = entry.getValue();
 					Log.i("LEARN ACTIVITY KEY QUESTION : ", questionKey);
 					Log.i("LEARN ACTIVITY RESPONSE : ", response);
 					try {
-						//Test here "prob oui" , "prob non"
+						// Test here "prob oui" , "prob non"
 						newCharacter.put(questionKey, response);
-						//Put personnage name
-						newCharacter.put("Personnage", characterName.getText().toString());
-						
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
 				}
 
-				// TODO Insert new question for each character
+				JSONArray questionsFromMemory = jsonSingleton
+						.getJsonQuestions();
 
-				jsonOdm.insertCharacter(newCharacter);
+				JSONObject questions;
+				try {
+					questions = questionsFromMemory.getJSONObject(0);
+
+					// Log.i("QUESTIONS ", questions.toString());
+
+					Iterator keys = questions.keys();
+					Iterator keysOnPerso = newCharacter.keys();
+					while (keys.hasNext()) {
+						boolean isAlreadyInCharacter = false;
+						String questionKey = (String) keys.next();
+						while(keysOnPerso.hasNext() && !isAlreadyInCharacter){
+							String questionKeyPerso = (String) keysOnPerso.next();
+							
+							if(!questionKeyPerso.equals(questionKey))
+							{
+								break;
+							}
+							else{
+								isAlreadyInCharacter = true;
+								break;
+							}
+						}
+						//If the question isn't already defined for the new character, add it
+						if(!isAlreadyInCharacter){
+							newCharacter.put(questionKey,"inconnu");
+						}
+					}
+					
+				} catch (JSONException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				// Put personnage name
+				try {
+					newCharacter.put("Personnage", characterName.getText()
+							.toString());
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 				// Insert question
 				try {
@@ -100,9 +141,10 @@ public class LearnCharacterActivity extends Activity {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-
+				// Insert new character
 				jsonOdm.insertCharacter(newCharacter);// TODO Check insertion
-				Log.i("LEARN ACTIVITY NEW CHARACTER : ",newCharacter.toString());
+				Log.i("LEARN ACTIVITY NEW CHARACTER : ",
+						newCharacter.toString());
 				// Log.i("LEARN ACTIVITY PERSOS FROM ODM",
 				// jsonOdm.getJsonCharacter().toString());
 
