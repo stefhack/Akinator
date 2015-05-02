@@ -196,6 +196,28 @@ public class Algorithm {
         			score = 1.5;
         		}
         	}
+        	else if(responsePerso.equals("plutot")){
+        		if(responsePerso.equals("oui")){
+        			score = 1.5;
+        		}
+        		else if(responseGiven.equals("non")){
+        			score = -3;
+        		}
+        		else if(responseGiven.equals("plutotPas")){
+        			score = 1.5;
+        		}
+        	}
+        	else if(responsePerso.equals("plutotPas")){
+        		if(responsePerso.equals("oui")){
+        			score = -3;
+        		}
+        		else if(responseGiven.equals("non")){
+        			score = 1.5;
+        		}
+        		else if(responseGiven.equals("plutot")){
+        			score = -1.5;
+        		}
+        	}
         }
         return score;
     }
