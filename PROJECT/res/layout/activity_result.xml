@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewResponse"
         android:layout_marginLeft="16dp"
-        android:src="@drawable/genie2" />
+        android:src="@drawable/geniefinal" />
 
     <TextView
         android:id="@+id/textViewResponse"

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -31,8 +32,9 @@ public class GameActivity extends Activity{
 	private Algorithm algo ;
     private JsonSingleton jsonSingleton;
     private int nb_questions_asked =0;
-
-private JsonReader jsonReader;
+    private JsonReader jsonReader;
+	ImageView imageViewGenie;
+	Integer countForGeniePicture = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ private JsonReader jsonReader;
 		this.buttonRather = (Button)findViewById(R.id.buttonRather);
 		this.buttonRatherNot = (Button)findViewById(R.id.buttonRatherNot);
 		this.textViewQuestion = (TextView)findViewById(R.id.textViewQuestionRequest);
+		this.imageViewGenie = (ImageView)findViewById(R.id.imageViewGenie);
 
         //TESTS
         {
@@ -172,6 +175,20 @@ private JsonReader jsonReader;
 	}
 	
 	private void displayQuestion(){
+		if(countForGeniePicture == 0){
+			countForGeniePicture = 3;
+		}
+		if(countForGeniePicture == 1){
+			imageViewGenie.setImageResource(R.drawable.genie1);
+		}
+		else if(countForGeniePicture == 2){
+			imageViewGenie.setImageResource(R.drawable.genie2);
+		}
+		else if(countForGeniePicture == 3) {
+			imageViewGenie.setImageResource(R.drawable.genie3);
+		}
+		countForGeniePicture--;
+		
         String requestAlgorithm = "";
         try {
 
