@@ -17,7 +17,7 @@ import Management.Algorithm;
 public class ResultActivity extends Activity{
 	//Declaration
 	Button buttonYes, buttonNo;
-	TextView resultPerso,scorePerso;
+	TextView resultPerso,textViewResponse;
     Algorithm algo;
     private static Context gameContext;
     private HashMap<String,String> hashMapQuestionResponse = new HashMap<String, String>();
@@ -36,7 +36,7 @@ public class ResultActivity extends Activity{
 		buttonYes = (Button)findViewById(R.id.buttonYes);
 		buttonNo = (Button)findViewById(R.id.buttonNo);
         resultPerso = (TextView)findViewById(R.id.textViewResult);
-        scorePerso = (TextView)findViewById(R.id.score);
+        textViewResponse = (TextView)findViewById(R.id.textViewResponse);
         //On affiche la première proposition
         showNextProposition();
 
@@ -77,7 +77,7 @@ public class ResultActivity extends Activity{
 
     /*Affichage de la proposition */
     private void showNextProposition(){
-        scorePerso.setText("(Je suis sûr à "+algo.getMaxScore(nb_questions_asked)+" %)");
+    	textViewResponse.setText("Je suis sûr à "+algo.getMaxScore(nb_questions_asked)+" % que vous pensiez �:");
         resultPerso.setText(algo.getPersoByMaxScore());
     }
 

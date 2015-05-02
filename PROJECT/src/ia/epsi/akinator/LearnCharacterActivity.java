@@ -9,16 +9,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import Management.Algorithm;
 import Management.JsonOdm;
 import Management.JsonReader;
 import Management.JsonSingleton;
@@ -27,15 +30,20 @@ import Management.JsonWriter;
 public class LearnCharacterActivity extends Activity {
 
 	// Declaration
-	Button buttonSave;
+	RadioButton buttonYes,buttonNo;
+	Button buttonSave,buttonCancel;
 	EditText characterName;
 	EditText characterQuestion;
+	EditText questionKey;
 	private JsonOdm jsonOdm;
 	private JsonWriter jsonWriter;
 	private JsonReader jsonReader;
 	private JsonSingleton jsonSingleton;
 	private HashMap<String, String> hashMapQuestionResponse;
-
+	private Algorithm algorithm = new Algorithm(this.getBaseContext());
+	
+	private JsonSingleton jsonSingletonInstance = JsonSingleton.getInstance(this.getBaseContext());
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,75 +51,93 @@ public class LearnCharacterActivity extends Activity {
 
 		// Assignement
 		Intent intent = getIntent();
-		hashMapQuestionResponse = (HashMap<String, String>) intent
-				.getSerializableExtra("responses");
+		hashMapQuestionResponse = (HashMap<String, String>) intent.getSerializableExtra("responses");
 		buttonSave = (Button) findViewById(R.id.buttonSaveCharacter);
+		buttonCancel = (Button) findViewById(R.id.buttonCancel);
 		jsonOdm = new JsonOdm(getApplicationContext());
 		jsonWriter = new JsonWriter(getApplicationContext());
 		jsonReader = new JsonReader(getApplicationContext());
 		jsonSingleton = JsonSingleton.getInstance(getApplicationContext());
 		characterName = (EditText) findViewById(R.id.editTextNameCharacter);
 		characterQuestion = (EditText) findViewById(R.id.EditTextQuestion);
-
+		
+		buttonYes = (RadioButton) findViewById(R.id.radioYes);
+		buttonNo = (RadioButton) findViewById(R.id.radioNo);
+		
+		questionKey = (EditText) findViewById(R.id.EditTextTitreQuestion);
+		
 		// Button click
+		this.buttonCancel.setOnClickListener(new OnClickListener() {
+        	@Override
+        	public void onClick(View v) {
+        		Intent intent=new Intent(LearnCharacterActivity.this,EndGameActivity.class);
+    			startActivity(intent);
+        	}
+        });
 		buttonSave.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				//Get response for the new question
+				String responseToNewQuestion = "inconnu";
+				if(buttonYes.isChecked()){
+					responseToNewQuestion = "oui";
+				}else{
+					responseToNewQuestion = "non";
+				}
+				
 				// TESTS
 				// TODO REPLACE WITH EDIT TEXT VALUES
 				// TODO FIND THE KEY FOR NEW QUESTION
-				String newQuestionKey = "KEYTEST";
-				String newQuestionValue = characterQuestion.getText()
-						.toString();
+				String newQuestionKey = questionKey.getText().toString();
+				String newQuestionValue = characterQuestion.getText().toString();
 
 				// Reset the JSON's with values from start
 				jsonSingleton.initializeJSONs();
 
 				// Add new character to JSON with his responses
 				JSONObject newCharacter = new JSONObject();
-
-				for (Map.Entry<String, String> entry : hashMapQuestionResponse
-						.entrySet()) {
+				//Fill character with question responded before
+				for (Map.Entry<String, String> entry : hashMapQuestionResponse.entrySet()) {
 					String questionKey = entry.getKey();
 					String response = entry.getValue();
 					Log.i("LEARN ACTIVITY KEY QUESTION : ", questionKey);
 					Log.i("LEARN ACTIVITY RESPONSE : ", response);
 					try {
 						// Test here "prob oui" , "prob non"
-						newCharacter.put(questionKey, response);
+						newCharacter.put(questionKey, algorithm.getResponseByCode(response));
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
 				}
-
+				//Fille character with other question unresponded
 				JSONArray questionsFromMemory = jsonSingleton.getJsonQuestions();
-
-				JSONObject questions;
+				ArrayList<String> arrayTampon = new ArrayList<String>();
 				try {
-					questions = questionsFromMemory.getJSONObject(0);
+					JSONObject questions = questionsFromMemory.getJSONObject(0);
 					// Log.i("QUESTIONS ", questions.toString());
 
-					Iterator keys = questions.keys();
-					Iterator keysOnPerso = newCharacter.keys();
+					Iterator<?> keys = questions.keys();
+					boolean isAlreadyInCharacter = false;
 					while (keys.hasNext()) {
-						boolean isAlreadyInCharacter = false;
+						if(isAlreadyInCharacter){
+							isAlreadyInCharacter = false;
+						}
 						String questionKey = (String) keys.next();
+						Iterator<?> keysOnPerso = newCharacter.keys();
 						while(keysOnPerso.hasNext() && !isAlreadyInCharacter){
 							String questionKeyPerso = (String) keysOnPerso.next();
-							
-							if(!questionKeyPerso.equals(questionKey)){
-								break;
-							}
-							else{
+							if(questionKey.equals(questionKeyPerso)){
 								isAlreadyInCharacter = true;
-								break;
 							}
 						}
 						//If the question isn't already defined for the new character, add it
 						if(!isAlreadyInCharacter){
-							newCharacter.put(questionKey,"inconnu");
+							arrayTampon.add(questionKey);
 						}
+					}
+					//Add all missing keys for the new personnage
+					for(String key:arrayTampon){
+						newCharacter.put(key, "inconnu");
 					}
 					
 				} catch (JSONException e2) {
@@ -120,8 +146,7 @@ public class LearnCharacterActivity extends Activity {
 				}
 				// Put personnage name
 				try {
-					newCharacter.put("Personnage", characterName.getText()
-							.toString());
+					newCharacter.put("Personnage", characterName.getText().toString());
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -134,20 +159,35 @@ public class LearnCharacterActivity extends Activity {
 																				// in
 																				// internal
 																				// storage
-
+					//Fill new question and its response
+					newCharacter.put(newQuestionKey, responseToNewQuestion);
+					
+					//Fill the new question key for all characters already in json personnages
+					JSONArray arrayPersoTampon = new JSONArray();
+					JSONArray arrayPersonnagesInMemory = new JSONArray(jsonReader.readJSONfromInternalStorage("personnages.json"));
+					for(int i=0;i<arrayPersonnagesInMemory.length();i++)
+					{
+						JSONObject perso = arrayPersonnagesInMemory.getJSONObject(i);
+						perso.put(newQuestionKey, "inconnu");
+						
+						arrayPersoTampon.put(perso);
+					}
+					jsonSingletonInstance.setJsonPeronnages(arrayPersoTampon);
+					
 				} catch (JSONException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				// Insert new character
 				jsonOdm.insertCharacter(newCharacter);// TODO Check insertion
 				Log.i("LEARN ACTIVITY NEW CHARACTER : ",newCharacter.toString());
-				// Log.i("LEARN ACTIVITY PERSOS FROM ODM",
-				// jsonOdm.getJsonCharacter().toString());
-
 				try {
-					// jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonCharacter().toString(),"personnages.json");
-					jsonWriter.writeJsonIntoInternalStorage(jsonOdm
-							.getJsonQuestions().toString(), "questions.json");
+					//Write new json personnages
+					jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonCharacter().toString(),"personnages.json");
+					//Write new json questions
+					jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonQuestions().toString(), "questions.json");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

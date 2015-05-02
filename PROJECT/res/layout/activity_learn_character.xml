@@ -23,46 +23,13 @@
         android:layout_toLeftOf="@+id/imageViewDonald"
         android:ems="10" />
 
-    <Button
-        android:id="@+id/buttonSaveCharacter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/imageViewDonald"
-        android:layout_below="@+id/textViewQuestionCharacter"
-        android:text="Valider" />
-
-    <EditText
-        android:id="@+id/EditTextQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewQuestionCharacter"
-        android:layout_alignTop="@+id/buttonSaveCharacter"
-        android:layout_toLeftOf="@+id/buttonSaveCharacter"
-        android:ems="10" />
-
-    <ImageView
-        android:id="@+id/imageViewDonald"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/donald" />
-
-    <TextView
-        android:id="@+id/textViewQuestionCharacter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextNameCharacter"
-        android:layout_centerVertical="true"
-        android:text="Quel question aurait permis de le trouver ?" />
-
     <RadioGroup
         android:id="@+id/radioGroup1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TextView01"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/TextView01"
+        android:layout_toLeftOf="@+id/EditTextQuestion"
         android:orientation="horizontal" >
 
         <RadioButton
@@ -74,7 +41,7 @@
 
         <RadioButton
             android:id="@+id/radioNo"
-            android:layout_width="wrap_content"
+            android:layout_width="108dp"
             android:layout_height="wrap_content"
             android:text="Non" />
 
@@ -90,11 +57,69 @@
         android:text="A quel personnage pensiez-vous ?" />
 
     <TextView
-        android:id="@+id/TextViewResponse"
+        android:id="@+id/textViewQuestionCharacter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/EditTextQuestion"
+        android:layout_centerVertical="true"
+        android:text="Quel question aurait permis de le trouver ?" />
+
+    <ImageView
+        android:id="@+id/imageViewDonald"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/donald" />
+
+    <EditText
+        android:id="@+id/EditTextTitreQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewQuestionCharacter"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textViewQuestionCharacter"
+        android:layout_alignBottom="@+id/textViewQuestionCharacter"
+        android:layout_alignLeft="@+id/editTextNameCharacter"
+        android:text="Titre de la question" />
+
+    <TextView
+        android:id="@+id/TextViewResponse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/radioGroup1"
         android:layout_below="@+id/EditTextQuestion"
         android:text="Quel réponse aurait permis de le trouver ?" />
+
+    <EditText
+        android:id="@+id/EditTextQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/EditTextTitreQuestion"
+        android:layout_alignBottom="@+id/EditTextTitreQuestion"
+        android:layout_alignRight="@+id/buttonSaveCharacter"
+        android:layout_toRightOf="@+id/EditTextTitreQuestion"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/imageViewDonald"
+        android:layout_alignTop="@+id/buttonSaveCharacter"
+        android:text="Annuler" />
+
+    <Button
+        android:id="@+id/buttonSaveCharacter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/radioGroup1"
+        android:layout_toLeftOf="@+id/buttonCancel"
+        android:text="Valider" />
 
 </RelativeLayout>

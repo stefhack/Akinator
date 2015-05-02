@@ -23,7 +23,7 @@
         android:layout_alignLeft="@+id/imageViewGenie"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:text="Je suis sur que vous pensiez à :" />
+        android:text="" />
 
     <Button
         android:id="@+id/buttonNo"
@@ -51,14 +51,5 @@
         android:layout_marginTop="46dp"
         android:layout_toLeftOf="@+id/buttonYes"
         android:text="" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text=""
-        android:id="@+id/score"
-        android:layout_alignBottom="@+id/buttonYes"
-        android:layout_toRightOf="@+id/textViewResponse" />
 
 </RelativeLayout>
