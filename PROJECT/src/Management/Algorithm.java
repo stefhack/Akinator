@@ -47,6 +47,10 @@ public class Algorithm {
 
   }
 
+    public String getResponseByCode(String code){
+    	return responseByResponseCode.get(code);
+    }
+    
 	/*
 	 * Liste des scores pour les personnages
 	 * String La clé du personnage dans

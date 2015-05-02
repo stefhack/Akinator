@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import Management.Algorithm;
 import Management.JsonOdm;
 import Management.JsonReader;
 import Management.JsonSingleton;
@@ -28,6 +30,8 @@ import Management.JsonWriter;
 public class LearnCharacterActivity extends Activity {
 
 	// Declaration
+	RadioButton buttonYes;
+	RadioButton buttonNo;
 	Button buttonSave;
 	EditText characterName;
 	EditText characterQuestion;
@@ -36,7 +40,8 @@ public class LearnCharacterActivity extends Activity {
 	private JsonReader jsonReader;
 	private JsonSingleton jsonSingleton;
 	private HashMap<String, String> hashMapQuestionResponse;
-
+	private Algorithm algorithm = new Algorithm(this.getBaseContext());
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,25 +57,33 @@ public class LearnCharacterActivity extends Activity {
 		jsonSingleton = JsonSingleton.getInstance(getApplicationContext());
 		characterName = (EditText) findViewById(R.id.editTextNameCharacter);
 		characterQuestion = (EditText) findViewById(R.id.EditTextQuestion);
-
+		
+		buttonYes = (RadioButton) findViewById(R.id.radioYes);
+		buttonNo = (RadioButton) findViewById(R.id.radioNo);
 		// Button click
 		buttonSave.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				//Get response for the new question
+				String responseToNewQuestion = "inconnu";
+				if(buttonYes.isChecked()){
+					responseToNewQuestion = "oui";
+				}else{
+					responseToNewQuestion = "non";
+				}
+				
 				// TESTS
 				// TODO REPLACE WITH EDIT TEXT VALUES
 				// TODO FIND THE KEY FOR NEW QUESTION
 				String newQuestionKey = "KEYTEST";
-				String newQuestionValue = characterQuestion.getText()
-						.toString();
+				String newQuestionValue = characterQuestion.getText().toString();
 
 				// Reset the JSON's with values from start
 				jsonSingleton.initializeJSONs();
 
 				// Add new character to JSON with his responses
 				JSONObject newCharacter = new JSONObject();
-
+				//Fill character with question responded before
 				for (Map.Entry<String, String> entry : hashMapQuestionResponse.entrySet()) {
 					String questionKey = entry.getKey();
 					String response = entry.getValue();
@@ -78,12 +91,12 @@ public class LearnCharacterActivity extends Activity {
 					Log.i("LEARN ACTIVITY RESPONSE : ", response);
 					try {
 						// Test here "prob oui" , "prob non"
-						newCharacter.put(questionKey, response);
+						newCharacter.put(questionKey, algorithm.getResponseByCode(response));
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
 				}
-
+				//Fille character with other question unresponded
 				JSONArray questionsFromMemory = jsonSingleton.getJsonQuestions();
 				ArrayList<String> arrayTampon = new ArrayList<String>();
 				try {
@@ -120,8 +133,7 @@ public class LearnCharacterActivity extends Activity {
 				}
 				// Put personnage name
 				try {
-					newCharacter.put("Personnage", characterName.getText()
-							.toString());
+					newCharacter.put("Personnage", characterName.getText().toString());
 				} catch (JSONException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -134,16 +146,15 @@ public class LearnCharacterActivity extends Activity {
 																				// in
 																				// internal
 																				// storage
-
+					//Fill new question and its response
+					newCharacter.put(newQuestionKey, responseToNewQuestion);
+					
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 				// Insert new character
 				jsonOdm.insertCharacter(newCharacter);// TODO Check insertion
 				Log.i("LEARN ACTIVITY NEW CHARACTER : ",newCharacter.toString());
-				// Log.i("LEARN ACTIVITY PERSOS FROM ODM",
-				// jsonOdm.getJsonCharacter().toString());
-
 				try {
 					//Write new json personnages
 					jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonCharacter().toString(),"personnages.json");
