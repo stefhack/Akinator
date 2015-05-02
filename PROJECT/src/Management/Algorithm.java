@@ -77,9 +77,6 @@ public class Algorithm {
 		if(!scoresByPerso.isEmpty()){
 			scoresByPerso.clear();
 		}
-		if(!responseByResponseCode.isEmpty()){
-			responseByResponseCode.clear();
-		}
 		if(!listPersosSuppressed.isEmpty()){
 			listPersosSuppressed.clear();
 		}
