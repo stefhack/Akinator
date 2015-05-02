@@ -231,7 +231,6 @@ public class Algorithm {
 
     public String getMaxScore(double nbQuestionsAsked){
         double scorePerso=0;
-
         for (Map.Entry<String, Integer> entry : scoresByPerso.entrySet()) {
             if(scorePerso < entry.getValue()) {
                 scorePerso = entry.getValue();
