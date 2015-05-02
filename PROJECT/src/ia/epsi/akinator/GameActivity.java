@@ -175,20 +175,7 @@ public class GameActivity extends Activity{
 	}
 	
 	private void displayQuestion(){
-		if(countForGeniePicture == 0){
-			countForGeniePicture = 3;
-		}
-		if(countForGeniePicture == 1){
-			imageViewGenie.setImageResource(R.drawable.genie1);
-		}
-		else if(countForGeniePicture == 2){
-			imageViewGenie.setImageResource(R.drawable.genie2);
-		}
-		else if(countForGeniePicture == 3) {
-			imageViewGenie.setImageResource(R.drawable.genie3);
-		}
-		countForGeniePicture--;
-		
+		showGeniePicture();
         String requestAlgorithm = "";
         try {
 
@@ -203,5 +190,21 @@ public class GameActivity extends Activity{
         this.actualKey = partsRequestAlgorithm[0];
         this.actualQuestion = partsRequestAlgorithm[1];
         this.textViewQuestion.setText(actualQuestion);
+	}
+	
+	private void showGeniePicture(){
+		if(countForGeniePicture == 0){
+			countForGeniePicture = 3;
+		}
+		if(countForGeniePicture == 1){
+			imageViewGenie.setImageResource(R.drawable.genie1);
+		}
+		else if(countForGeniePicture == 2){
+			imageViewGenie.setImageResource(R.drawable.genie2);
+		}
+		else if(countForGeniePicture == 3) {
+			imageViewGenie.setImageResource(R.drawable.genie3);
+		}
+		countForGeniePicture--;
 	}
 }
