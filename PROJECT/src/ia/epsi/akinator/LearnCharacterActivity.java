@@ -33,8 +33,7 @@ public class LearnCharacterActivity extends Activity {
 	RadioButton buttonYes;
 	RadioButton buttonNo;
 	Button buttonSave;
-	EditText characterName;
-	EditText characterQuestion;
+	EditText characterName,characterQuestion,questionTitle;
 	private JsonOdm jsonOdm;
 	private JsonWriter jsonWriter;
 	private JsonReader jsonReader;
@@ -57,6 +56,7 @@ public class LearnCharacterActivity extends Activity {
 		jsonSingleton = JsonSingleton.getInstance(getApplicationContext());
 		characterName = (EditText) findViewById(R.id.editTextNameCharacter);
 		characterQuestion = (EditText) findViewById(R.id.EditTextQuestion);
+		questionTitle = (EditText) findViewById(R.id.EditTextTitreQuestion);
 		
 		buttonYes = (RadioButton) findViewById(R.id.radioYes);
 		buttonNo = (RadioButton) findViewById(R.id.radioNo);
