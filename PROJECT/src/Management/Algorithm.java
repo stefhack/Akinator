@@ -69,7 +69,7 @@ public class Algorithm {
 	/*
 	 * Seuil minimum à atteindre pour proposer une réponse au joueur
 	 */
-	private final int PROPOSAL_THRESOLD = 80;
+	private final int PROPOSAL_THRESOLD = 90;
 
 	
 	public void resetAllData(){

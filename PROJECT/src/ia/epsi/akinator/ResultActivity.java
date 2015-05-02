@@ -77,7 +77,7 @@ public class ResultActivity extends Activity{
 
     /*Affichage de la proposition */
     private void showNextProposition(){
-    	textViewResponse.setText("Je suis sûr à "+algo.getMaxScore(nb_questions_asked)+" % que vous pensiez �:");
+    	textViewResponse.setText("Je suis sûr à "+algo.getMaxScore(nb_questions_asked)+" % que vous pensiez �:");
         resultPerso.setText(algo.getPersoByMaxScore());
     }
 

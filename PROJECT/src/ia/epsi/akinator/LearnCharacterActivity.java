@@ -225,9 +225,10 @@ public class LearnCharacterActivity extends Activity {
 
 				arrayPersoTampon.put(perso);
 			}
-			jsonSingletonInstance
+			jsonSingleton
 					.setJsonPeronnages(arrayPersoTampon);
-
+            Log.i("LEARN ACTIVITY CHARACTER ARRAY TAMPON FROM MEMORY : ",
+                    arrayPersoTampon.toString()    );
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -237,8 +238,7 @@ public class LearnCharacterActivity extends Activity {
 		// Insert new character
 		jsonOdm.insertCharacter(newCharacter);// TODO Check
 												// insertion
-		Log.i("LEARN ACTIVITY NEW CHARACTER : ",
-				newCharacter.toString());
+
 		try {
 			// Write new json personnages
 			jsonWriter.writeJsonIntoInternalStorage(jsonOdm

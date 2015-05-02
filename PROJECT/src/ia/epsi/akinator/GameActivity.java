@@ -62,7 +62,8 @@ public class GameActivity extends Activity{
         //TESTS
         {
             try {
-                Log.i("GAME ACTIVITY READ JSON FROM INTERNAL STORAGE :", jsonReader.readJSONfromInternalStorage("questions.json"));
+                Log.i("GAME ACTIVITY READ JSON persos FROM INTERNAL STORAGE :", jsonReader.readJSONfromInternalStorage("personnages.json"));
+                Log.i("GAME ACTIVITY READ JSON questions FROM INTERNAL STORAGE :", jsonReader.readJSONfromInternalStorage("questions.json"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
