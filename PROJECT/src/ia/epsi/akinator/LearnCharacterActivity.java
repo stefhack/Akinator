@@ -33,7 +33,9 @@ public class LearnCharacterActivity extends Activity {
 	RadioButton buttonYes;
 	RadioButton buttonNo;
 	Button buttonSave;
-	EditText characterName,characterQuestion,questionTitle;
+	EditText characterName;
+	EditText characterQuestion;
+	EditText questionKey;
 	private JsonOdm jsonOdm;
 	private JsonWriter jsonWriter;
 	private JsonReader jsonReader;
@@ -56,10 +58,11 @@ public class LearnCharacterActivity extends Activity {
 		jsonSingleton = JsonSingleton.getInstance(getApplicationContext());
 		characterName = (EditText) findViewById(R.id.editTextNameCharacter);
 		characterQuestion = (EditText) findViewById(R.id.EditTextQuestion);
-		questionTitle = (EditText) findViewById(R.id.EditTextTitreQuestion);
 		
 		buttonYes = (RadioButton) findViewById(R.id.radioYes);
 		buttonNo = (RadioButton) findViewById(R.id.radioNo);
+		
+		questionKey = (EditText) findViewById(R.id.EditTextTitreQuestion);
 		// Button click
 		buttonSave.setOnClickListener(new OnClickListener() {
 			@Override
@@ -75,7 +78,7 @@ public class LearnCharacterActivity extends Activity {
 				// TESTS
 				// TODO REPLACE WITH EDIT TEXT VALUES
 				// TODO FIND THE KEY FOR NEW QUESTION
-				String newQuestionKey = "KEYTEST";
+				String newQuestionKey = questionKey.getText().toString();
 				String newQuestionValue = characterQuestion.getText().toString();
 
 				// Reset the JSON's with values from start

@@ -25,6 +25,8 @@ public class EndGameActivity extends Activity{
         	@Override
         	public void onClick(View v) {
         		Intent intent=new Intent(EndGameActivity.this,GameActivity.class);
+        		//Added
+        		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     			startActivity(intent);
         	}
         });
