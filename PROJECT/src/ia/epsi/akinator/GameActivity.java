@@ -44,8 +44,7 @@ private JsonReader jsonReader;
 		
 
         algo = new Algorithm(gameContext);
-        algo.resetAllData();
-		
+		algo.resetAllData();
 		//Assignement
 		this.buttonYes = (Button)findViewById(R.id.buttonYes);
 		this.buttonNo = (Button)findViewById(R.id.buttonNo);
