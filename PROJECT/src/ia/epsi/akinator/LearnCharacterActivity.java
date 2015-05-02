@@ -71,6 +71,8 @@ public class LearnCharacterActivity extends Activity{
                 for (Map.Entry<String, String> entry : hashMapQuestionResponse.entrySet()) {
                     String questionKey = entry.getKey();
                     String response = entry.getValue();
+                    Log.i("LEARN ACTIVITY KEY QUESTION : ",questionKey);
+                    Log.i("LEARN ACTIVITY RESPONSE : ",response);
                     try {
                         newCharacter.put(questionKey,response);
                     } catch (JSONException e) {
@@ -90,19 +92,18 @@ public class LearnCharacterActivity extends Activity{
 
                 //Insert question
                 try {
-                    jsonOdm.insertQuestion(newQuestionKey,newQuestionValue);//Insertion OK
+                    jsonOdm.insertQuestion(newQuestionKey,newQuestionValue);//Insertion OK in internal storage
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 jsonOdm.insertCharacter(newCharacter);//TODO Check insertion
+            Log.i("LEARN ACTIVITY NEW CHARACTER : ",newCharacter.toString());
+                //Log.i("LEARN ACTIVITY PERSOS FROM ODM", jsonOdm.getJsonCharacter().toString());
 
-
-                //Log.i("LEARN ACTIVITY QUESTIONS FROM ODM", jsonOdm.getJsonQuestions().toString());
-               Log.i("LEARN ACTIVITY PERSOS FROM ODM", jsonOdm.getJsonCharacter().toString());
                 try {
-                    jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonCharacter().toString(),"personnages.json");
+                    //jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonCharacter().toString(),"personnages.json");
                     jsonWriter.writeJsonIntoInternalStorage(jsonOdm.getJsonQuestions().toString(),"questions.json");
                 } catch (IOException e) {
                     e.printStackTrace();
