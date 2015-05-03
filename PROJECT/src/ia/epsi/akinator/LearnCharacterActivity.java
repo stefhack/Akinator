@@ -100,12 +100,20 @@ public class LearnCharacterActivity extends Activity {
 				jsonSingleton.initializeJSONs();
 
 				// Here test if personage doesn't already exists
-				if (!jsonOdm.isCharacterAlreadyExists(characterName.getText()
-						.toString().toUpperCase())) {
-					fillNewPerso(newQuestionKey, newQuestionValue, responseToNewQuestion);
-					
-				} else {
-					fillPersoWhichAlreadyExists(newQuestionKey, newQuestionValue, responseToNewQuestion);
+				try {
+					if (!jsonOdm.isCharacterAlreadyExists(characterName.getText()
+							.toString().toUpperCase())) {
+						fillNewPerso(newQuestionKey, newQuestionValue, responseToNewQuestion);
+						
+					} else {
+						fillPersoWhichAlreadyExists(newQuestionKey, newQuestionValue, responseToNewQuestion);
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				Intent intent = new Intent(LearnCharacterActivity.this,
 						EndGameActivity.class);
@@ -123,17 +131,40 @@ public class LearnCharacterActivity extends Activity {
 	}
 	
 	
-	private void fillPersoWhichAlreadyExists(String newQuestionKey, String newQuestionValue, String responseToNewQuestion)
+	private void fillPersoWhichAlreadyExists(String newQuestionKey, String newQuestionValue, String responseToNewQuestion) throws JSONException, IOException
 	{
+		//If a personage already exists, we need to fill other informations unknows before and entered by the user
 		//Get this perso
-		
-		//Fill it new properties
-		
-		//Get json from storage
-		
-		//Fill it
-		
-		//Go on
+		JSONObject personage = null;
+		String persoName;
+		personage = jsonOdm.getCharacterByName(characterName.getText().toString());
+		if(personage == null){
+			personage = jsonOdm.getCharacterByName(characterName.getText().toString().toUpperCase());
+			persoName = characterName.getText().toString().toUpperCase();
+		}else{
+			persoName = characterName.getText().toString();
+		}
+		if(personage != null){
+			//Fill it new properties if needed (different or named "inconnu")
+			for (Map.Entry<String, String> entry : hashMapQuestionResponse.entrySet()) {
+				String questionKey = entry.getKey();
+				String response = entry.getValue();
+				//Response comparison
+				String responsePerso = personage.getString(questionKey);
+				if(!responsePerso.equals(algorithm.getResponseByCode(response))){
+					personage.put(questionKey,algorithm.getResponseByCode(response));
+				}
+			}
+			Log.i("THE FUCKING PERSONNAGE WITH NEW VALUES",personage.toString());
+			//json Character with this perso
+			//First delete perso to refill it
+			jsonOdm.deleteCharacterByName(persoName);
+			jsonOdm.insertCharacter(personage);
+			JSONArray jsonPersonnageWithNewCharacterFilled = jsonOdm.getJsonCharacter();
+			//Write personnages
+			jsonWriter.writeJsonIntoInternalStorage(jsonPersonnageWithNewCharacterFilled.toString(), "personnages.json");
+			//Go on
+		}
 	}
 	
 	private void fillNewPerso(String newQuestionKey, String newQuestionValue, String responseToNewQuestion){
@@ -144,8 +175,6 @@ public class LearnCharacterActivity extends Activity {
 				.entrySet()) {
 			String questionKey = entry.getKey();
 			String response = entry.getValue();
-			Log.i("LEARN ACTIVITY KEY QUESTION : ", questionKey);
-			Log.i("LEARN ACTIVITY RESPONSE : ", response);
 			try {
 				// Test here "prob oui" , "prob non"
 				newCharacter.put(questionKey,
