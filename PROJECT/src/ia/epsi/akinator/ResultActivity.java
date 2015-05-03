@@ -93,8 +93,10 @@ public class ResultActivity extends Activity {
 	/* Affichage de la proposition */
 	private void showNextProposition() {
 		if (iDontKnowCounter == 5) {
+			//Display response for "je sais pas"
 			textViewResponse.setText("Je suis sur � 100%");
 			resultPerso.setText("Celui qui ne savait jamais rien!");
+			//Set visibility to noButton tp invisible
 			buttonNo.setVisibility(View.INVISIBLE);
 		} else {
 			textViewResponse.setText("Je suis sûr à "
