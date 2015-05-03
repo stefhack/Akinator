@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class GameActivity extends Activity {
 		GameActivity.gameContext = getApplicationContext();
 		jsonSingleton = JsonSingleton.getInstance(gameContext);
 		jsonReader = new JsonReader(gameContext);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_game);
 
 		algo = new Algorithm(gameContext);
