@@ -47,9 +47,18 @@
         android:id="@+id/textViewResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageViewGenie"
-        android:layout_marginTop="46dp"
-        android:layout_toLeftOf="@+id/buttonYes"
+        android:layout_alignBaseline="@+id/textViewResponse"
+        android:layout_alignBottom="@+id/textViewResponse"
+        android:layout_alignRight="@+id/buttonYes"
+        android:layout_marginRight="15dp"
         android:text="" />
+
+    <ImageView
+        android:id="@+id/imageViewResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageViewGenie"
+        android:layout_marginTop="14dp"
+        android:layout_toLeftOf="@+id/textViewResult" />
 
 </RelativeLayout>

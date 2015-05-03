@@ -3,13 +3,16 @@ package ia.epsi.akinator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import ia.epsi.akinator.R.drawable;
 
 import java.util.HashMap;
 
@@ -20,6 +23,7 @@ public class ResultActivity extends Activity {
 	Button buttonYes, buttonNo;
 	TextView resultPerso, textViewResponse;
 	Algorithm algo;
+	ImageView imageViewResult;
 	private static Context gameContext;
 	private HashMap<String, String> hashMapQuestionResponse = new HashMap<String, String>();
 	private double nb_questions_asked;
@@ -42,6 +46,8 @@ public class ResultActivity extends Activity {
 		buttonNo = (Button) findViewById(R.id.buttonNo);
 		resultPerso = (TextView) findViewById(R.id.textViewResult);
 		textViewResponse = (TextView) findViewById(R.id.textViewResponse);
+		imageViewResult = (ImageView)findViewById(R.id.imageViewResult);
+		
 		// On affiche la première proposition
 		showNextProposition();
 
@@ -103,6 +109,15 @@ public class ResultActivity extends Activity {
 					+ algo.getMaxScore(nb_questions_asked)
 					+ " % que vous pensiez �:");
 			resultPerso.setText(algo.getPersoByMaxScore());
+			String namePerso = algo.getPersoByMaxScore().replaceAll("\\s+","");
+			showImage(namePerso);
+		}
+	}
+	private void showImage(String name){
+		int imageResource = getResources().getIdentifier(name, "drawable", getPackageName());
+		if(imageResource != 0){
+			Drawable res = getResources().getDrawable(imageResource);
+			imageViewResult.setImageDrawable(res);
 		}
 	}
 
