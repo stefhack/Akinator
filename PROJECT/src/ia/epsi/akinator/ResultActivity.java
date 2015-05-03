@@ -109,7 +109,7 @@ public class ResultActivity extends Activity {
 					+ algo.getMaxScore(nb_questions_asked)
 					+ " % que vous pensiez �:");
 			resultPerso.setText(algo.getPersoByMaxScore());
-			String namePerso = algo.getPersoByMaxScore().replaceAll("\\s+","");
+			String namePerso = algo.getPersoByMaxScore().replaceAll("\\s+","").replaceAll("'", "").replace("-", "");
 			showImage(namePerso);
 		}
 	}
