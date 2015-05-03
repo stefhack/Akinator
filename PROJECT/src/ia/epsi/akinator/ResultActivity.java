@@ -94,7 +94,7 @@ public class ResultActivity extends Activity {
 			//Display response for "je sais pas"
 			textViewResponse.setText("Je suis sur � 100%");
 			resultPerso.setText("Celui qui ne savait jamais rien!");
-			//Set visibility to noButton tp invisible
+			//Set visibility to noButton TP invisible
 			buttonNo.setVisibility(View.INVISIBLE);
 		} else {
 			textViewResponse.setText("Je suis sûr à "

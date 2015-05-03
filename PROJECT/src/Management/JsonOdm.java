@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.util.Log;
 
 /**
  * JsonOdm, used to manage the different .json for the application
@@ -22,12 +21,12 @@ public class JsonOdm {
 	private Context context;
 
 	public JsonOdm(Context context) {
-		this.jsonSingleton = JsonSingleton.getInstance(context);
+		JsonOdm.jsonSingleton = JsonSingleton.getInstance(context);
 		this.context = context;
 	}
 
 	public JsonSingleton getSingleton() {
-		return this.jsonSingleton;
+		return JsonOdm.jsonSingleton;
 	}
 
 	/**
