@@ -1,7 +1,7 @@
 [
   {
-    "Male":"Votre personnage est-il un garçon?",
-    "Femelle":"Votre personnage est-il une fille?",
+    "Male":"Votre personnage est-il de sexe masculin?",
+    "Femelle":"Votre personnage est-il de sexe feminin?",
     "Humain":"Le personnage est-il humain?",
     "Super-Heros":"Le personnage est-il un super-héro?",
     "Petit":"Votre personnage est-il petit?",
