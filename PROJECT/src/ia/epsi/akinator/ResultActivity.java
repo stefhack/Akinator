@@ -7,12 +7,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import ia.epsi.akinator.R.drawable;
 
 import java.util.HashMap;
 
@@ -100,14 +99,14 @@ public class ResultActivity extends Activity {
 	private void showNextProposition() {
 		if (iDontKnowCounter == 5) {
 			//Display response for "je sais pas"
-			textViewResponse.setText("Je suis sur � 100%");
+			textViewResponse.setText("Je suis sur à 100%");
 			resultPerso.setText("Celui qui ne savait jamais rien!");
 			//Set visibility to noButton TP invisible
 			buttonNo.setVisibility(View.INVISIBLE);
 		} else {
 			textViewResponse.setText("Je suis sûr à "
 					+ algo.getMaxScore(nb_questions_asked)
-					+ " % que vous pensiez �:");
+					+ " % que vous pensiez à :");
 			resultPerso.setText(algo.getPersoByMaxScore());
 			String namePerso = algo.getPersoByMaxScore().replaceAll("\\s+","").replaceAll("'", "").replace("-", "");
 			showImage(namePerso);
