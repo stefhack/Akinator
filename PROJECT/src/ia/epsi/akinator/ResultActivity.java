@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -16,7 +17,10 @@ import ia.epsi.akinator.R.drawable;
 
 import java.util.HashMap;
 
+import org.json.JSONException;
+
 import Management.Algorithm;
+import Management.JsonSingleton;
 
 public class ResultActivity extends Activity {
 	// Declaration
@@ -28,6 +32,7 @@ public class ResultActivity extends Activity {
 	private HashMap<String, String> hashMapQuestionResponse = new HashMap<String, String>();
 	private double nb_questions_asked;
 	private int iDontKnowCounter;
+	private JsonSingleton jsonSingleton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class ResultActivity extends Activity {
 				.getIntArrayExtra("nbQuestionsAsked")[0];
 		algo = new Algorithm(getApplicationContext());
 		iDontKnowCounter = intent.getIntExtra("iDontKnowCounter", 0);
+		jsonSingleton = JsonSingleton.getInstance(gameContext);
 		// Assignement
 		buttonYes = (Button) findViewById(R.id.buttonYes);
 		buttonNo = (Button) findViewById(R.id.buttonNo);
@@ -66,7 +72,12 @@ public class ResultActivity extends Activity {
 			public void onClick(View v) {
 
 				algo.deletePersoFromScore((String) resultPerso.getText());
-				goOnProposition();
+				try {
+					goOnProposition();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 	}
@@ -74,16 +85,29 @@ public class ResultActivity extends Activity {
 	/*
 	 * Continue d'afficher des propositions pertinentes
 	 */
-	private void goOnProposition() {
+	private void goOnProposition() throws JSONException {
 
-		if (algo.hasMorePersoToPropose())
+		Log.i("GO ON PROPOSITION",String.valueOf(algo.hasMorePersoToPropose(nb_questions_asked)));
+		if (algo.hasMorePersoToPropose(nb_questions_asked) == true){
 			showNextProposition();
-
-		else { // Il n' y a plus de propositions à faire, on demande à
+		}
+		else if(jsonSingleton.getQuestionsLeft() > 0)
+		{ 
+			// Il n' y a plus de propositions à faire, on demande à
 				// l'utilisateur
 				// à quel personnage il pensait
-			Intent intent = new Intent(ResultActivity.this,
-					LearnCharacterActivity.class);
+			Intent intent = new Intent(ResultActivity.this,GameActivity.class);
+			intent.putExtra("ActivityName", "ResultActivity");
+			int[] nbQuestionArray = new int[1];
+			nbQuestionArray[0] = (int) nb_questions_asked;
+			intent.putExtra("nbQuestions",nbQuestionArray);
+			intent.putExtra("responses", this.hashMapQuestionResponse);
+			startActivity(intent);
+			
+			
+		}
+		else{
+			Intent intent = new Intent(ResultActivity.this,LearnCharacterActivity.class);
 			intent.putExtra("responses", this.hashMapQuestionResponse);// on
 																		// fait
 																		// passer

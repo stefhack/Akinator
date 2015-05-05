@@ -35,16 +35,12 @@ public class LearnCharacterActivity extends Activity {
 	Button buttonSave, buttonCancel;
 	EditText characterName;
 	EditText characterQuestion;
-	EditText questionKey;
 	private JsonOdm jsonOdm;
 	private JsonWriter jsonWriter;
 	private JsonReader jsonReader;
 	private JsonSingleton jsonSingleton;
 	private HashMap<String, String> hashMapQuestionResponse;
 	private Algorithm algorithm = new Algorithm(this.getBaseContext());
-
-	private JsonSingleton jsonSingletonInstance = JsonSingleton
-			.getInstance(this.getBaseContext());
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -69,7 +65,6 @@ public class LearnCharacterActivity extends Activity {
 		buttonYes = (RadioButton) findViewById(R.id.radioYes);
 		buttonNo = (RadioButton) findViewById(R.id.radioNo);
 
-		questionKey = (EditText) findViewById(R.id.EditTextTitreQuestion);
 
 		// Button click
 		this.buttonCancel.setOnClickListener(new OnClickListener() {
@@ -94,7 +89,7 @@ public class LearnCharacterActivity extends Activity {
 				// TESTS
 				// TODO REPLACE WITH EDIT TEXT VALUES
 				// TODO FIND THE KEY FOR NEW QUESTION
-				String newQuestionKey = questionKey.getText().toString();
+				String newQuestionKey = characterQuestion.getText().toString();
 				String newQuestionValue = characterQuestion.getText()
 						.toString();
 

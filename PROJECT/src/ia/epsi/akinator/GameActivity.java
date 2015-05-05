@@ -50,10 +50,11 @@ public class GameActivity extends Activity {
 		setContentView(R.layout.activity_game);
 
 		algo = new Algorithm(gameContext);
-		algo.resetAllData();
-
-		// Reset the JSON's with values from start
-		jsonSingleton.initializeJSONs();
+		if(getIntent().getStringExtra("ActivityName").equals("ResultActivity")){
+			nb_questions_asked = getIntent().getIntArrayExtra("nbQuestions")[0];
+			hashMapQuestionResponse = (HashMap<String, String>) getIntent().getSerializableExtra("responses");
+		}
+		
 		// Assignement
 		this.buttonYes = (Button) findViewById(R.id.buttonYes);
 		this.buttonNo = (Button) findViewById(R.id.buttonNo);
@@ -129,6 +130,7 @@ public class GameActivity extends Activity {
 
 	private void takeResponseAndGoOn(String responseCode) {
 		// On incrémente le nb de questions posées
+		Log.e("xxxxxxxxxxxxxxxxxxxx",String.valueOf(nb_questions_asked));
 		++nb_questions_asked;
 
 		// Remplit la liste des questions avec les réponses données
@@ -156,16 +158,18 @@ public class GameActivity extends Activity {
 		// ET s'il y a encore des questions
 		try {
 			if (iDontknowCounter < 5) {
-				if (nb_questions_asked < algo.QUESTIONS_THRESOLD
-						|| !algo.hasMorePersoToPropose()
-						&& jsonSingleton.getQuestionsLeft() > 0) {
-					Log.i("I DONT KNOW COUNTER MOTHER FUCKER",
-							String.valueOf(iDontknowCounter));
-					// On pose à nouveau une question
-					displayQuestion();
+				if(jsonSingleton.getQuestionsLeft() > 0){
+					if ((nb_questions_asked < algo.QUESTIONS_THRESOLD)
+							|| (!algo.hasMorePersoToPropose(nb_questions_asked))) {
+						// On pose à nouveau une question
+						displayQuestion();
+					}
+					// On commence à proposer un personnage
+					else {
+						goToResultActivity();
+					}
 				}
-				// On commence à proposer un personnage
-				else {
+				else{
 					goToResultActivity();
 				}
 			} else {
