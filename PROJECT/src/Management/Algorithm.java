@@ -342,16 +342,19 @@ public class Algorithm {
     * Permet de savoir si il y a AU MOINS un personnage
       * ayant un score > minimum donné par la constante PROPOSAL_THRESOLD
     * */
-    public boolean hasMorePersoToPropose(){
+    public boolean hasMorePersoToPropose(double nbQuestions){
 
         boolean hasPerso = false;
-
+        double percent = 0;
+        Log.e("xxxxxxxxxxxpourcentxxxxxxxxxxxxxxx",scoresByPerso.toString());
+        
         for (Map.Entry<String, Double> entry : scoresByPerso.entrySet()) {
-
-            double percent = ((double)entry.getValue()/(double)(QUESTIONS_THRESOLD*3))*(double)100;//Pourcentage = score du perso / score Total théorique
+        	
+            percent = ((double)entry.getValue()/(double)(nbQuestions*3))*(double)100;//Pourcentage = score du perso / score Total théorique
 
            if(percent >= (double)PROPOSAL_THRESOLD){// 3 => score max pour une question, QUESTIONS_THRESOLD le nb de questions posées
                hasPerso = true ;
+               Log.e("xxxxxxxxxxxpourcentxxxxxxxxxxxxxxx",String.valueOf(percent+" >= "+(double)PROPOSAL_THRESOLD));
                break;
 
            }

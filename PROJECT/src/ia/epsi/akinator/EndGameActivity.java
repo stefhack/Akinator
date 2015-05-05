@@ -1,5 +1,7 @@
 package ia.epsi.akinator;
 
+import Management.Algorithm;
+import Management.JsonSingleton;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +14,20 @@ import android.widget.Button;
 public class EndGameActivity extends Activity{
 	//Declaration
 	Button buttonYes, buttonNo;
+	private Algorithm algo;
+	private JsonSingleton jsonSingleton;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_end_game);
+
+		jsonSingleton = JsonSingleton.getInstance(getApplicationContext());
+		algo = new Algorithm(getApplicationContext());
+		algo.resetAllData();
+
+		// Reset the JSON's with values from start
+		jsonSingleton.initializeJSONs();
 		
 		//Assignement
 		buttonYes = (Button)findViewById(R.id.buttonYes);
@@ -27,7 +38,7 @@ public class EndGameActivity extends Activity{
         	@Override
         	public void onClick(View v) {
         		Intent intent=new Intent(EndGameActivity.this,GameActivity.class);
-        		//Added
+        		intent.putExtra("ActivityName", "EndGameActivity");
         		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     			startActivity(intent);
         	}
