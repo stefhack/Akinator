@@ -12,11 +12,26 @@
         android:id="@+id/textViewQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="26dp"
+        android:layout_alignLeft="@+id/buttonYes"
+        android:layout_alignTop="@+id/imageViewGenie"
         android:text="Question:" />
+
+    <ImageView
+        android:id="@+id/imageViewGenie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonNo"
+        android:layout_alignRight="@+id/buttonNo"
+        android:src="@drawable/genie2" />
+
+    <TextView
+        android:id="@+id/textViewQuestionRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageViewGenie"
+        android:layout_toLeftOf="@+id/imageViewGenie"
+        android:layout_toRightOf="@+id/textViewQuestion"
+        android:text="tesssssssssssssssssssssssssggggggggggggggggggggggggsssss" />
 
     <Button
         android:id="@+id/buttonYes"
@@ -24,55 +39,49 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/buttonRather"
+        android:minWidth="100dip"
         android:text="Oui" />
 
     <Button
         android:id="@+id/buttonNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonYes"
-        android:layout_toRightOf="@+id/buttonYes"
+        android:layout_alignBaseline="@+id/buttonRatherNot"
+        android:layout_alignBottom="@+id/buttonRatherNot"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/buttonRatherNot"
+        android:minWidth="100dip"
         android:text="Non" />
 
     <Button
         android:id="@+id/buttonDontNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonNo"
-        android:layout_toRightOf="@+id/buttonNo"
+        android:layout_alignBaseline="@+id/buttonRather"
+        android:layout_alignBottom="@+id/buttonRather"
+        android:layout_centerHorizontal="true"
+        android:minWidth="100dip"
         android:text="Ne sais pas" />
-
-    <Button
-        android:id="@+id/buttonRather"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/buttonDontNo"
-        android:layout_alignBottom="@+id/buttonDontNo"
-        android:layout_toRightOf="@+id/buttonDontNo"
-        android:text="Plutôt" />
 
     <Button
         android:id="@+id/buttonRatherNot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonRather"
-        android:layout_toRightOf="@+id/buttonRather"
+        android:layout_alignBaseline="@+id/buttonDontNo"
+        android:layout_alignBottom="@+id/buttonDontNo"
+        android:layout_toRightOf="@+id/buttonDontNo"
+        android:minWidth="100dip"
         android:text="Plutôt pas" />
 
-    <ImageView
-        android:id="@+id/imageViewGenie"
+    <Button
+        android:id="@+id/buttonRather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewQuestion"
-        android:layout_marginLeft="16dp"
-        android:layout_toRightOf="@+id/buttonRatherNot" />
-
-    <TextView
-        android:id="@+id/textViewQuestionRequest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textViewQuestion"
-        android:layout_alignBottom="@+id/textViewQuestion"
-        android:layout_toRightOf="@+id/buttonNo" />
+        android:layout_alignBaseline="@+id/buttonYes"
+        android:layout_alignBottom="@+id/buttonYes"
+        android:layout_toLeftOf="@+id/buttonDontNo"
+        android:minWidth="100dip"
+        android:text="Plutôt" />
 
 </RelativeLayout>
