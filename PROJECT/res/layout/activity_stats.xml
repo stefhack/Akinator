@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="458dp"
+        android:layout_height="84dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textLastGame"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="477dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textPercentWon"
+        android:layout_marginTop="26dp"
+        android:layout_below="@+id/text_titre_stats"
+        android:layout_alignRight="@+id/textLastGame" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Statistiques du jeu"
+        android:id="@+id/text_titre_stats"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textMostPlayed"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/text_titre_stats" />
+
+</RelativeLayout>
