@@ -7,14 +7,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
+
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import Management.JsonReader;
+import Management.JsonSingleton;
 import Management.JsonWriter;
 
 public class MainActivity extends Activity {
@@ -26,14 +30,18 @@ public class MainActivity extends Activity {
     private final String JSON_CHARACTERS_FILE = "personnages.json";
     private final String JSON_QUESTIONS_FILE = "questions.json";
 
+    private JsonSingleton jsonSingleton ;
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-
+        Button statsBtn = (Button)findViewById(R.id.stat);
         jsonReader=new JsonReader(getApplicationContext());
         jsonWriter=new JsonWriter(getApplicationContext());
+        jsonSingleton = JsonSingleton.getInstance(getApplicationContext());
 
         /*
         * On copie les JSON du dossier ASSETS vers le Storage interne du contexte de l'application
@@ -56,6 +64,19 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
+        try{
+            InputStream is = getApplicationContext().openFileInput(jsonSingleton.jsonStatsFile);
+        }
+        catch (IOException e){
+            try{
+                jsonWriter.writeJsonIntoInternalStorage(new JSONArray().toString(),jsonSingleton.jsonStatsFile);
+                Log.i("Main activity STATS ","WRITING NEW  STATS FILE :"+new JSONArray().toString()+" IN FILE : "+jsonSingleton.jsonStatsFile);
+            }
+            catch(IOException ex ){
+
+            }
+        }
+
         //LOGS
         try {
             Log.i("MAIN ACTIVITY READ JSON FROM INTERNAL STORAGE :", jsonReader.readJSONfromInternalStorage("personnages.json"));
@@ -74,6 +95,14 @@ public class MainActivity extends Activity {
         		intent.putExtra("ActivityName", "MainActivity");
     			startActivity(intent);
         	}
+        });
+
+        statsBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this,StatsActivity.class);
+                    startActivity(intent);
+            }
         });
 	}
 

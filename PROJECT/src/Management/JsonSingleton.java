@@ -20,8 +20,11 @@ public class JsonSingleton {
 	private static JsonSingleton ourInstance = null;
 	private JSONArray jsonPersonnages;
 	private JSONArray jsonQuestions;
+    private JSONArray jsonStatistiques;
 	private Context context;
     private JsonReader jsonReader;
+
+    public final String jsonStatsFile = "statistiques.json" ;
 	/**
 	 * Méthode statique permettant d'obtenir une instance unique de la Classe
 	 * 
@@ -43,11 +46,12 @@ public class JsonSingleton {
         this.jsonReader = new JsonReader(context);
         String jsonStringPersos = getJsonFromStorage("personnages.json");
         String jsonStringQuestions = getJsonFromStorage("questions.json");
+        String jsonStringStats = getJsonFromStorage("statistiques.json");
         try {
 			this.jsonPersonnages = new JSONArray(jsonStringPersos);
 			this.jsonQuestions = new JSONArray(jsonStringQuestions);
+            this.jsonStatistiques = new JSONArray(jsonStringStats);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -75,6 +79,10 @@ public class JsonSingleton {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public JSONArray getJsonStatistiques(){
+        return jsonStatistiques !=null ? jsonStatistiques : new JSONArray();
     }
 
 	/**

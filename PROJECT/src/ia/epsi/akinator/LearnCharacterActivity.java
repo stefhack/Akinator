@@ -18,11 +18,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import Management.Algorithm;
+import Management.GameStatsManager;
 import Management.JsonOdm;
 import Management.JsonReader;
 import Management.JsonSingleton;
@@ -41,6 +43,8 @@ public class LearnCharacterActivity extends Activity {
 	private JsonSingleton jsonSingleton;
 	private HashMap<String, String> hashMapQuestionResponse;
 	private Algorithm algorithm = new Algorithm(this.getBaseContext());
+    private GameStatsManager statsManager;
+
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -59,9 +63,10 @@ public class LearnCharacterActivity extends Activity {
 		jsonWriter = new JsonWriter(getApplicationContext());
 		jsonReader = new JsonReader(getApplicationContext());
 		jsonSingleton = JsonSingleton.getInstance(getApplicationContext());
+        statsManager= new GameStatsManager(getApplicationContext());
+
 		characterName = (EditText) findViewById(R.id.editTextNameCharacter);
 		characterQuestion = (EditText) findViewById(R.id.EditTextQuestion);
-
 		buttonYes = (RadioButton) findViewById(R.id.radioYes);
 		buttonNo = (RadioButton) findViewById(R.id.radioNo);
 
@@ -87,8 +92,6 @@ public class LearnCharacterActivity extends Activity {
 				}
 
 				// TESTS
-				// TODO REPLACE WITH EDIT TEXT VALUES
-				// TODO FIND THE KEY FOR NEW QUESTION
 				String newQuestionKey = characterQuestion.getText().toString();
 				String newQuestionValue = characterQuestion.getText()
 						.toString();
@@ -115,6 +118,10 @@ public class LearnCharacterActivity extends Activity {
 				Intent intent = new Intent(LearnCharacterActivity.this,
 						EndGameActivity.class);
 				startActivity(intent);
+
+                //SAVE THE LOST GAME
+                statsManager.insertGame(characterName.getText()
+                        .toString(),new Date(),false);
 
 			}
 		});

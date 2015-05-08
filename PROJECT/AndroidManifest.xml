@@ -42,6 +42,7 @@
             android:name="ia.epsi.akinator.LearnCharacterActivity"
             android:label="@string/title_activity_learn_character" >
         </activity>
+        <activity android:name=".StatsActivity" />
     </application>
 
 </manifest>

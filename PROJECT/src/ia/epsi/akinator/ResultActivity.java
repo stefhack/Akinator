@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,11 +13,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.HashMap;
-
 import org.json.JSONException;
 
+import java.util.Date;
+import java.util.HashMap;
+
 import Management.Algorithm;
+import Management.GameStatsManager;
 import Management.JsonSingleton;
 
 public class ResultActivity extends Activity {
@@ -32,6 +33,7 @@ public class ResultActivity extends Activity {
 	private double nb_questions_asked;
 	private int iDontKnowCounter;
 	private JsonSingleton jsonSingleton;
+    private GameStatsManager statsManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class ResultActivity extends Activity {
 		algo = new Algorithm(getApplicationContext());
 		iDontKnowCounter = intent.getIntExtra("iDontKnowCounter", 0);
 		jsonSingleton = JsonSingleton.getInstance(gameContext);
+        statsManager = new GameStatsManager(getApplicationContext());
+
 		// Assignement
 		buttonYes = (Button) findViewById(R.id.buttonYes);
 		buttonNo = (Button) findViewById(R.id.buttonNo);
@@ -63,6 +67,9 @@ public class ResultActivity extends Activity {
 				Intent intent = new Intent(ResultActivity.this,
 						EndGameActivity.class);
 				startActivity(intent);
+
+                //SAVE THE WON GAME
+                statsManager.insertGame((String) resultPerso.getText(),new Date(),true);
 			}
 		});
 
@@ -86,7 +93,6 @@ public class ResultActivity extends Activity {
 	 */
 	private void goOnProposition() throws JSONException {
 
-		Log.i("GO ON PROPOSITION",String.valueOf(algo.hasMorePersoToPropose(nb_questions_asked)));
 		if (algo.hasMorePersoToPropose(nb_questions_asked) == true){
 			showNextProposition();
 		}
@@ -116,6 +122,7 @@ public class ResultActivity extends Activity {
 																		// prochaine
 																		// activité
 			startActivity(intent);
+
 		}
 	}
 

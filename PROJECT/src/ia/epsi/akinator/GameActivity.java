@@ -130,8 +130,12 @@ public class GameActivity extends Activity {
 
 	private void takeResponseAndGoOn(String responseCode) {
 		// On incrémente le nb de questions posées
-		Log.e("xxxxxxxxxxxxxxxxxxxx",String.valueOf(nb_questions_asked));
-		++nb_questions_asked;
+        try {
+            Log.e("GAME ACTIVITY QUESTIONS LEFT: ",Integer.toString(jsonSingleton.getQuestionsLeft()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ++nb_questions_asked;
 
 		// Remplit la liste des questions avec les réponses données
 		fillHashMapQuestionResponse(responseCode);

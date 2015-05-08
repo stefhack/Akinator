@@ -27,4 +27,13 @@
         android:layout_marginRight="130dp"
         android:src="@drawable/play" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Statistiques"
+        android:id="@+id/stat"
+        android:layout_marginBottom="32dp"
+        android:layout_above="@+id/buttonPlay"
+        android:layout_alignRight="@+id/buttonPlay" />
+
 </RelativeLayout>
