@@ -81,7 +81,6 @@ public class ResultActivity extends Activity {
 				try {
 					goOnProposition();
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -112,7 +111,7 @@ public class ResultActivity extends Activity {
 			
 		}
 		else{
-			Intent intent = new Intent(ResultActivity.this,LearnCharacterActivity.class);
+			Intent intent = new Intent(ResultActivity.this,PropositionsActivity.class);
 			intent.putExtra("responses", this.hashMapQuestionResponse);// on
 																		// fait
 																		// passer

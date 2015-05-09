@@ -10,9 +10,15 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 /**
  * Created by Stef on 23/03/2015.
  */
@@ -80,8 +86,42 @@ public class Algorithm {
 			listPersosSuppressed.clear();
 		}
 	}
-	
-	/*
+
+    public HashMap<String,Double> getScoresByPerso(){
+        return scoresByPerso;
+    }
+
+    /*Permet de trier la liste des scores de manière descendante ( + grand au plus petit )
+    * TODO Test sorting list scores, doesn't work
+    * */
+	public void sortListScoresDesc(){
+
+        Set<Map.Entry<String,Double>> entries = scoresByPerso.entrySet();
+        List<Map.Entry<String,Double>> list = new ArrayList<Map.Entry<String, Double>>(entries);
+
+        Collections.sort(list,new Comparator<Map.Entry<String,Double>>() {
+            @Override
+            public int compare(Map.Entry<String,Double> first, Map.Entry<String,Double> second) {
+
+               return first.getValue().compareTo(second.getValue());
+            }
+        });
+
+        LinkedHashMap<String,Double> sortedHashMap = new LinkedHashMap<String, Double>(list.size());
+
+        for(Map.Entry<String,Double> entry : list){
+            sortedHashMap.put(entry.getKey(),entry.getValue());
+        }
+        Set<Map.Entry<String,Double>> entrySorted = sortedHashMap.entrySet();
+
+        this.scoresByPerso.clear();
+
+        for(Map.Entry<String,Double> entry : entrySorted){
+            this.scoresByPerso.put(entry.getKey(),entry.getValue());
+        }
+    }
+
+	/**
 	 * Permet d'obtenir la question la plus pertinente, la prochaine à poser
 	 * 
 	 * @return question String La question sous forme de chaine
@@ -159,7 +199,12 @@ public class Algorithm {
         }
 
 	}
-
+    /**
+    * Method to get the score according to 2 responses
+    * @param String responseGiven The response from the user of game
+    * @param String responsePerso The response waited for un character
+    * @return Double The score
+    * */
     private Double getScore(String responseGiven,String responsePerso){
         double score=0;
         if(responseGiven.equals(responsePerso)) {

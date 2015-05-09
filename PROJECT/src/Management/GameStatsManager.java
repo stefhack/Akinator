@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 
 /**
  * Created by Stef on 07/05/2015.
@@ -22,6 +21,9 @@ public class GameStatsManager {
 
     private  JsonWriter jsonWriter;
     private JsonSingleton jsonSingleton;
+    /**
+    List containing all the stats for all the characters
+    * */
     private ArrayList<JSONObject> listStatsCharacters = new ArrayList<JSONObject>();
 
 
@@ -35,6 +37,10 @@ public class GameStatsManager {
         return listStatsCharacters;
     }
 
+    /**
+    * Method which sort the list descending of all stats according to the number
+    * of games played
+    * */
     public void sortListStats(){
         Collections.sort(listStatsCharacters,new Comparator<JSONObject>() {
             @Override
@@ -49,7 +55,12 @@ public class GameStatsManager {
             }
         });
     }
-
+    /**
+    * Insert a new Game played into the Stats list with all games played
+    * @param String character The character name
+    * @param Date date The date when the game has been played
+    * @param boolean characterIsFound True if Akinator found the character (he won) false otherwise
+    * */
     public void insertGame(String character,Date date,boolean characterIsFound){
         JSONArray stats = jsonSingleton.getJsonStatistiques();
         JSONObject gameStat = new JSONObject();
@@ -68,13 +79,20 @@ public class GameStatsManager {
             e.printStackTrace();
         }
     }
-
+    /**
+    * To get the number of games played and recorded
+    * @return int
+    * */
     public int getNbGamesPlayed(){;
         JSONArray jsonStats = jsonSingleton.getJsonStatistiques();
         if(jsonStats == null) return 0;
         return jsonStats.length();
     }
 
+    /**
+    *To get the number of games won in all the gamed recorded
+    * @return int
+    * */
     public int getNbGamesWon(){
         JSONArray jsonStats = jsonSingleton.getJsonStatistiques();
         int nbGamesWon=0;
@@ -93,41 +111,17 @@ public class GameStatsManager {
         return nbGamesWon;
     }
 
+    /**
+    * To get the most played character in all the gamed recorded
+    * @return JSONObject a object containing the name of character and the number of games played
+    * */
     public JSONObject getTheMostPlayedCharacter(){
-
-        int nbGames=0;
-        JSONObject mostPlayedCharacter = new JSONObject();
-        String characterName="";
-
-
-
-        for(int i=0;i<listStatsCharacters.size();i++){
-            JSONObject characterStat = listStatsCharacters.get(i);
-
-            Iterator keys = characterStat.keys();
-            while (keys.hasNext()){
-
-                String characterKey = (String) keys.next();
-                try {
-                    if(characterStat.getInt(characterKey) > nbGames) {
-                        nbGames = characterStat.getInt(characterKey);
-                        characterName=characterKey;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        try {
-            mostPlayedCharacter.put("character",characterName);
-            mostPlayedCharacter.put("nbGames",nbGames);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return mostPlayedCharacter;
+        sortListStats();
+        return listStatsCharacters.get(0);
     }
-
+    /**
+    * Method which fill in memory the list of stats for every character
+    * */
     private void fillListStatsCharacters(){
 
         JSONArray jsonStats = jsonSingleton.getJsonStatistiques();
@@ -157,7 +151,7 @@ public class GameStatsManager {
                     JSONObject characterStat = new JSONObject();
                     characterStat.put("character",character.getString("Personnage"));
                     characterStat.put("nbGamePlayed",nbGamePlayed);
-                    listStatsCharacters.add(characterStat);
+                    this.listStatsCharacters.add(characterStat);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -168,6 +162,10 @@ public class GameStatsManager {
 
     }
 
+    /**
+    * Method to get the last game played in all gamed recorded
+    * @return JSONObject an object representing the last game with its details
+    * */
     public JSONObject getTheLastGame(){
         JSONArray jsonStats = jsonSingleton.getJsonStatistiques();
         JSONObject lastGame=null;

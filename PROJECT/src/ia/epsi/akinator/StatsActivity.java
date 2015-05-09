@@ -38,9 +38,9 @@ private TextView textMostPlayed;
 
         statsManager.sortListStats();
         Log.i("STATS ACTIVITY :", statsManager.getListStatsCharacters().toString());
-        listStats.setText("Pourcentage de résussite de Akinator : "+Double.toString(successPercent)+"%  \n Nombre de parties gagnées : "+statsManager.getNbGamesWon()+"/"+statsManager.getNbGamesPlayed());
+        listStats.setText("Pourcentage de résussite de Akinator : "+Double.toString(successPercent)+"%  \n Nombre de parties jouées: "+statsManager.getNbGamesPlayed());
         try {
-            textMostPlayed.setText("Personnage le plus joué : "+mostPlayed.getString("character")+" avec "+mostPlayed.getInt("nbGames")+" fois");
+            textMostPlayed.setText("Personnage le plus joué : "+mostPlayed.getString("character").toUpperCase()+" avec "+mostPlayed.getInt("nbGamePlayed")+" fois");
             textLastGame.setText("Dernier jeu joué le "+lastGame.get("date").toString()+" avec le personnage : "+lastGame.getString("character"));
         } catch (JSONException e) {
             e.printStackTrace();
