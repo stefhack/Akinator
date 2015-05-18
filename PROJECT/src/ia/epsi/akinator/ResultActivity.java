@@ -3,6 +3,7 @@ package ia.epsi.akinator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -56,6 +57,15 @@ public class ResultActivity extends Activity {
 		resultPerso = (TextView) findViewById(R.id.textViewResult);
 		textViewResponse = (TextView) findViewById(R.id.textViewResponse);
 		imageViewResult = (ImageView)findViewById(R.id.imageViewResult);
+		
+
+		//mise en place du font
+		Typeface typeFace=Typeface.createFromAsset(getAssets(),"brush.ttf");
+		this.textViewResponse.setTypeface(typeFace);
+		this.resultPerso.setTypeface(typeFace);
+		this.buttonYes.setTypeface(typeFace);
+		this.buttonNo.setTypeface(typeFace);
+		
 		
 		// On affiche la première proposition
 		showNextProposition();

@@ -13,30 +13,43 @@
         android:id="@+id/textViewPlayAgain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:text="Souhaitez-vous rejouer ?"
         android:textColor="#ff0000"
-        android:textSize="32sp" />
+        android:textSize="32sp"
+        android:gravity="center" />
+
+    <Button
+        android:id="@+id/buttonStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonNo"
+        android:layout_alignBottom="@+id/buttonNo"
+        android:layout_alignParentRight="true"
+        android:text="Voir les statistiques du jeux"
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/buttonYes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/buttonNo"
-        android:layout_alignBottom="@+id/buttonNo"
         android:layout_alignLeft="@+id/textViewPlayAgain"
-        android:layout_marginLeft="104dp"
-        android:text="Oui" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="22dp"
+        android:text="Oui"
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/buttonNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="30dp"
+        android:layout_alignBaseline="@+id/buttonYes"
+        android:layout_alignBottom="@+id/buttonYes"
+        android:layout_marginLeft="16dp"
         android:layout_toRightOf="@+id/buttonYes"
-        android:text="Non" />
+        android:text="Non"
+        android:textSize="20dp" />
 
 </RelativeLayout>

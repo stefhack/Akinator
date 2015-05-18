@@ -8,6 +8,8 @@
     <string name="title_activity_result">Result</string>
     <string name="title_activity_end_game">EndGame</string>
     <string name="title_activity_learn_character">LearnCharacter</string>
+    <string name="title_activity_stats">Statistiques</string>
+    <string name="title_activity_propositions">Propositions</string>
     
 
 </resources>

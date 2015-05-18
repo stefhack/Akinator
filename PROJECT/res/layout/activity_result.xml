@@ -23,7 +23,8 @@
         android:layout_alignLeft="@+id/imageViewGenie"
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:text="" />
+        android:text=""
+        android:textSize="28sp" />
 
     <Button
         android:id="@+id/buttonNo"
@@ -32,7 +33,8 @@
         android:layout_alignBottom="@+id/imageViewGenie"
         android:layout_alignParentRight="true"
         android:layout_marginRight="22dp"
-        android:text="Non" />
+        android:text="Non"
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/buttonYes"
@@ -41,17 +43,8 @@
         android:layout_alignBaseline="@+id/buttonNo"
         android:layout_alignBottom="@+id/buttonNo"
         android:layout_toLeftOf="@+id/buttonNo"
-        android:text="Oui" />
-
-    <TextView
-        android:id="@+id/textViewResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textViewResponse"
-        android:layout_alignBottom="@+id/textViewResponse"
-        android:layout_alignRight="@+id/buttonYes"
-        android:layout_marginRight="15dp"
-        android:text="" />
+        android:text="Oui"
+        android:textSize="20dp" />
 
     <ImageView
         android:id="@+id/imageViewResult"
@@ -60,5 +53,15 @@
         android:layout_alignTop="@+id/imageViewGenie"
         android:layout_marginTop="14dp"
         android:layout_toLeftOf="@+id/textViewResult" />
+
+    <TextView
+        android:id="@+id/textViewResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonNo"
+        android:layout_alignLeft="@+id/buttonYes"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/imageViewGenie"
+        android:textSize="28sp" />
 
 </RelativeLayout>
