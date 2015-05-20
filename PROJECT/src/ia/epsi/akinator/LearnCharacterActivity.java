@@ -2,6 +2,7 @@ package ia.epsi.akinator;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +39,8 @@ public class LearnCharacterActivity extends Activity {
 	Button buttonSave, buttonCancel;
 	EditText characterName;
 	EditText characterQuestion;
+	TextView textViewFelicitation,textViewCharacter,textViewQuestionCharacter,TextViewResponse;
+	RadioButton radioYes,radioNo;
 	private JsonOdm jsonOdm;
 	private JsonWriter jsonWriter;
 	private JsonReader jsonReader;
@@ -69,6 +73,27 @@ public class LearnCharacterActivity extends Activity {
 		characterQuestion = (EditText) findViewById(R.id.EditTextQuestion);
 		buttonYes = (RadioButton) findViewById(R.id.radioYes);
 		buttonNo = (RadioButton) findViewById(R.id.radioNo);
+		textViewFelicitation = (TextView)findViewById(R.id.textViewFelicitation);
+		textViewCharacter = (TextView)findViewById(R.id.textViewCharacter);
+		textViewQuestionCharacter = (TextView)findViewById(R.id.textViewQuestionCharacter);
+		TextViewResponse = (TextView)findViewById(R.id.TextViewResponse);
+		radioYes = (RadioButton)findViewById(R.id.radioYes);
+		radioNo = (RadioButton)findViewById(R.id.radioNo);
+		
+		//mise en place du font
+		Typeface typeFace=Typeface.createFromAsset(getAssets(),"brush.ttf");
+		this.characterName.setTypeface(typeFace);
+		this.characterQuestion.setTypeface(typeFace);
+		this.buttonYes.setTypeface(typeFace);
+		this.buttonNo.setTypeface(typeFace);
+		this.buttonSave.setTypeface(typeFace);
+		this.buttonCancel.setTypeface(typeFace);
+		this.textViewFelicitation.setTypeface(typeFace);
+		this.textViewCharacter.setTypeface(typeFace);
+		this.textViewQuestionCharacter.setTypeface(typeFace);
+		this.TextViewResponse.setTypeface(typeFace);
+		this.radioYes.setTypeface(typeFace);
+		this.radioNo.setTypeface(typeFace);
 
 
 		// Button click
@@ -93,8 +118,7 @@ public class LearnCharacterActivity extends Activity {
 
 				// TESTS
 				String newQuestionKey = characterQuestion.getText().toString();
-				String newQuestionValue = characterQuestion.getText()
-						.toString();
+				String newQuestionValue = characterQuestion.getText().toString();
 
 				// Reset the JSON's with values from start
 				jsonSingleton.initializeJSONs();
@@ -138,12 +162,12 @@ public class LearnCharacterActivity extends Activity {
 	private void fillPersoWhichAlreadyExists(String newQuestionKey, String newQuestionValue, String responseToNewQuestion) throws JSONException, IOException
 	{
 		//If a personage already exists, we need to fill other informations unknows before and entered by the user
-		//Get this perso
+		//Get this perso 
 		JSONObject personage = null;
 		String persoName;
 		personage = jsonOdm.getCharacterByName(characterName.getText().toString());
 		if(personage == null){
-			personage = jsonOdm.getCharacterByName(characterName.getText().toString().toUpperCase());
+			personage = jsonOdm.getCharacterByName(characterName.getText().toString().toUpperCase()); 
 			persoName = characterName.getText().toString().toUpperCase();
 		}else{
 			persoName = characterName.getText().toString();

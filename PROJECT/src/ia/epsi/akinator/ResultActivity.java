@@ -122,14 +122,7 @@ public class ResultActivity extends Activity {
 		}
 		else{
 			Intent intent = new Intent(ResultActivity.this,PropositionsActivity.class);
-			intent.putExtra("responses", this.hashMapQuestionResponse);// on
-																		// fait
-																		// passer
-																		// les
-																		// réponses
-																		// à la
-																		// prochaine
-																		// activité
+			intent.putExtra("responses", this.hashMapQuestionResponse);
 			startActivity(intent);
 
 		}
