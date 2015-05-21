@@ -54,7 +54,13 @@ public class StatsActivity extends Activity {
         Log.i("STATS ACTIVITY :", statsManager.getListStatsCharacters().toString());
         textViewPercentWon.setText("Pourcentage de résussite de Akinator : "+Double.toString(successPercent)+"% \nNombre de parties jouées: "+statsManager.getNbGamesPlayed());
         try {
-        	textViewMostPlayed.setText("Personnage le plus joué : "+mostPlayed.getString("character").toUpperCase()+" avec "+mostPlayed.getInt("nbGamePlayed")+" fois");
+            int nbGame = mostPlayed.getInt("nbGamePlayed");
+            String mostPlayedMessage;
+            if(nbGame != 0){
+                mostPlayedMessage = "Personnage le plus joué : "+mostPlayed.getString("character").toUpperCase()+" avec "+nbGame+" fois";
+            }
+            else mostPlayedMessage = "Personnage le plus joué : "+lastGame.getString("character")+" avec 1 fois";
+        	textViewMostPlayed.setText(mostPlayedMessage);
         	textViewLastGame.setText("Dernier jeu joué le "+lastGame.get("date").toString()+" avec le personnage : "+lastGame.getString("character"));
         } catch (JSONException e) {
             e.printStackTrace();
