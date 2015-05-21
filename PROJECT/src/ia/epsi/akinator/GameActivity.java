@@ -3,6 +3,7 @@ package ia.epsi.akinator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,7 +28,7 @@ public class GameActivity extends Activity {
 	// Declaration
 	private Button buttonYes, buttonNo, buttonDontNo, buttonRather,
 			buttonRatherNot;
-	private TextView textViewQuestion;
+	private TextView textViewQuestionRequest;
 	private String actualQuestion;
 	private String actualKey;
 	private HashMap<String, String> hashMapQuestionResponse = new HashMap<String, String>();
@@ -43,6 +44,8 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		
 		GameActivity.gameContext = getApplicationContext();
 		jsonSingleton = JsonSingleton.getInstance(gameContext);
 		jsonReader = new JsonReader(gameContext);
@@ -61,8 +64,20 @@ public class GameActivity extends Activity {
 		this.buttonDontNo = (Button) findViewById(R.id.buttonDontNo);
 		this.buttonRather = (Button) findViewById(R.id.buttonRather);
 		this.buttonRatherNot = (Button) findViewById(R.id.buttonRatherNot);
-		this.textViewQuestion = (TextView) findViewById(R.id.textViewQuestionRequest);
+		this.textViewQuestionRequest = (TextView) findViewById(R.id.textViewQuestionRequest);
 		this.imageViewGenie = (ImageView) findViewById(R.id.imageViewGenie);
+		
+
+		//mise en place du font
+		Typeface typeFace=Typeface.createFromAsset(getAssets(),"brush.ttf");
+		this.textViewQuestionRequest.setTypeface(typeFace);
+		this.buttonYes.setTypeface(typeFace);
+		this.buttonNo.setTypeface(typeFace);
+		this.buttonDontNo.setTypeface(typeFace);
+		this.buttonRather.setTypeface(typeFace);
+		this.buttonRatherNot.setTypeface(typeFace);
+		
+		
 
 		// TESTS
 		{
@@ -225,7 +240,7 @@ public class GameActivity extends Activity {
 		String[] partsRequestAlgorithm = requestAlgorithm.split(";");
 		this.actualKey = partsRequestAlgorithm[0];
 		this.actualQuestion = partsRequestAlgorithm[1];
-		this.textViewQuestion.setText(actualQuestion);
+		this.textViewQuestionRequest.setText(actualQuestion);
 	}
 
 	private void showGeniePicture() {

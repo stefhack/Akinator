@@ -2,63 +2,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/resultactivity"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ResultActivity" >
-    
-    <ImageView
-        android:id="@+id/imageViewGenie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewResponse"
-        android:layout_marginLeft="16dp"
-        android:src="@drawable/geniefinal" />
-
-    <TextView
-        android:id="@+id/textViewResponse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageViewGenie"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
-        android:text="" />
 
     <Button
         android:id="@+id/buttonNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageViewGenie"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="22dp"
-        android:text="Non" />
+        android:text="Non"
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/buttonYes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/buttonNo"
-        android:layout_alignBottom="@+id/buttonNo"
+        android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/buttonNo"
-        android:text="Oui" />
+        android:text="Oui"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/textViewResponse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textColor="#ffffff"
+        android:textSize="28sp" />
 
     <TextView
         android:id="@+id/textViewResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textViewResponse"
-        android:layout_alignBottom="@+id/textViewResponse"
-        android:layout_alignRight="@+id/buttonYes"
-        android:layout_marginRight="15dp"
-        android:text="" />
+        android:layout_alignLeft="@+id/textViewResponse"
+        android:layout_centerVertical="true"
+        android:textColor="#ffffff"
+        android:textSize="28sp" />
 
     <ImageView
         android:id="@+id/imageViewResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageViewGenie"
-        android:layout_marginTop="14dp"
-        android:layout_toLeftOf="@+id/textViewResult" />
+        android:layout_alignLeft="@+id/buttonYes"
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

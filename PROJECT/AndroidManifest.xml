@@ -42,8 +42,16 @@
             android:name="ia.epsi.akinator.LearnCharacterActivity"
             android:label="@string/title_activity_learn_character" >
         </activity>
-        <activity android:name=".StatsActivity" />
-        <activity android:name=".PropositionsActivity" />
+        <activity 
+            android:screenOrientation="landscape"
+            android:name="ia.epsi.akinator.StatsActivity" 
+            android:label="@string/title_activity_stats" >
+        </activity>
+        <activity 
+            android:screenOrientation="landscape"
+            android:name="ia.epsi.akinator.PropositionsActivity"
+            android:label="@string/title_activity_propositions" >
+        </activity>
     </application>
 
 </manifest>

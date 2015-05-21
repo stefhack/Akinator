@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/learnactivity"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -12,7 +13,9 @@
         android:id="@+id/textViewFelicitation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bravo, je n&apos;ai pas trouvé la solution!" />
+        android:text="Bravo, je n&apos;ai pas trouvé la solution!"
+        android:textSize="24sp"
+        android:textColor="#ffffff" />
 
     <EditText
         android:id="@+id/editTextNameCharacter"
@@ -23,22 +26,13 @@
         android:layout_toLeftOf="@+id/imageViewDonald"
         android:ems="10" />
 
-    <TextView
-        android:id="@+id/textViewCharacter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textViewFelicitation"
-        android:layout_below="@+id/textViewFelicitation"
-        android:layout_marginTop="19dp"
-        android:text="A quel personnage pensiez-vous ?" />
-
     <ImageView
         android:id="@+id/imageViewDonald"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/donald" />
+        android:src="@drawable/mickeyend" />
 
     <EditText
         android:id="@+id/EditTextQuestion"
@@ -54,8 +48,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/editTextNameCharacter"
+        android:layout_alignRight="@+id/imageViewDonald"
         android:layout_centerVertical="true"
-        android:text="Quel question aurait permis de le trouver ?" />
+        android:text="Quel question aurait permis de le trouver ?"
+        android:textColor="#ffffff"
+        android:textSize="24dp" />
 
     <Button
         android:id="@+id/buttonCancel"
@@ -63,7 +60,8 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/imageViewDonald"
         android:layout_alignTop="@+id/radioGroup1"
-        android:text="Annuler" />
+        android:text="Annuler"
+        android:textSize="24dp" />
 
     <Button
         android:id="@+id/buttonSaveCharacter"
@@ -72,7 +70,8 @@
         android:layout_alignBaseline="@+id/buttonCancel"
         android:layout_alignBottom="@+id/buttonCancel"
         android:layout_toLeftOf="@+id/buttonCancel"
-        android:text="Valider" />
+        android:text="Valider"
+        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/TextViewResponse"
@@ -80,7 +79,9 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/EditTextQuestion"
         android:layout_below="@+id/EditTextQuestion"
-        android:text="Quel réponse aurait permis de le trouver ?" />
+        android:text="Quel réponse aurait permis de le trouver ?" 
+        android:textSize="24dp"
+        android:textColor="#ffffff"/>
 
     <RadioGroup
         android:id="@+id/radioGroup1"
@@ -95,13 +96,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="Oui" />
+            android:text="Oui" 
+        	android:textColor="#ffffff"
+        	android:textSize="20dp"/>
 
         <RadioButton
             android:id="@+id/radioNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Non" />
+            android:text="Non" 
+        	android:textColor="#ffffff"
+        	android:textSize="20dp"/>
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/textViewCharacter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewFelicitation"
+        android:layout_below="@+id/textViewFelicitation"
+        android:text="A quel personnage pensiez-vous ?"
+        android:textColor="#ffffff"
+        android:textSize="24dp" />
 
 </RelativeLayout>

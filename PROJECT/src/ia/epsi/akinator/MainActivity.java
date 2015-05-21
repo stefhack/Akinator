@@ -38,7 +38,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-        Button statsBtn = (Button)findViewById(R.id.stat);
         jsonReader=new JsonReader(getApplicationContext());
         jsonWriter=new JsonWriter(getApplicationContext());
         jsonSingleton = JsonSingleton.getInstance(getApplicationContext());
@@ -95,14 +94,6 @@ public class MainActivity extends Activity {
         		intent.putExtra("ActivityName", "MainActivity");
     			startActivity(intent);
         	}
-        });
-
-        statsBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this,StatsActivity.class);
-                    startActivity(intent);
-            }
         });
 	}
 
