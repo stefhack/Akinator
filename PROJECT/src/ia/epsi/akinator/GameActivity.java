@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,7 +28,7 @@ public class GameActivity extends Activity {
 	private static Context gameContext;
 	// Declaration
 	private Button buttonYes, buttonNo, buttonDontNo, buttonRather,
-			buttonRatherNot;
+			buttonRatherNot, buttonMusic;
 	private TextView textViewQuestionRequest;
 	private String actualQuestion;
 	private String actualKey;
@@ -163,6 +164,12 @@ public class GameActivity extends Activity {
         if((this.actualKey.equals("Petit"))&&(responseCode=="1")){
         	manageQuestion("Grand",inverseResponseCode);
         	manageQuestion("Moyen",inverseResponseCode);
+        }
+        if((this.actualKey.equals("Humain"))&&(responseCode=="1")){
+        	manageQuestion("Animal",inverseResponseCode);
+        }
+        if((this.actualKey.equals("Animal"))&&(responseCode=="1")){
+        	manageQuestion("Humain",inverseResponseCode);
         }
         
         manageQuestion(this.actualKey,responseCode);
