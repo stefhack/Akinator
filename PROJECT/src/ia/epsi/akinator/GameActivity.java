@@ -31,6 +31,7 @@ public class GameActivity extends Activity {
 	private TextView textViewQuestionRequest;
 	private String actualQuestion;
 	private String actualKey;
+	private Integer inverseResponse;
 	private HashMap<String, String> hashMapQuestionResponse = new HashMap<String, String>();
 	private Algorithm algo;
 	private JsonSingleton jsonSingleton;
@@ -97,7 +98,7 @@ public class GameActivity extends Activity {
 		this.buttonDontNo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				takeResponseAndGoOn("0");
+				takeResponseAndGoOn("0","0");
 				if (!isAlreadyIDontKnow) {
 					isAlreadyIDontKnow = true;
 				} else {
@@ -109,7 +110,7 @@ public class GameActivity extends Activity {
 		this.buttonYes.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				takeResponseAndGoOn("1");
+				takeResponseAndGoOn("1","2");
 				isAlreadyIDontKnow = false;
 				iDontknowCounter = 0;
 			}
@@ -118,7 +119,7 @@ public class GameActivity extends Activity {
 		this.buttonNo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				takeResponseAndGoOn("2");
+				takeResponseAndGoOn("2","1");
 				isAlreadyIDontKnow = false;
 				iDontknowCounter = 0;
 			}
@@ -127,7 +128,7 @@ public class GameActivity extends Activity {
 		this.buttonRather.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				takeResponseAndGoOn("3");
+				takeResponseAndGoOn("3","4");
 				isAlreadyIDontKnow = false;
 				iDontknowCounter = 0;
 			}
@@ -136,41 +137,35 @@ public class GameActivity extends Activity {
 		this.buttonRatherNot.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				takeResponseAndGoOn("4");
+				takeResponseAndGoOn("4","3");
 				isAlreadyIDontKnow = false;
 				iDontknowCounter = 0;
 			}
 		});
 	}
 
-	private void takeResponseAndGoOn(String responseCode) {
-		// On incrémente le nb de questions posées
-        try {
-            Log.e("GAME ACTIVITY QUESTIONS LEFT: ",Integer.toString(jsonSingleton.getQuestionsLeft()));
-        } catch (JSONException e) {
-            e.printStackTrace();
+	private void takeResponseAndGoOn(String responseCode, String inverseResponseCode) {
+		
+        if(this.actualKey.equals("Male")){
+        	manageQuestion("Femelle",inverseResponseCode);
         }
-        ++nb_questions_asked;
-
-		// Remplit la liste des questions avec les réponses données
-		fillHashMapQuestionResponse(responseCode);
-
-		// Calcule du score pour chaque perso pour la question courante
-		// avec la réponse donnée par le USer
-
-		try {
-			algo.calculateScoreForCharacters(this.actualKey, responseCode);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-
-		// Suppression de la dernière question posée
-		try {
-
-			algo.deleteQuestion(this.actualKey);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+        if(this.actualKey.equals("Femelle")){
+        	manageQuestion("Male",inverseResponseCode);
+        }
+        if((this.actualKey.equals("Grand"))&&(responseCode=="1")){
+        	manageQuestion("Moyen",inverseResponseCode);
+        	manageQuestion("Petit",inverseResponseCode);
+        }
+        if((this.actualKey.equals("Moyen"))&&(responseCode=="1")){
+        	manageQuestion("Grand",inverseResponseCode);
+        	manageQuestion("Petit",inverseResponseCode);
+        }
+        if((this.actualKey.equals("Petit"))&&(responseCode=="1")){
+        	manageQuestion("Grand",inverseResponseCode);
+        	manageQuestion("Moyen",inverseResponseCode);
+        }
+        
+        manageQuestion(this.actualKey,responseCode);
 
 		// On a pas atteint le minimum de questions à poser
 		// OU il n'y a pas encore de persos à proposer
@@ -199,6 +194,33 @@ public class GameActivity extends Activity {
 		}
 
 	}
+	
+	private void manageQuestion(String actualKeyQuestion, String responseCode){
+		
+		++nb_questions_asked;
+
+		// Remplit la liste des questions avec les réponses données
+		fillHashMapQuestionResponse(actualKeyQuestion,responseCode);
+
+		// Calcule du score pour chaque perso pour la question courante
+		// avec la réponse donnée par le USer
+
+		try {
+			algo.calculateScoreForCharacters(actualKeyQuestion, responseCode);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		// Suppression de la dernière question posée
+		try {
+
+			algo.deleteQuestion(actualKeyQuestion);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
 
 	private void goToResultActivity(){
 		Intent intent = new Intent(GameActivity.this,
@@ -222,15 +244,14 @@ public class GameActivity extends Activity {
 		return gameContext;
 	}
 
-	private void fillHashMapQuestionResponse(String response) {
-		this.hashMapQuestionResponse.put(this.actualKey, response);
+	private void fillHashMapQuestionResponse(String actualQuestionKey, String response) {
+		this.hashMapQuestionResponse.put(actualQuestionKey, response);
 	}
 
 	private void displayQuestion() {
 		showGeniePicture();
 		String requestAlgorithm = "";
 		try {
-
 			requestAlgorithm = algo.getTheMostPertinenteQuestion();
 		} catch (JSONException e) {
 

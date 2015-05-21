@@ -21,10 +21,10 @@
     "Parole":"Le personnage parle t-il?",
     "Aquatique":"Est-ce un personnage aquatique?",
     "Transformation":"Le personnage se transforme t-il?",
-    "Jaune":"Le personnage est-il jaune?",
-    "Vert":"Le personnage est-il vert?",
-    "Bleu":"Le personnage est-il bleu?",
-    "Rouge":"Le personnage est-il rouge?",
-    "Marron":"Le personnage est-il marron?"
+    "Jaune":"Le personnage a-t-il du jaune sur lui?",
+    "Vert":"Le personnage a-t-il vert sur lui?",
+    "Bleu":"Le personnage a-t-il bleu sur lui?",
+    "Rouge":"Le personnage a-t-il rouge sur lui?",
+    "Marron":"Le personnage a-t-il marron sur lui?"
   }
 ]
