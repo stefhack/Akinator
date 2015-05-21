@@ -40,7 +40,7 @@ public class PropositionsActivity extends Activity {
 
         Log.i("PROPOSITIONS ACTIVITY SCORES BEFORE SORT ",scoresByPerso.toString());
         algo.sortListScoresDesc();
-        Log.i("PROPOSITIONS ACTIVITY SCORES AFETR SORT ",scoresByPerso.toString());
+        Log.i("PROPOSITIONS ACTIVITY SCORES AFETR SORT ",algo.getScoresByPerso().toString());
 
         Object[] keys=scoresByPerso.keySet().toArray();
 
